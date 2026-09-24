@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Bands Music — Configurador de Presupuestos</title>
+  <link rel="icon" type="image/png" href="./assets/img/lbm-logo-official.png" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@800&display=swap" rel="stylesheet">
+  
+  <!-- Estilos Personalizados y Configuración de Impresión -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            lexend: ['"Lexend"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#e2e8f0',
+              600: '#cbd5e1',
+              700: '#475569',
+              900: '#090909',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="selection:bg-slate-300 selection:text-black">
+
+  <!-- ========================================================================
+       Encabezado Principal (no-print)
+       ======================================================================== -->
+  <header class="no-print sticky top-0 z-40 border-b border-gray-800/80 bg-[#090909]/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+      <div class="flex items-center space-x-3 shrink-0">
+        <img src="./assets/img/lbm-logo-official.png" alt="Live Bands Music Official Logo" class="h-10 sm:h-12 w-auto object-contain filter drop-shadow-[0_2px_12px_rgba(255,255,255,0.25)]">
+        <h1 class="text-base sm:text-lg font-extrabold text-white tracking-wide whitespace-nowrap">
+          EventFlow Budget Approver
+        </h1>
+      </div>
+
+      <!-- Presets y Acciones Rápidas -->
+      <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1 shrink-0">
+        <button onclick="window.app.loadPreset('peralada')" class="header-btn" title="Ejemplo Hayati & Guillaume">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span class="hidden sm:inline">Caso 1</span> (Boda)
+        </button>
+        <button onclick="window.app.loadPreset('tossa')" class="header-btn" title="Ejemplo Olaf & Silvio">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i>
+          <span class="hidden sm:inline">Caso 2</span> (Fiesta Privada)
+        </button>
+        <button onclick="window.app.loadPreset('piscina5')" class="header-btn" title="Ejemplo 5 Momentos">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span class="hidden sm:inline">Caso 3</span> (Corporativo)
+        </button>
+        <button onclick="window.app.openHistoryModal()" class="header-btn" title="Historial de presupuestos de Santiago">
+          <i data-lucide="archive" class="w-3.5 h-3.5 text-cyan-400"></i>
+          <span class="hidden sm:inline">Historial</span>
+          <span id="header-history-badge" class="px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-[10px] font-mono font-bold text-cyan-300">0</span>
+        </button>
+        <a href="./dashboard-cotizaciones.html" target="_blank" class="header-btn text-emerald-300 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20" title="Ver Dashboard de Telemetría y Descuentos en Supabase">
+          <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span class="hidden md:inline font-bold">Dashboard</span>
+        </a>
+        <button onclick="window.app.setStep(5)" class="btn-rules-validate">
+          <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i>
+          <span>Validar Reglas</span>
+        </button>
+        <button onclick="window.app.resetToInitial()" class="header-btn" title="Reiniciar cotizador a 0 €">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       Barra de Modo de Experiencia (🎉 Particular vs 📋 Event Partner / Empresa B2B)
+       ======================================================================== -->
+  <div class="no-print bg-[#0d0d0d] border-b border-gray-800/80 py-2 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-2 text-gray-400">
+        <span class="font-medium text-gray-300">Tipo de asesoramiento:</span>
+        <div class="inline-flex rounded-xl p-0.5 bg-gray-900 border border-gray-800">
+          <button id="btn-mode-novios" onclick="window.app.setExperienceMode('novios')" class="px-3 py-1 rounded-lg font-bold text-xs transition flex items-center gap-1.5 bg-slate-200 text-black shadow-sm cursor-pointer">
+            <span>🎉 Cliente Particular / Mi Evento</span>
+          </button>
+          <button id="btn-mode-planner" onclick="window.app.setExperienceMode('planner')" class="px-3 py-1 rounded-lg font-bold text-xs transition flex items-center gap-1.5 text-gray-400 hover:text-white cursor-pointer">
+            <span>📋 Event Partner / Empresa / B2B</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-gray-900 border border-gray-700/80 text-xs font-semibold">
+          <i data-lucide="user" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span class="text-gray-400 text-[11px]">Operador:</span>
+          <select id="select-operator" onchange="window.app.setOperator(this.value)" class="bg-transparent text-white font-bold focus:outline-none cursor-pointer text-xs">
+            <option value="Santiago Cholbi" class="bg-gray-950 text-white">Santiago Cholbi</option>
+            <option value="Juan Pablo" class="bg-gray-950 text-white">Juan Pablo</option>
+          </select>
+        </div>
+        <div id="mode-badge-info" class="hidden md:flex text-[11px] text-gray-400 items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Precios oficiales 2027</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       Barra de Progreso / Stepper Interactivo (no-print)
+       ======================================================================== -->
+  <nav class="no-print bg-gray-900/60 border-b border-gray-800/80 sticky top-20 z-30 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+      <div class="grid grid-cols-6 gap-1 sm:gap-2 text-center text-xs">
+        <button onclick="window.app.setStep(0)" class="stepper-nav-item active">
+          <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center justify-center text-[10px] font-bold">0</span>
+          <span class="hidden sm:inline font-bold text-cyan-300">Cockpit</span>
+        </button>
+        <button onclick="window.app.setStep(1)" class="stepper-nav-item">
+          <span class="w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold">1</span>
+          <span class="hidden sm:inline">Tu Evento</span>
+        </button>
+        <button onclick="window.app.setStep(2)" class="stepper-nav-item">
+          <span class="w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold">2</span>
+          <span class="hidden sm:inline">Música en Vivo</span>
+        </button>
+        <button onclick="window.app.setStep(3)" class="stepper-nav-item">
+          <span class="w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold">3</span>
+          <span class="hidden sm:inline">Sonido & Luz</span>
+        </button>
+        <button onclick="window.app.setStep(4)" class="stepper-nav-item">
+          <span class="w-5 h-5 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-[10px] font-bold">4</span>
+          <span class="hidden sm:inline">Resumen</span>
+        </button>
+        <button onclick="window.app.setStep(5)" class="stepper-nav-item">
+          <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-[10px] font-bold">5</span>
+          <span class="hidden sm:inline text-emerald-400 font-bold">Validar Reglas</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       Contenido Principal del Configurador (no-print)
+       ======================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 no-print">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <!-- COLUMNA IZQUIERDA: Paneles de Pasos (8 Cols) -->
+      <div class="lg:col-span-8 space-y-6">
+
+        <!-- ==================================================================
+             PASO 0: COCKPIT DE ENTRADA & CUÁDRUPLE PUERTA (INICIO)
+             ================================================================== -->
+        <div id="step-panel-0" class="wizard-step-panel space-y-6">
+          <!-- Cabecera de Bienvenida al Cockpit -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4 border-l-4 border-l-cyan-500">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-800 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400">
+                  <i data-lucide="compass" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h2 class="text-lg font-bold text-white tracking-wide">Cockpit de Cotización & Acceso Rápido</h2>
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Paso 0</span>
+                  </div>
+                  <p class="text-xs text-gray-400 mt-0.5">Elige la vía de arranque según los datos que te haya compartido el cliente</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-start sm:self-center">
+                <button type="button" onclick="window.app.loadPreset('peralada')" class="header-btn text-emerald-300 border-emerald-500/30 bg-emerald-500/10">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span>Cargar Ejemplo Real</span>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-300 leading-relaxed">
+              ¿Cómo ha iniciado el contacto el cliente? Haz clic en la opción más afín para ingresar directamente al flujo correspondiente sin pasos innecesarios:
+            </p>
+
+            <!-- Cuadrícula de 4 Rutas de Entrada -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+
+              <!-- RUTA 1: POR GRUPO O ESTILO MUSICAL -->
+              <div onclick="window.app.startRoute('style')" class="selectable-card glass-card rounded-2xl p-5 border border-purple-500/40 hover:border-purple-400 hover:bg-purple-950/20 transition flex flex-col justify-between cursor-pointer group shadow-lg">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="p-2 rounded-xl bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                      <i data-lucide="music" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">⭐ Preferido Clientes</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-white group-hover:text-purple-300 transition">1. Por Banda o Estilo Musical</h3>
+                  <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                    El cliente busca una banda específica (Sweet Planet, Jazz de Copes, The Guitar Kings...) o un género (Pop, Rumba, Jazz, Gospel, Clásica).
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs">
+                  <span class="font-semibold text-purple-300 group-hover:underline flex items-center gap-1">
+                    Ver Catálogo con Fotos <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span class="text-[11px] text-gray-400 font-mono">7 grupos oficiales</span>
+                </div>
+              </div>
+
+              <!-- RUTA 2: POR FECHA Y LUGAR -->
+              <div onclick="window.app.startRoute('date')" class="selectable-card glass-card rounded-2xl p-5 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/20 transition flex flex-col justify-between cursor-pointer group shadow-lg">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="p-2 rounded-xl bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+                      <i data-lucide="calendar" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Logística 0 € Girona</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-white group-hover:text-cyan-300 transition">2. Por Fecha y Localización</h3>
+                  <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                    El cliente consulta disponibilidad para su finca o fecha cerrada (Costa Brava, Peralada, Begur, Barcelona) y precisa cotización de desplazamiento.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs">
+                  <span class="font-semibold text-cyan-300 group-hover:underline flex items-center gap-1">
+                    Fijar Fecha y Finca <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span class="text-[11px] text-gray-400">Paso 1 directo</span>
+                </div>
+              </div>
+
+              <!-- RUTA 3: POR MOMENTOS DEL EVENTO -->
+              <div onclick="window.app.startRoute('moments')" class="selectable-card glass-card rounded-2xl p-5 border border-emerald-500/40 hover:border-emerald-400 hover:bg-emerald-950/20 transition flex flex-col justify-between cursor-pointer group shadow-lg">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="p-2 rounded-xl bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                      <i data-lucide="layers" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Estructura Modular</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition">3. Por Momentos del Evento</h3>
+                  <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                    El cliente ya tiene claro qué fases del enlace o fiesta necesita cubrir (Ceremonia, Cóctel de bienvenida, Cena o Fiesta DJ con barra libre).
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs">
+                  <span class="font-semibold text-emerald-300 group-hover:underline flex items-center gap-1">
+                    Seleccionar Momentos <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span class="text-[11px] text-gray-400">Hasta 4 momentos</span>
+                </div>
+              </div>
+
+              <!-- RUTA 4: MODO PLANNER B2B -->
+              <div onclick="window.app.startRoute('planner')" class="selectable-card glass-card rounded-2xl p-5 border border-amber-500/40 hover:border-amber-400 hover:bg-amber-950/20 transition flex flex-col justify-between cursor-pointer group shadow-lg">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="p-2 rounded-xl bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                      <i data-lucide="briefcase" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">15% Comisión B2B</span>
+                  </div>
+                  <h3 class="text-sm font-bold text-white group-hover:text-amber-300 transition">4. Modo Planner / Empresa B2B</h3>
+                  <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                    Para agencias, organizadores de eventos y empresas: desglose técnico Yamaha DXR12, Soundcraft y cálculo automático de honorarios.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs">
+                  <span class="font-semibold text-amber-300 group-hover:underline flex items-center gap-1">
+                    Entrar en Modo Planner <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span class="text-[11px] text-gray-400">Fichas Pro</span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Catálogo Visual Interactivo de Bandas (Showcase con Fotos) -->
+          <section id="cockpit-bands-section" class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2 rounded-xl bg-purple-500/10 text-purple-400">
+                  <i data-lucide="disc-3" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-white">Catálogo Visual de Bandas Oficiales</h3>
+                  <p class="text-xs text-gray-400">Formaciones exclusivas dirigidas y coordinadas por Santiago Cholbi en Girona</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300 border border-gray-700 self-start sm:self-center">
+                7 Bandas Disponibles
+              </span>
+            </div>
+
+            <!-- Contenedor dinámico de tarjetas de bandas con foto -->
+            <div id="cockpit-bands-showcase" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Renderizado desde app.js (renderCockpitBands) -->
+            </div>
+          </section>
+        </div>
+
+        <!-- ==================================================================
+             PASO 1: TU EVENTO & SELECCIÓN DE MOMENTOS
+             ================================================================== -->
+        <div id="step-panel-1" class="wizard-step-panel space-y-6 hidden">
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-5">
+            <div class="border-b border-gray-800 pb-3 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="p-2 rounded-xl bg-slate-200/15 text-slate-100">
+                  <i data-lucide="calendar" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h2 class="text-base font-bold text-white">1. Datos Básicos de tu Evento</h2>
+                  <p class="text-xs text-gray-400">Indícanos la fecha (exacta o aproximada), localización y aforo</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <div class="flex items-center mb-1">
+                  <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Tipo de Evento</label>
+                  <button type="button" onclick="window.app.toggleFieldHelp('help-field-event-type')" class="btn-field-help" title="Ver ayuda sobre tipo de evento">?</button>
+                </div>
+                <select id="select-event-type" onchange="window.app.onEventInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-slate-300">
+                  <option value="boda">Boda / Enlace Nupcial</option>
+                  <option value="corporativo">Evento Corporativo / Empresa / Gala</option>
+                  <option value="fiesta">Fiesta Privada / Aniversario / Cumpleaños</option>
+                  <option value="familiar">Bautizo / Comunión / Celebración Familiar</option>
+                  <option value="concierto">Concierto / Festival / Fiesta Mayor</option>
+                  <option value="otro">Otro tipo de celebración</option>
+                </select>
+                <div id="help-field-event-type" class="field-help-hint hidden">
+                  <span>Define el carácter del evento para calibrar el repertorio adecuado (ceremonial, networking, fiesta bailable o concierto).</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center mb-1">
+                  <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Nombre o Título del Evento</label>
+                  <button type="button" onclick="window.app.toggleFieldHelp('help-field-event-title')" class="btn-field-help" title="Ver ayuda sobre título">?</button>
+                </div>
+                <input type="text" id="input-event-title" value="" oninput="window.app.onEventInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-slate-300" placeholder="Ej. Boda Carlos & Laura / Gala Anual Empresa / Aniversario" />
+                <div id="help-field-event-title" class="field-help-hint hidden">
+                  <span>Identificador que aparecerá en el encabezado del presupuesto oficial, borrador de email y PDF.</span>
+                </div>
+              </div>
+
+              <!-- Selector de Fecha Flexible vs Exacta -->
+              <div class="sm:col-span-2 p-4 rounded-xl bg-gray-900/40 border border-gray-800 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Fecha de la Celebración</label>
+                    <button type="button" onclick="window.app.toggleFieldHelp('help-field-event-date')" class="btn-field-help" title="Ver ayuda sobre fechas">?</button>
+                  </div>
+                  <div class="inline-flex rounded-lg p-0.5 bg-gray-950 border border-gray-800 text-[11px]">
+                    <button type="button" id="btn-date-flexible" onclick="window.app.setDateMode('flexible')" class="px-2.5 py-1 rounded-md font-bold text-slate-100 bg-slate-200/20 cursor-pointer">
+                      🗓️ Mes / Temporada 2027
+                    </button>
+                    <button type="button" id="btn-date-exact" onclick="window.app.setDateMode('exact')" class="px-2.5 py-1 rounded-md text-gray-400 hover:text-white cursor-pointer">
+                      📅 Fecha Exacta
+                    </button>
+                  </div>
+                </div>
+
+                <div id="help-field-event-date" class="field-help-hint hidden">
+                  <span><strong>Fecha flexible:</strong> Permite orientar y enviar propuesta a clientes que aún no tienen el día exacto cerrado con la finca. Bloqueamos 24h de asesoramiento sin compromiso.</span>
+                </div>
+
+                <!-- Campo Flexible -->
+                <div id="container-date-flexible">
+                  <select id="select-event-season" onchange="window.app.onEventInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-slate-300">
+                    <option value="Verano 2027 (Junio - Septiembre)">Verano 2027 (Junio - Septiembre) — Temporada Principal</option>
+                    <option value="Primavera 2027 (Abril - Mayo)">Primavera 2027 (Abril - Mayo)</option>
+                    <option value="Septiembre 2027">Septiembre 2027</option>
+                    <option value="Otoño 2027 (Octubre - Noviembre)">Otoño 2027 (Octubre - Noviembre)</option>
+                    <option value="Temporada 2027 (A convenir)">Temporada 2027 (Fecha por definir)</option>
+                  </select>
+                  <span class="text-[11px] text-emerald-400 mt-1 block">✓ Puedes cotizar sin tener el día cerrado. Bloqueamos 24h de asesoramiento sin compromiso.</span>
+                </div>
+
+                <!-- Campo Fecha Exacta -->
+                <div id="container-date-exact" class="hidden">
+                  <input type="date" id="input-event-date" onchange="window.app.onEventInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-slate-300" />
+                  <span id="date-validation-hint" class="text-[11px] text-gray-400 mt-1 block">Antelación mínima requerida: 48 horas (2 días).</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center mb-1">
+                  <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Invitados / Asistentes (PAX)</label>
+                  <button type="button" onclick="window.app.toggleFieldHelp('help-field-event-guests')" class="btn-field-help" title="Ver ayuda sobre invitados">?</button>
+                </div>
+                <input type="number" id="input-event-guests" value="" placeholder="Ej. 100" min="10" max="1500" oninput="window.app.onEventInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-slate-300" />
+                <span class="text-[10px] text-gray-500 mt-1 block">Si superas 200 PAX se activará aviso de refuerzo acústico</span>
+                <div id="help-field-event-guests" class="field-help-hint hidden">
+                  <span><strong>Regla Acústica >200 PAX:</strong> Para aforos superiores a 200 personas es indispensable seleccionar <em>Sonorización Completa (900 €)</em> con refuerzo de subwoofers y microfonía auxiliar. El simulador calcula también el coste unitario por comensal frente al menú.</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center mb-1">
+                  <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Lugar o Población</label>
+                  <button type="button" onclick="window.app.toggleFieldHelp('help-field-event-location')" class="btn-field-help" title="Ver ayuda sobre desplazamientos">?</button>
+                </div>
+                <input type="text" id="input-event-location" value="" oninput="window.app.onEventInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-slate-300" placeholder="Ej. Peralada, Begur, Cadaqués, Girona..." />
+                
+                <div id="help-field-event-location" class="field-help-hint hidden">
+                  <span><strong>Desplazamiento 100% incluido</strong> en toda la provincia de Girona (Costa Brava, Empordà, Gironès, La Selva). Para traslados fuera de la provincia se cotiza kilometraje.</span>
+                </div>
+
+                <!-- Chips Rápidos de Poblaciones Clave en Girona con Wrap Responsivo -->
+                <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                  <span class="text-[11px] text-gray-400 font-medium mr-1">Rápido:</span>
+                  <button type="button" onclick="window.app.setLocationQuick('Peralada')" class="text-[11px] px-2.5 py-1 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800 hover:border-slate-300/50 transition cursor-pointer">Peralada</button>
+                  <button type="button" onclick="window.app.setLocationQuick('Begur')" class="text-[11px] px-2.5 py-1 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800 hover:border-slate-300/50 transition cursor-pointer">Begur</button>
+                  <button type="button" onclick="window.app.setLocationQuick('Cadaqués')" class="text-[11px] px-2.5 py-1 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800 hover:border-slate-300/50 transition cursor-pointer">Cadaqués</button>
+                  <button type="button" onclick="window.app.setLocationQuick('Castell d\'Empordà')" class="text-[11px] px-2.5 py-1 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800 hover:border-slate-300/50 transition cursor-pointer">Castell d'Empordà</button>
+                  <button type="button" onclick="window.app.setLocationQuick('Girona')" class="text-[11px] px-2.5 py-1 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800 hover:border-slate-300/50 transition cursor-pointer">Girona Capital</button>
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <span id="location-policy-badge" class="text-xs px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 block text-center">
+                  Desplazamiento incluido en toda la provincia de Girona.
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Selector de Momentos -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="border-b border-gray-800 pb-3 flex items-center justify-between">
+              <div>
+                <h2 class="text-base font-bold text-white">¿Qué momentos deseas amenizar?</h2>
+                <p class="text-xs text-gray-400">Comienza desde cero. Marca los momentos que te interesan y configura a medida:</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Ceremonia / Bienvenida -->
+              <div>
+                <div id="card-moment-ceremony" onclick="window.app.toggleMoment('ceremony')" class="selectable-card glass-card rounded-xl p-4 border border-gray-800 flex items-start justify-between cursor-pointer">
+                  <div class="flex items-start gap-3">
+                    <div class="p-2 rounded-lg bg-slate-200/15 text-slate-100 mt-0.5">
+                      <i data-lucide="church" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-bold text-white text-sm">1. Ceremonia / Recepción</h3>
+                        <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-moment-ceremony')" class="btn-field-help" title="Ayuda sobre ceremonia">?</button>
+                      </div>
+                      <p class="text-xs text-gray-400 mt-0.5">Llegada, rito, bienvenida o apertura solemne (Dúo/Trío)</p>
+                    </div>
+                  </div>
+                  <input type="checkbox" id="cb-moment-ceremony" class="w-4 h-4 rounded text-slate-100 bg-gray-950 border-gray-700 pointer-events-none mt-1">
+                </div>
+                <div id="help-moment-ceremony" class="field-help-hint hidden">
+                  <span>Música clásica, acústica o gospel para entrada, momentos clave y salida de invitados. Al contratarlo en paquete con Aperitivo aplica hasta 45% de descuento por sinergia.</span>
+                </div>
+              </div>
+
+              <!-- Aperitivo / Cóctel -->
+              <div>
+                <div id="card-moment-appetizer" onclick="window.app.toggleMoment('appetizer')" class="selectable-card glass-card rounded-xl p-4 border border-gray-800 flex items-start justify-between cursor-pointer">
+                  <div class="flex items-start gap-3">
+                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 mt-0.5">
+                      <i data-lucide="wine" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-bold text-white text-sm">2. Aperitivo / Cóctel / Networking</h3>
+                        <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-moment-appetizer')" class="btn-field-help" title="Ayuda sobre aperitivo">?</button>
+                      </div>
+                      <p class="text-xs text-gray-400 mt-0.5">90 min de música en directo (Rumba, Jazz, Pop, Soul)</p>
+                    </div>
+                  </div>
+                  <input type="checkbox" id="cb-moment-appetizer" class="w-4 h-4 rounded text-slate-100 bg-gray-950 border-gray-700 pointer-events-none mt-1">
+                </div>
+                <div id="help-moment-appetizer" class="field-help-hint hidden">
+                  <span>90 minutos de música en vivo para amenizar el cóctel. Gran variedad de géneros (Pop internacional, Gypsy Jazz, Rumba catalana, Soul y Guitar Kings).</span>
+                </div>
+              </div>
+
+              <!-- Cena / Banquete -->
+              <div>
+                <div id="card-moment-dinner" onclick="window.app.toggleMoment('dinner')" class="selectable-card glass-card rounded-xl p-4 border border-gray-800 flex items-start justify-between cursor-pointer">
+                  <div class="flex items-start gap-3">
+                    <div class="p-2 rounded-lg bg-purple-500/10 text-purple-400 mt-0.5">
+                      <i data-lucide="utensils" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-bold text-white text-sm">3. Cena / Banquete / Almuerzo</h3>
+                        <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-moment-dinner')" class="btn-field-help" title="Ayuda sobre cena">?</button>
+                      </div>
+                      <p class="text-xs text-gray-400 mt-0.5">Micrófonos inalámbricos y música para parlamentos (150 €)</p>
+                    </div>
+                  </div>
+                  <input type="checkbox" id="cb-moment-dinner" class="w-4 h-4 rounded text-slate-100 bg-gray-950 border-gray-700 pointer-events-none mt-1">
+                </div>
+                <div id="help-moment-dinner" class="field-help-hint hidden">
+                  <span>Sonorización ambiental de fondo y 2 micrófonos inalámbricos profesionales para discursos, brindis o momentos emotivos (150 €).</span>
+                </div>
+              </div>
+
+              <!-- Fiesta -->
+              <div>
+                <div id="card-moment-party" onclick="window.app.toggleMoment('party')" class="selectable-card glass-card rounded-xl p-4 border border-gray-800 flex items-start justify-between cursor-pointer">
+                  <div class="flex items-start gap-3">
+                    <div class="p-2 rounded-lg bg-pink-500/10 text-pink-400 mt-0.5">
+                      <i data-lucide="disc" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-bold text-white text-sm">4. Fiesta, DJ & Baile / Barra Libre</h3>
+                        <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-moment-party')" class="btn-field-help" title="Ayuda sobre fiesta">?</button>
+                      </div>
+                      <p class="text-xs text-gray-400 mt-0.5">Sesión DJ profesional (3,5 h) y baile fin de fiesta (500 €)</p>
+                    </div>
+                  </div>
+                  <input type="checkbox" id="cb-moment-party" class="w-4 h-4 rounded text-slate-100 bg-gray-950 border-gray-700 pointer-events-none mt-1">
+                </div>
+                <div id="help-moment-party" class="field-help-hint hidden">
+                  <span>3,5 horas de sesión DJ profesional con cabina, control directo de pista y animación musical completa (500 €). Opción de iluminación perimetral disponible.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nota de Ahorro Automático y Transparencia -->
+            <div class="mt-4 editorial-callout flex items-center gap-2.5">
+              <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span><strong>Ahorro acumulativo automático:</strong> Al combinar varios momentos (ej. Ceremonia + Aperitivo) o contratar sonido e iluminación en pack, el cotizador aplica y desglosa automáticamente descuentos de hasta el 40%.</span>
+            </div>
+
+            <div class="pt-4 flex justify-between items-center">
+              <button type="button" onclick="window.app.setStep(0)" class="px-4 py-2.5 rounded-xl border border-gray-700 text-gray-300 text-xs font-semibold hover:bg-gray-800 transition flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Volver al Cockpit</span>
+              </button>
+              <button onclick="window.app.setStep(2)" class="btn-primary-action text-sm">
+                <span>Continuar a Música en Vivo</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <!-- ==================================================================
+             PASO 2: FORMACIONES Y BANDAS POR MOMENTO
+             ================================================================== -->
+        <div id="step-panel-2" class="wizard-step-panel space-y-6 hidden">
+          <div class="flex items-center justify-between">
+            <button onclick="window.app.setStep(1)" class="text-xs text-gray-400 hover:text-white flex items-center gap-1 transition">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Volver a Tu Evento
+            </button>
+            <span class="text-xs text-gray-400">Paso 2 de 4</span>
+          </div>
+
+          <div id="moments-config-container" class="space-y-6">
+            <!-- Renderizado dinámico desde app.js -->
+          </div>
+
+          <div class="flex items-center justify-between pt-4">
+            <button onclick="window.app.setStep(1)" class="px-4 py-2.5 rounded-xl border border-gray-700 text-gray-300 text-xs font-semibold hover:bg-gray-800 transition">
+              Paso Anterior
+            </button>
+            <button onclick="window.app.setStep(3)" class="btn-primary-action text-sm">
+              <span>Continuar a Sonido & Iluminación</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             PASO 3: SONIDO, ILUMINACIÓN Y TECH PACKS
+             ================================================================== -->
+        <div id="step-panel-3" class="wizard-step-panel space-y-6 hidden">
+          <div class="flex items-center justify-between">
+            <button onclick="window.app.setStep(2)" class="text-xs text-gray-400 hover:text-white flex items-center gap-1 transition">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Volver a Música
+            </button>
+            <span class="text-xs text-gray-400">Paso 3 de 4</span>
+          </div>
+
+          <!-- Banner de Aviso Acústico -->
+          <div id="acoustic-warning-banner" class="p-4 rounded-2xl bg-slate-200/15 border border-slate-300/30 flex items-start gap-3 hidden">
+            <i data-lucide="volume-2" class="w-5 h-5 text-slate-100 shrink-0 mt-0.5"></i>
+            <div>
+              <h4 class="text-xs font-bold text-slate-100 uppercase tracking-wide">Aviso de Calidad Acústica</h4>
+              <p id="acoustic-warning-text" class="text-xs text-gray-300 mt-1 leading-relaxed">
+                Para esta configuración es indispensable disponer de equipo de sonido profesional.
+              </p>
+            </div>
+          </div>
+
+          <!-- Selector de Packs / Individual -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+            <div class="border-b border-gray-800 pb-3">
+              <h3 class="text-base font-bold text-white">Infraestructura Técnica (Sonido & Iluminación)</h3>
+              <p class="text-xs text-gray-400">Equipamiento oficial de Yamaha DXR12, Soundcraft UI24R y puentes DMX</p>
+            </div>
+
+            <div id="tech-options-container">
+              <!-- Renderizado dinámico desde app.js -->
+            </div>
+          </section>
+
+          <div class="flex items-center justify-between pt-4">
+            <button onclick="window.app.setStep(2)" class="px-4 py-2.5 rounded-xl border border-gray-700 text-gray-300 text-xs font-semibold hover:bg-gray-800 transition">
+              Paso Anterior
+            </button>
+            <button onclick="window.app.setStep(4)" class="btn-primary-action text-sm">
+              <span>Ver Resumen y Presupuesto Final</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             PASO 4: RESUMEN FINAL, COSTES POR INVITADO, CHECKLIST Y CONTACTO
+             ================================================================== -->
+        <div id="step-panel-4" class="wizard-step-panel space-y-6 hidden">
+          <div class="flex items-center justify-between">
+            <button onclick="window.app.setStep(3)" class="text-xs text-gray-400 hover:text-white flex items-center gap-1 transition">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Volver a Equipamiento
+            </button>
+            <span class="text-xs text-gray-400">Paso 4 de 4</span>
+          </div>
+
+          <!-- Highlight Box: Coste por Invitado -->
+          <div id="box-cost-per-guest" class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-gray-900 border border-slate-300/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div class="flex items-center gap-3">
+              <div class="p-3 rounded-xl bg-slate-200/20 text-white shrink-0">
+                <i data-lucide="users" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-gray-300 uppercase tracking-wide">Impacto y Memoria del Evento</span>
+                <h4 class="text-sm font-bold text-white mt-0.5">Música en Vivo e Iluminación Integral</h4>
+                <p class="text-xs text-gray-400">La emoción que recordarán tus invitados frente al coste habitual del menú</p>
+              </div>
+            </div>
+            <div class="text-right sm:border-l sm:border-gray-800 sm:pl-6 shrink-0 w-full sm:w-auto flex sm:flex-col justify-between items-center sm:items-end">
+              <span class="text-[11px] text-gray-400">Coste por invitado:</span>
+              <span id="step4-cost-per-guest" class="text-2xl font-black font-mono text-emerald-400">0,00 € / pax</span>
+            </div>
+          </div>
+
+          <!-- ================================================================
+               ESTACIÓN DE TRABAJO SANTIAGO CHOLBI: CALIBRACIÓN Y DESCUENTOS
+               ================================================================ -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4 border-2 border-emerald-500/40 bg-gradient-to-b from-emerald-950/20 to-gray-950/80">
+            <div class="border-b border-gray-800 pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <span>Estación de Calibración & Descuentos</span>
+                    <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">Uso Interno Santiago</span>
+                  </h3>
+                  <p class="text-xs text-gray-400">Control asistido y manual de bonificaciones, comisiones B2B y cortesías de dirección</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.app.toggleCardHelp('help-step4-discounts')" class="btn-card-help" title="Ayuda sobre calibración y descuentos">?</button>
+                <button type="button" onclick="window.app.saveCurrentQuoteToHistory()" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+                  <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i>
+                  <span>Guardar en Historial</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Drawer de Ayuda Descuentos -->
+            <div id="help-step4-discounts" class="card-help-drawer hidden">
+              <p class="font-bold text-emerald-400 mb-1 flex items-center gap-1.5">
+                <i data-lucide="percent" class="w-3.5 h-3.5"></i> Manual de Descuentos & Bonificaciones:
+              </p>
+              <ul class="list-disc list-inside space-y-1 text-[11px] text-gray-300">
+                <li><strong>Sinergia Ceremonia + Aperitivo:</strong> Aplica 15% en Aperitivo y hasta 30% en Ceremonia si es la misma banda.</li>
+                <li><strong>Sonido Grupo Propio:</strong> Reduce la tarifa de 400 € a 200 € por punto de sonorización.</li>
+                <li><strong>Comisión Event Partner:</strong> Aplica un 15% (o el % convenido) deducible sobre el subtotal pactado.</li>
+                <li><strong>Descuento Exclusivo Santiago:</strong> Permite ingresar un descuento manual en € o % con motivo personalizado.</li>
+              </ul>
+            </div>
+
+            <!-- Grid de Controles de Descuentos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              
+              <!-- 1. Sinergia Multi-Momento -->
+              <div class="p-3.5 rounded-xl bg-gray-900/70 border border-gray-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label for="cb-disc-multimoment" class="font-bold text-white flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="cb-disc-multimoment" checked onchange="window.app.onDiscountConfigChange()" class="w-4 h-4 rounded text-emerald-500 bg-gray-950 border-gray-700 cursor-pointer">
+                    <span>Sinergia Ceremonia + Aperitivo</span>
+                    <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-field-disc-multimoment')" class="btn-field-help" title="Ayuda sobre sinergia">?</button>
+                  </label>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Auto</span>
+                </div>
+                <p class="text-gray-400 text-[11px] leading-relaxed">
+                  Mismo grupo: <strong>15%</strong> dto. en Aperitivo + <strong>30%</strong> en Ceremonia. Grupos distintos: <strong>15% + 15%</strong>.
+                </p>
+                <div id="help-field-disc-multimoment" class="field-help-hint hidden">
+                  <span>Bonificación automática por optimización de agenda de los músicos. Si el cliente contrata la misma formación en Ceremonia y Aperitivo, el descuento global alcanza hasta el 45% en la partida de ceremonia.</span>
+                </div>
+              </div>
+
+              <!-- 2. Sonorización Básica con Grupo Propio -->
+              <div class="p-3.5 rounded-xl bg-gray-900/70 border border-gray-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label for="cb-disc-ownsound" class="font-bold text-white flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="cb-disc-ownsound" checked onchange="window.app.onDiscountConfigChange()" class="w-4 h-4 rounded text-emerald-500 bg-gray-950 border-gray-700 cursor-pointer">
+                    <span>Sonido Grupo Propio (-200 €)</span>
+                    <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-field-disc-ownsound')" class="btn-field-help" title="Ayuda sobre sonorización bonificada">?</button>
+                  </label>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">50% Dto</span>
+                </div>
+                <p class="text-gray-400 text-[11px] leading-relaxed">
+                  Tarifa bonificada de 200 € por punto (en vez de 400 €) al contratar sonido con grupos oficiales LBM.
+                </p>
+                <div id="help-field-disc-ownsound" class="field-help-hint hidden">
+                  <span>Al contratar la banda oficial del catálogo, la empresa asume parte del coste técnico reduciendo la sonorización individual a la mitad.</span>
+                </div>
+              </div>
+
+              <!-- 3. Comisión Event Partner B2B -->
+              <div class="p-3.5 rounded-xl bg-gray-900/70 border border-gray-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label for="cb-disc-planner" class="font-bold text-white flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="cb-disc-planner" onchange="window.app.onDiscountConfigChange()" class="w-4 h-4 rounded text-purple-500 bg-gray-950 border-gray-700 cursor-pointer">
+                    <span>Comisión Event Partner</span>
+                    <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-field-disc-planner')" class="btn-field-help" title="Ayuda sobre comisión Event Partner">?</button>
+                  </label>
+                  <div class="flex items-center gap-1">
+                    <input type="number" id="input-disc-planner-pct" value="15" min="1" max="50" oninput="window.app.onDiscountConfigChange()" class="w-14 bg-gray-950 border border-gray-700 rounded-lg px-2 py-0.5 text-right font-mono font-bold text-white text-xs">
+                    <span class="text-gray-400 font-bold">%</span>
+                  </div>
+                </div>
+                <p class="text-gray-400 text-[11px] leading-relaxed">
+                  Honorarios concertados para Event Partners, agencias profesionales y organizadores de eventos.
+                </p>
+                <div id="help-field-disc-planner" class="field-help-hint hidden">
+                  <span>Porcentaje deducible pactado para Event Partners, agencias de eventos y organizadores colaboradores habituales (bodas, corporativos y fiestas privadas).</span>
+                </div>
+              </div>
+
+              <!-- 4. Descuento Exclusivo / Negociación Santiago -->
+              <div class="p-3.5 rounded-xl bg-gray-900/70 border border-gray-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label for="cb-disc-custom" class="font-bold text-white flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="cb-disc-custom" onchange="window.app.onDiscountConfigChange()" class="w-4 h-4 rounded text-amber-500 bg-gray-950 border-gray-700 cursor-pointer">
+                    <span>Descuento Exclusivo Santiago</span>
+                    <button type="button" onclick="event.stopPropagation(); window.app.toggleFieldHelp('help-field-disc-custom')" class="btn-field-help" title="Ayuda sobre descuento discrecional">?</button>
+                  </label>
+                  <div class="flex items-center gap-1">
+                    <select id="select-disc-custom-type" onchange="window.app.onDiscountConfigChange()" class="bg-gray-950 border border-gray-700 rounded-lg px-2 py-0.5 text-xs text-amber-300 font-bold">
+                      <option value="amount">€ (Euros)</option>
+                      <option value="percent">% (Porcentaje)</option>
+                    </select>
+                    <input type="number" id="input-disc-custom-val" value="0" min="0" max="10000" step="any" oninput="window.app.onDiscountConfigChange()" class="w-20 bg-gray-950 border border-gray-700 rounded-lg px-2 py-0.5 text-right font-mono font-bold text-white text-xs" placeholder="0">
+                  </div>
+                </div>
+                <input type="text" id="input-disc-custom-reason" oninput="window.app.onDiscountConfigChange()" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-2.5 py-1 text-xs text-gray-200 placeholder-gray-500" placeholder="Motivo: Ej. Amigo de la casa / Cortesía Dirección">
+                <div id="help-field-disc-custom" class="field-help-hint hidden">
+                  <span>Descuento manual discrecional aplicable por Santiago en euros o porcentaje, con motivo formal para la trazabilidad de la propuesta.</span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Tabla Completa de Partidas -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+              <div>
+                <h3 class="text-base font-bold text-white">Desglose Detallado de Servicios</h3>
+                <p class="text-xs text-gray-400">Revisión partida por partida del presupuesto configurado</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.app.toggleCardHelp('help-step4-breakdown')" class="btn-card-help" title="Ayuda sobre desglose y facturación">?</button>
+                <button onclick="window.app.setStep(1)" class="text-xs text-slate-100 hover:underline flex items-center gap-1 cursor-pointer">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Modificar
+                </button>
+              </div>
+            </div>
+
+            <!-- Drawer de Ayuda Desglose -->
+            <div id="help-step4-breakdown" class="card-help-drawer hidden">
+              <p class="font-bold text-emerald-400 mb-1 flex items-center gap-1.5">
+                <i data-lucide="receipt" class="w-3.5 h-3.5"></i> Criterios Económicos y Facturación:
+              </p>
+              <ul class="list-disc list-inside space-y-1 text-[11px] text-gray-300">
+                <li><strong>Base Imponible Neta:</strong> Subtotal bruto de las partidas elegidas menos todas las bonificaciones y descuentos aplicados.</li>
+                <li><strong>IVA 21%:</strong> Aplicable por ley a todos los servicios de producción artística y técnica.</li>
+                <li><strong>Reserva Formal (15%):</strong> Se formaliza mediante factura proforma para bloquear la fecha en la agenda de los músicos.</li>
+                <li><strong>85% Restante:</strong> Se abona directamente el día del evento una vez finalizada la actuación.</li>
+              </ul>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-gray-800">
+              <table class="w-full text-left">
+                <thead class="bg-gray-900/80 text-[10px] uppercase tracking-wider text-gray-400 border-b border-gray-800">
+                  <tr>
+                    <th class="p-3">Servicio / Concepto</th>
+                    <th class="p-3">Momento</th>
+                    <th class="p-3">Estado</th>
+                    <th class="p-3 text-right">Importe</th>
+                  </tr>
+                </thead>
+                <tbody id="step4-lines-tbody" class="divide-y border-gray-800/80">
+                  <!-- Renderizado dinámico -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Desglose Explícito de Descuentos y Sinergias -->
+            <div id="step4-discounts-container" class="space-y-2 p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/25 hidden">
+              <div class="flex items-center gap-2 text-xs font-bold text-emerald-300">
+                <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+                <span>Sinergias & Descuentos Aplicados (Ahorro Directo):</span>
+              </div>
+              <div id="step4-discounts-list" class="space-y-1.5 text-xs text-gray-300 pt-1">
+                <!-- Render dinámico -->
+              </div>
+            </div>
+
+            <!-- Desglose de Totales e Impuestos -->
+            <div class="bg-gray-900/60 p-4 rounded-xl border border-gray-800 space-y-2 text-xs">
+              <div class="flex justify-between text-gray-300">
+                <span>Subtotal Bruto:</span>
+                <span id="step4-gross-subtotal" class="font-mono font-bold text-gray-400">0 €</span>
+              </div>
+              <div class="flex justify-between text-emerald-400">
+                <span>Total Ahorro / Descuentos:</span>
+                <span id="step4-total-savings" class="font-mono font-bold">-0 €</span>
+              </div>
+              <div class="flex justify-between text-gray-300 border-t border-gray-800/60 pt-1">
+                <span>Base Imponible Neta:</span>
+                <span id="step4-subtotal" class="font-mono font-bold text-white">0 €</span>
+              </div>
+              <div class="flex justify-between text-gray-400">
+                <span>IVA Aplicable (21%):</span>
+                <span id="step4-vat" class="font-mono font-bold">0 €</span>
+              </div>
+              <div class="pt-2 border-t border-gray-800 flex justify-between items-baseline text-sm">
+                <span class="font-bold text-white uppercase">PRECIO TOTAL (IVA INCLUIDO):</span>
+                <span id="step4-total" class="text-2xl font-black font-mono text-slate-100">0 €</span>
+              </div>
+
+              <div class="pt-3 border-t border-gray-800 text-[11px] text-gray-400 flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span>Reserva previa 15% (+IVA): <strong id="step4-deposit" class="font-mono text-white">0 €</strong></span>
+                <span>Restante 85% el día del evento</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               GENERADOR DE BORRADOR DE EMAIL (PARA SANTIAGO)
+               ================================================================ -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-3 border border-slate-400/30">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="p-2 rounded-xl bg-slate-200/15 text-slate-100">
+                  <i data-lucide="mail-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-white">Borrador de Email Listo para Enviar</h3>
+                  <p class="text-xs text-gray-400">Texto generado para que el operador lo revise, personalice o copie con 1 clic</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="window.app.toggleCardHelp('help-step4-email')" class="btn-card-help" title="Ayuda sobre borrador">?</button>
+                <button type="button" onclick="window.app.copyEmailDraftText()" class="px-3 py-1.5 rounded-xl bg-slate-200 hover:bg-white text-black font-bold text-xs flex items-center gap-1.5 shadow transition cursor-pointer">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span>Copiar Borrador de Email</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Drawer de Ayuda Borrador -->
+            <div id="help-step4-email" class="card-help-drawer hidden">
+              <p class="font-bold text-emerald-400 mb-1 flex items-center gap-1.5">
+                <i data-lucide="send" class="w-3.5 h-3.5"></i> Pautas de Comunicación Comercial:
+              </p>
+              <ul class="list-disc list-inside space-y-1 text-[11px] text-gray-300">
+                <li><strong>Claridad y Transparencia:</strong> El texto incluye partidas detalladas, bonificaciones desglosadas y desglose de dietas de staff.</li>
+                <li><strong>Copia Rápida:</strong> Puedes pegar el texto directamente en el cliente de correo o WhatsApp Web del operador.</li>
+                <li><strong>Sin Jerga Interna:</strong> El mensaje está 100% libre de códigos internos de desarrollo (cumplimiento estricto anti-fuga).</li>
+              </ul>
+            </div>
+
+            <textarea id="email-draft-preview" readonly rows="8" class="w-full bg-gray-950/80 border border-gray-800 rounded-xl p-3.5 font-mono text-[11px] text-gray-300 leading-relaxed focus:outline-none select-all"></textarea>
+          </section>
+
+          <!-- MINI-CHECKLIST LOGÍSTICO (4 Preguntas Rápidas antes de la Pre-reserva) -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4 border border-slate-400/20">
+            <div class="border-b border-gray-800 pb-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="p-2 rounded-xl bg-slate-200/15 text-slate-100">
+                  <i data-lucide="check-square" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-white">Verificación Logística & Staff</h3>
+                  <p class="text-xs text-gray-400">Permite a Santiago Cholbi validar la viabilidad técnica y el dimensionamiento de staff</p>
+                </div>
+              </div>
+              <button type="button" onclick="window.app.toggleCardHelp('help-step4-logistics')" class="btn-card-help" title="Ayuda sobre logística">?</button>
+            </div>
+
+            <!-- Drawer de Ayuda Logística -->
+            <div id="help-step4-logistics" class="card-help-drawer hidden">
+              <p class="font-bold text-emerald-400 mb-1 flex items-center gap-1.5">
+                <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i> Requisitos de Producción:
+              </p>
+              <ul class="list-disc list-inside space-y-1 text-[11px] text-gray-300">
+                <li><strong>Menú de Staff:</strong> En jornadas superiores a 4h (Ceremonia + Aperitivo + Fiesta), se contemplan dietas para músicos y técnicos de sonido.</li>
+                <li><strong>Acceso de Furgoneta:</strong> El acceso directo ahorra tiempos de carga y descarga de los altavoces e iluminación.</li>
+                <li><strong>Plan B de Lluvia:</strong> Esencial prever carpa o porche cubierto con toma de corriente 230V protegida.</li>
+              </ul>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <!-- Pregunta 1: Acceso Furgoneta -->
+              <div class="space-y-2 p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <label class="block font-bold text-gray-200">1. ¿Cómo es el acceso para montaje?</label>
+                <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                  <button type="button" onclick="window.app.setLogisticsOption('access', 'direct')" id="btn-log-access-direct" class="p-2 rounded-lg border border-emerald-500 bg-emerald-500/15 text-emerald-300 font-medium text-center transition">
+                    🟢 Furgoneta directa
+                  </button>
+                  <button type="button" onclick="window.app.setLogisticsOption('access', 'distance')" id="btn-log-access-distance" class="p-2 rounded-lg border border-gray-800 bg-gray-950 text-gray-400 font-medium text-center transition">
+                    🟡 Distancia
+                  </button>
+                  <button type="button" onclick="window.app.setLogisticsOption('access', 'stairs')" id="btn-log-access-stairs" class="p-2 rounded-lg border border-gray-800 bg-gray-950 text-gray-400 font-medium text-center transition">
+                    🔴 Escaleras
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pregunta 2: Hora Límite -->
+              <div class="space-y-2 p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <label class="block font-bold text-gray-200">2. ¿Hasta qué hora durará la fiesta?</label>
+                <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                  <button type="button" onclick="window.app.setLogisticsOption('partyEnd', '02:00')" id="btn-log-partyEnd-0200" class="p-2 rounded-lg border border-emerald-500 bg-emerald-500/15 text-emerald-300 font-medium text-center transition">
+                    02:00
+                  </button>
+                  <button type="button" onclick="window.app.setLogisticsOption('partyEnd', '03:00')" id="btn-log-partyEnd-0300" class="p-2 rounded-lg border border-gray-800 bg-gray-950 text-gray-400 font-medium text-center transition">
+                    03:00
+                  </button>
+                  <button type="button" onclick="window.app.setLogisticsOption('partyEnd', 'late')" id="btn-log-partyEnd-late" class="p-2 rounded-lg border border-gray-800 bg-gray-950 text-gray-400 font-medium text-center transition">
+                    Más tarde
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pregunta 3: Menú Staff con Contador de Cantidad -->
+              <div class="space-y-2 p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <div class="flex items-center justify-between">
+                  <label class="block font-bold text-gray-200">3. Menú de Staff / Dietas</label>
+                  <div class="flex items-center gap-1">
+                    <button type="button" onclick="window.app.changeStaffMeals(-1)" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-bold flex items-center justify-center text-xs cursor-pointer">-</button>
+                    <input type="number" id="input-staff-meals-count" value="0" min="0" max="20" oninput="window.app.onStaffMealsInput()" class="w-10 bg-gray-950 border border-gray-700 rounded-md px-1 py-0.5 text-center font-mono font-bold text-emerald-400 text-xs">
+                    <button type="button" onclick="window.app.changeStaffMeals(1)" class="w-6 h-6 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-bold flex items-center justify-center text-xs cursor-pointer">+</button>
+                    <span class="text-[10px] text-gray-400 font-medium ml-0.5">menús</span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                  <button type="button" onclick="window.app.setLogisticsOption('staffMeal', 'confirmed')" id="btn-log-staffMeal-confirmed" class="p-2 rounded-lg border border-emerald-500 bg-emerald-500/15 text-emerald-300 font-medium text-center transition cursor-pointer">
+                    🟢 Confirmado
+                  </button>
+                  <button type="button" onclick="window.app.setLogisticsOption('staffMeal', 'pending')" id="btn-log-staffMeal-pending" class="p-2 rounded-lg border border-gray-800 bg-gray-950 text-gray-400 font-medium text-center transition cursor-pointer">
+                    🟡 A consultar catering
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pregunta 4: Plan B Lluvia & Electricidad -->
+              <div class="space-y-2 p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <label class="block font-bold text-gray-200">4. Plan B Lluvia & Tomas eléctricas</label>
+                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                  <button type="button" onclick="window.app.setLogisticsOption('planB', 'covered')" id="btn-log-planB-covered" class="p-2 rounded-lg border border-emerald-500 bg-emerald-500/15 text-emerald-300 font-medium text-center transition cursor-pointer">
+                    🟢 Espacio cubierto OK
+                  </button>
+                  <button type="button" onclick="window.app.setLogisticsOption('planB', 'pending')" id="btn-log-planB-pending" class="p-2 rounded-lg border border-gray-800 bg-gray-950 text-gray-400 font-medium text-center transition cursor-pointer">
+                    🟡 A revisar con finca
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ¿QUÉ PASA AHORA? (Hoja de Ruta de Confianza y Cero Fricción) -->
+          <div class="p-4 rounded-xl bg-[#121212] border border-slate-300/25 space-y-2">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+              <span>¿Qué ocurre después de solicitar tu presupuesto?</span>
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
+              <div class="p-3 rounded-lg bg-gray-950/60 border border-gray-800 space-y-1">
+                <span class="font-bold text-slate-100 block">1. Revisión de Santiago</span>
+                <p class="text-gray-400 text-[11px]">Santiago Cholbi comprueba la disponibilidad real de los músicos y logística en <24h.</p>
+              </div>
+              <div class="p-3 rounded-lg bg-gray-950/60 border border-gray-800 space-y-1">
+                <span class="font-bold text-slate-100 block">2. Contacto Personalizado</span>
+                <p class="text-gray-400 text-[11px]">Conversamos por WhatsApp o llamada para afinar detalles de repertorio o espacio.</p>
+              </div>
+              <div class="p-3 rounded-lg bg-gray-950/60 border border-gray-800 space-y-1">
+                <span class="font-bold text-slate-100 block">3. Bloqueo Seguro</span>
+                <p class="text-gray-400 text-[11px]">Tu fecha queda 100% garantizada con la reserva formal del 15% mediante factura.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulario de Contacto (Gating para Salidas) -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="border-b border-gray-800 pb-3">
+              <h3 class="text-base font-bold text-white">¿Dónde te enviamos la propuesta oficial?</h3>
+              <p class="text-xs text-gray-400">Introduce tus datos de contacto para desbloquear la descarga en PDF, copia a WhatsApp y conversación directa con Santiago Cholbi</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Nombre Completo *</label>
+                <input type="text" id="cust-name" oninput="window.app.onCustomerInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-300" placeholder="Ej. Laura González" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Correo Electrónico *</label>
+                <input type="email" id="cust-email" oninput="window.app.onCustomerInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-300" placeholder="tu@email.com" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Teléfono Móvil (WhatsApp) *</label>
+                <div class="phone-input-group">
+                  <span class="phone-flag-prefix"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" width="20" height="15" alt="Bandera de España" class="rounded-sm object-cover shrink-0 shadow-sm"> <span>+34</span></span>
+                  <input type="tel" id="cust-phone" oninput="window.app.onCustomerInput()" class="phone-text-field" placeholder="600 000 000" maxlength="9" />
+                </div>
+                <span id="phone-validation-hint" class="text-[11px] text-gray-500 mt-1 block">Introduce los 9 dígitos de tu móvil</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-gray-300 mb-1">Notas o Peticiones Especiales (Opcional)</label>
+              <textarea id="cust-notes" rows="2" oninput="window.app.onCustomerInput()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-300" placeholder="Canciones deseadas, dudas sobre el espacio o logística..."></textarea>
+            </div>
+
+            <!-- Banners de Estado de Gating -->
+            <div id="gating-warning-banner" class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 flex items-center gap-2.5 text-xs text-amber-200">
+              <i data-lucide="lock" class="w-4 h-4 text-amber-400 shrink-0"></i>
+              <span>Para desbloquear las acciones de descarga en PDF, copia para WhatsApp y chat directo, completa tu nombre, email válido y los 9 dígitos de tu móvil.</span>
+            </div>
+            <div id="gating-success-badge" class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 flex items-center gap-2.5 text-xs text-emerald-300 hidden">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+              <span>Datos verificados correctamente. Todas las opciones de exportación y contacto con Santiago están activas.</span>
+            </div>
+          </section>
+
+          <!-- Botones de Acción y Salidas (Gated) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <button id="btn-action-wa-direct" onclick="window.app.openSantiagoWhatsApp()" disabled class="btn-gated-disabled py-3 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition active:scale-[0.98]">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Chatear con Santiago</span>
+            </button>
+
+            <button id="btn-action-wa-copy" onclick="window.app.copyWhatsAppText()" disabled class="btn-gated-disabled py-3 px-3 rounded-xl bg-gray-900 hover:bg-gray-800 text-gray-200 border border-gray-700 font-bold text-xs flex items-center justify-center gap-2 transition active:scale-[0.98]">
+              <i data-lucide="copy" class="w-4 h-4 text-slate-100"></i>
+              <span>Copiar para WhatsApp</span>
+            </button>
+
+            <button id="btn-action-email" onclick="window.app.sendQuoteEmail()" disabled class="btn-gated-disabled py-3 px-3 rounded-xl bg-gray-900 hover:bg-gray-800 text-gray-200 border border-gray-700 font-bold text-xs flex items-center justify-center gap-2 transition active:scale-[0.98]">
+              <i data-lucide="mail" class="w-4 h-4 text-slate-100"></i>
+              <span>Enviar Copia por Email</span>
+            </button>
+
+            <button id="btn-action-print" onclick="window.app.openPrintModal()" disabled class="btn-gated-disabled py-3 px-3 rounded-xl bg-slate-200 hover:bg-white text-black font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-slate-500/20 transition active:scale-[0.98]">
+              <i data-lucide="printer" class="w-4 h-4"></i>
+              <span>Vista Previa PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             PASO 5: CUESTIONARIO DE VALIDACIÓN DE REGLAS (CLIENTE)
+             ================================================================== -->
+        <div id="step-panel-5" class="wizard-step-panel hidden space-y-6">
+
+          <!-- Cabecera de Validación -->
+          <section class="glass-panel rounded-2xl p-6 shadow-xl border border-emerald-500/30 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <i data-lucide="clipboard-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h2 class="text-base sm:text-lg font-bold text-white">Validación de Reglas & Mecánica de Descuentos</h2>
+                  <p class="text-xs text-gray-400">Revisión de patrones extraídos de tus presupuestos reales para automatizar el cotizador</p>
+                </div>
+              </div>
+              <div class="text-right hidden sm:block">
+                <span id="val-progress-text" class="text-xs font-bold text-emerald-400 font-mono">0 de 11 validadas</span>
+                <div class="w-36 bg-gray-800 rounded-full h-1.5 mt-1 overflow-hidden border border-gray-700">
+                  <div id="val-progress-bar" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed border-t border-gray-800 pt-3">
+              Hemos analizado tus propuestas reales de 2026 y 2027. A continuación te presentamos cada regla que detectamos para que valides si es correcta (<strong>🟢 SÍ</strong>) o nos indiques tu criterio específico (<strong>🔴 NO</strong>).
+            </p>
+          </section>
+
+          <!-- PREGUNTA 1: Ceremonia en Paquete -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">1</span>
+                <span>Descuento en Ceremonia al Contratar Aperitivo</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Ceremonia</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> Cuando el cliente contrata Ceremonia + Aperitivo, el Dúo de ceremonia baja de <strong>795 € a 400 €</strong> (~45% dto.) y el Trío de <strong>1.145 € a 930 €</strong>.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q1', 'SÍ: Dúo a 400 € en paquete', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Es correcto. Aplicar esta bonificación automática.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q1', 'NO: Corregir fórmula', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Prefiero otro importe o porcentaje (indícalo abajo).</span>
+              </div>
+            </div>
+            <textarea id="val-note-q1" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Si marcaste NO, escribe tu fórmula o precio para ceremonia en paquete..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 2: Banda de Aperitivo -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">2</span>
+                <span>Descuento en la Banda de Aperitivo</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Aperitivo</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> La banda principal de aperitivo recibe entre un <strong>15% y un 20% de descuento</strong> (ej. Cuarteto oficial 1.435 € baja a <strong>1.200 €</strong>).</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q2', 'SÍ: 15-20% dto. aperitivo', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Es correcto. Aplicar 15%-20% dto. en aperitivo.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q2', 'NO: Corregir dto. aperitivo', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Prefiero otro % o tarifa (indícalo abajo).</span>
+              </div>
+            </div>
+            <textarea id="val-note-q2" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Si marcaste NO, indica el % exacto que prefieres en aperitivo..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 3: Sonorización Básica al 50% -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">3</span>
+                <span>Bonificación del 50% en Sonorización con Bandas Propias</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Sonorización</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> La sonorización básica (PVP oficial 400 €) se factura a <strong>200 € (50% de descuento)</strong> por punto de sonido cuando contratan grupos de LBM.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q3', 'SÍ: Sonido a 200 € por punto', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Es correcto. Cobrar 200 € por punto en vez de 400 €.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q3', 'NO: Tarifa sonorización diferente', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">La sonorización debe tener otra tarifa (indícalo abajo).</span>
+              </div>
+            </div>
+            <textarea id="val-note-q3" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Si marcaste NO, especifica tu criterio de sonido..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 4: Reutilización de Sonido en Cena -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">4</span>
+                <span>Reutilización de Sonido en Cena (Mismo Espacio)</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Cena</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> Si la cena es en el mismo espacio que el aperitivo, el coste de altavoces es <strong>0 €</strong> y solo cobras <strong>50 € a 100 €</strong> por la gestión de micros y playlist.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q4', 'SÍ: Equipo 0 € + 50-100 € técnico', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Es correcto. 0 € equipo y solo 50-100 € técnico.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q4', 'NO: Cobrar cena completa', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">En la cena prefiero cobrar otra tarifa (indícalo abajo).</span>
+              </div>
+            </div>
+            <textarea id="val-note-q4" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Si marcaste NO, escribe la tarifa de cena..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 5: Iluminación de Fiesta -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">5</span>
+                <span>Iluminación de Fiesta con DJ o Banda</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Fiesta</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> La iluminación básica de fiesta (PVP 380 €) baja a <strong>150 € – 250 €</strong> al contratarse junto con el DJ (500 €) o con banda en directo.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q5', 'SÍ: Iluminación a 150-250 €', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Es correcto. Bonificar la iluminación de fiesta a 250 €.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q5', 'NO: Iluminación tarifa normal', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Prefiero aplicar otro importe (indícalo abajo).</span>
+              </div>
+            </div>
+            <textarea id="val-note-q5" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Si marcaste NO, escribe tu tarifa de iluminación..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 6: Comisiones Event Partners y Agencias -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">6</span>
+                <span>Comisión para Event Partners y Agencias B2B</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Comercial</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> En el acuerdo con organizadoras y agencias (Event Partners) aplicas un <strong>15% de comisión</strong> sobre los precios acordados con descuento.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q6', 'SÍ: Switch Event Partner 15%', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Es correcto. Incluir switch para que los Event Partners calculen su 15%.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q6', 'NO: Solo precios finales', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">La web solo debe mostrar precios a cliente final.</span>
+              </div>
+            </div>
+            <textarea id="val-note-q6" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Notas sobre Event Partners..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 7: Día de la Semana y Temporada -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">7</span>
+                <span>Día de la Semana y Temporada (Lunes a Jueves vs. Sábados)</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Calendario</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> El Ejemplo 1 es un <strong>Jueves</strong> y el Ejemplo 2 es un <strong>Sábado</strong>. ¿Aplicas descuento por celebrarse entre semana o en temporada baja (nov-mar)?</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q7', 'SÍ: Descuento entre semana / temp baja', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Aplicar descuento (10-15%) de lunes a jueves o temp. baja.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q7', 'NO: Misma tarifa todo el año', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Mismas tarifas todos los días del año sin excepción.</span>
+              </div>
+            </div>
+            <textarea id="val-note-q7" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Indica el descuento si aplica entre semana..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 8: Umbral PAX y Sonorización Completa -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">8</span>
+                <span>Umbral de Invitados (PAX) y Sonorización Completa</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Aforo</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en el catálogo:</strong> El documento oficial indica que eventos >200 personas requieren sonorización reforzada con subwoofers y monitores (`Complete Sound: 900 €`).</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q8', 'SÍ: Recomendar sonido completo >150-200 PAX', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Recomendar automáticamente sonido completo si PAX > 150/200.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q8', 'NO: Elección libre del cliente', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Dejar elección libre de sonido independientemente del aforo.</span>
+              </div>
+            </div>
+            <textarea id="val-note-q8" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Matiz sobre el aforo y el equipo necesario..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 9: Repertorio a la Carta -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">9</span>
+                <span>Repertorio a la Carta (Canciones Personalizadas)</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Repertorio</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> Incluyes 6 temas a la carta en ceremonia sin coste adicional. ¿Si piden más temas o temas en aperitivo se cobra suplemento?</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q9', 'SÍ: 6 temas ceremonia incluidos siempre', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Los 6 temas a la carta de ceremonia siempre van incluidos.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q9', 'NO: Cobrar extra por canción fuera de lista', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Temas extra fuera de repertorio tienen suplemento por ensayo.</span>
+              </div>
+            </div>
+            <textarea id="val-note-q9" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Indica precio por tema extra si aplica..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 10: Misma Banda en Dos Momentos (Aperitivo + Fiesta) -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">10</span>
+                <span>La Misma Banda en Dos Momentos (Aperitivo + Fiesta)</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Continuidad</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> En la boda del 16/09, Jazz de Copes Quartet toca en aperitivo y repite en fiesta (3 pases) por <strong>1.470 €</strong> (en lugar de cobrar dos bandas completas a 1.435 € x 2 = 2.870 €).</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q10', 'SÍ: Tarifa reducida de continuidad en fiesta', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">La 2.ª actuación tiene tarifa reducida de continuidad.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q10', 'NO: Cada pase se cobra independiente', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Cada bloque se cotiza como actuación independiente.</span>
+              </div>
+            </div>
+            <textarea id="val-note-q10" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Fórmula para doblete de banda..."></textarea>
+          </div>
+
+          <!-- PREGUNTA 11: Menú y Dietas de Staff -->
+          <div class="glass-panel rounded-2xl p-5 border border-gray-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-white flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center justify-center font-bold">11</span>
+                <span>Cláusula de Menú y Dietas de Staff</span>
+              </span>
+              <span class="text-[10px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Operativa</span>
+            </div>
+            <div class="p-3 rounded-xl bg-gray-900/60 border border-gray-800 text-xs space-y-1">
+              <p class="text-gray-300"><strong>Lo que detectamos en tus presupuestos:</strong> Siempre especificas: <em>«Se tendrá en cuenta la cena de 2 personas de Staff y del DJ»</em>.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-emerald-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q11', 'SÍ: Incluir cláusula de staff en el presupuesto web', this)">
+                <span class="text-emerald-400 font-bold">🟢 SÍ</span>
+                <span class="text-gray-200">Incluir la cláusula de menú de staff en el resumen web.</span>
+              </div>
+              <div class="val-opt-card p-3 rounded-xl border border-gray-800 bg-gray-900/40 hover:border-rose-500/40 transition cursor-pointer flex items-center gap-2" onclick="window.app.selectValidationOption('q11', 'NO: No mostrar en cotizador inicial', this)">
+                <span class="text-rose-400 font-bold">🔴 NO</span>
+                <span class="text-gray-200">Tratar las dietas por privado tras la reserva.</span>
+              </div>
+            </div>
+            <textarea id="val-note-q11" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-xs text-gray-300 placeholder-gray-600 focus:ring-1 focus:ring-emerald-500" rows="1" placeholder="Notas sobre dietas de staff..."></textarea>
+          </div>
+
+          <!-- ==================================================================
+               BLOQUE RECUADRADO ESPECIAL: FACTORES HUMANOS & PETICIÓN 3-5 PRESUPUESTOS
+               ================================================================== -->
+          <div class="glass-panel rounded-2xl p-6 border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/20 to-gray-950 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <i data-lucide="help-circle" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="text-sm sm:text-base font-bold text-white">Factores Cualitativos & Petición de Más Presupuestos con Descuento</h3>
+                <p class="text-xs text-amber-200/80">Para que la web capture toda la experiencia y sutilezas de tu negocio</p>
+              </div>
+            </div>
+
+            <div class="text-xs text-gray-300 space-y-3 leading-relaxed border-t border-gray-800 pt-3">
+              <p>
+                Sabemos que en tus muchos años de trayectoria en el sector musical, no todos los presupuestos se calculan con una fórmula fija. Existen <strong>factores humanos y comerciales</strong> que no se ven en los PDFs:
+              </p>
+              <ul class="list-disc list-inside space-y-1.5 text-gray-400 pl-2">
+                <li><strong class="text-gray-200">Clientes conocidos / amigos / repetición:</strong> ¿Sueles aplicar un 5% o 10% directo de cortesía?</li>
+                <li><strong class="text-gray-200">Fincas o Masías colaboradoras:</strong> ¿Tienes acuerdos con recintos donde ofreces tarifas especiales o comisiones?</li>
+                <li><strong class="text-gray-200">Entes oficiales, ayuntamientos o festivales:</strong> ¿Manejas una escala de precios institucional?</li>
+                <li><strong class="text-gray-200">Antelación de reserva:</strong> ¿Premio por reservar con >1 año o descuento de última hora (last minute)?</li>
+              </ul>
+
+              <div class="pt-2">
+                <label class="block text-xs font-bold text-amber-300 mb-1">Cuéntanos cómo gestionas estos factores no matemáticos:</label>
+                <textarea id="val-note-qualitative" class="w-full bg-gray-950 border border-amber-500/30 rounded-xl p-3 text-xs text-gray-200 placeholder-gray-500 focus:ring-1 focus:ring-amber-400" rows="3" placeholder="Ej: 'Con Masía X tenemos acuerdo de 100 € de descuento en sonido... Si el cliente es amigo le regalo la iluminación perimetral...'"></textarea>
+              </div>
+
+              <!-- Llamado a enviar 3 a 5 presupuestos especiales -->
+              <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-start gap-3">
+                <i data-lucide="file-text" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+                <div class="space-y-1">
+                  <span class="font-bold text-white block">📂 Solicitud de 3 a 5 Presupuestos Especiales:</span>
+                  <p class="text-gray-300">
+                    Para poder extraer todas las excepciones y afinar el cotizador al 100%, <strong>te pedimos si puedes compartirnos de 3 a 5 presupuestos reales que hayan tenido descuentos especiales o combinaciones atípicas</strong> (ej. eventos de empresa, aniversarios, formaciones grandes como Septeto u Octeto, etc.). Los presupuestos normales ya los dominamos; nos interesan los que tuvieron rebajas singulares para programar su lógica.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Acciones de Exportación del Cuestionario -->
+          <div class="glass-panel rounded-2xl p-5 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+              <span class="text-xs font-bold text-white block">¿Has completado la validación?</span>
+              <span class="text-[11px] text-gray-400">Copia el informe para enviarlo directamente por WhatsApp o descárgalo.</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="window.app.copyValidationAnswers()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-lg shadow-emerald-950/40">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copiar Informe para WhatsApp / Email</span>
+              </button>
+              <button onclick="window.app.downloadValidationReport()" class="px-3 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700 transition flex items-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Descargar (.txt)</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- COLUMNA DERECHA: Resumen Lateral Fijo (4 Cols en Desktop) -->
+      <aside class="lg:col-span-4 space-y-6">
+        <div class="sticky top-36 space-y-4">
+          <div class="glass-panel rounded-2xl p-5 shadow-2xl border border-slate-300/25 relative overflow-visible">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                <i data-lucide="receipt" class="w-4 h-4 text-slate-100"></i> Tu Presupuesto
+              </span>
+              <span id="sum-cost-per-guest-pill" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold">
+                0,00 € / pers.
+              </span>
+            </div>
+
+            <!-- Lista de Partidas Activas (Con altura expandida y scrollbar protegido) -->
+            <div id="summary-lines-list" class="space-y-1.5 py-3 max-h-[32rem] overflow-y-auto pr-2">
+              <!-- Render dinámico -->
+            </div>
+
+            <!-- Desglose Económico -->
+            <div class="border-t border-gray-800 pt-3 space-y-1.5 text-xs">
+              <div class="flex justify-between text-gray-400">
+                <span>Subtotal Base:</span>
+                <span id="sum-subtotal" class="font-mono font-bold text-gray-300">0 €</span>
+              </div>
+
+              <!-- Bloque de Descuentos & Sinergias Discriminadas en Sidebar -->
+              <div id="sum-discounts-box" class="my-2.5 p-3 rounded-xl bg-emerald-950/25 border border-emerald-500/30 space-y-2 hidden">
+                <div class="flex items-center justify-between border-b border-emerald-900/40 pb-1.5">
+                  <span class="text-[11px] font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> Descuentos Aplicados
+                  </span>
+                  <span id="sum-discounts-count-badge" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">0</span>
+                </div>
+                <div id="sum-discounts-items" class="space-y-1 text-xs">
+                  <!-- Render dinámico: concepto + % + importe -->
+                </div>
+                <div class="border-t border-emerald-900/40 pt-1.5 flex justify-between items-center text-xs font-bold text-emerald-300">
+                  <span>Subtotal Descuentos:</span>
+                  <span id="sum-discounts-subtotal" class="font-mono text-emerald-400">-0,00 €</span>
+                </div>
+              </div>
+
+              <div class="flex justify-between text-gray-400">
+                <span>IVA Estimado (21%):</span>
+                <span id="sum-vat" class="font-mono text-gray-300">0 €</span>
+              </div>
+
+              <div class="pt-3 border-t border-gray-800/80 flex justify-between items-baseline">
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider text-gray-400 font-bold block">PRECIO TOTAL</span>
+                  <span class="text-[10px] text-gray-500">Con IVA incluido</span>
+                </div>
+                <div class="text-right">
+                  <span id="sum-grand-total" class="text-2xl font-black font-mono price-total-main">0 €</span>
+                </div>
+              </div>
+
+              <!-- Reserva 15% -->
+              <div class="pt-2 text-[11px] text-gray-400 border-t border-gray-800/40 flex justify-between">
+                <span>Reserva 15% previa:</span>
+                <span id="sum-deposit" class="font-mono font-bold">0 €</span>
+              </div>
+            </div>
+
+            <!-- Botón de avance rápido -->
+            <div class="pt-4">
+              <button onclick="window.app.setStep(4)" class="w-full btn-primary-action text-xs">
+                <span>Revisar Presupuesto Completo</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Contacto Directo Live Bands Music -->
+          <div class="glass-card rounded-2xl p-4 text-xs text-gray-400 border border-gray-800 space-y-1.5">
+            <div class="flex items-center gap-2 text-white font-bold text-xs">
+              <i data-lucide="shield-check" class="w-4 h-4 text-slate-100"></i>
+              <span>Live Bands Music</span>
+            </div>
+            <p class="text-[11px]">Santiago Cholbi &bull; (+34) 627 37 03 34</p>
+            <p class="text-[11px]">livebandsmusic@gmail.com &bull; Peralada (Girona)</p>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       Barra Inferior Flotante Móvil (Mobile-only)
+       ======================================================================== -->
+  <div id="mobile-bottom-bar" class="lg:hidden no-print fixed bottom-0 left-0 right-0 z-40 bg-gray-950/95 border-t border-gray-800 p-3 px-4 flex items-center justify-between backdrop-blur-md">
+    <div>
+      <span class="text-[10px] text-gray-400 uppercase tracking-wider block">Total Estimado</span>
+      <div class="flex items-baseline gap-2">
+        <span id="mobile-bar-total" class="text-lg font-black font-mono text-slate-100">0 €</span>
+        <span id="mobile-bar-subtotal" class="text-[10px] text-gray-500 font-mono"></span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="window.app.toggleMobileDrawer()" class="p-2 rounded-xl bg-gray-800 text-gray-300 text-xs">
+        <i data-lucide="list" class="w-4 h-4"></i>
+      </button>
+      <button onclick="window.app.setStep(4)" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-white text-black font-bold text-xs">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer Móvil de Resumen -->
+  <div id="mobile-summary-drawer" class="lg:hidden no-print fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
+    <div class="bg-gray-950 border-t border-gray-800 rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-gray-800">
+        <span class="text-sm font-bold text-white">Resumen del Presupuesto</span>
+        <button onclick="window.app.toggleMobileDrawer()" class="p-1 rounded-lg bg-gray-800 text-gray-400">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Descuentos en Drawer Móvil -->
+      <div id="mobile-discounts-container" class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-1.5 hidden">
+        <span class="text-xs font-bold text-emerald-300 flex items-center gap-1">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Descuentos Aplicados
+        </span>
+        <div id="mobile-discounts-list" class="space-y-1 text-xs text-gray-300">
+          <!-- Render dinámico -->
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-400">Para una vista completa con desglose partida a partida, pulsa continuar para acceder al resumen final.</p>
+      <button onclick="window.app.toggleMobileDrawer(); window.app.setStep(4);" class="w-full py-3 rounded-xl bg-slate-200 hover:bg-white text-black font-bold text-xs">
+        Ir al Resumen Final
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE VISTA PREVIA E IMPRESIÓN PDF (Oficial)
+       ======================================================================== -->
+  <div id="printModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-2 sm:p-6 overflow-y-auto">
+    <div class="max-w-4xl w-full bg-white text-gray-900 rounded-2xl shadow-2xl my-auto p-6 sm:p-10 proposal-sheet relative">
+      
+      <!-- Barra superior no imprimible -->
+      <div class="no-print flex items-center justify-between pb-4 mb-6 border-b border-gray-200">
+        <div class="flex items-center gap-2 text-xs text-gray-600">
+          <i data-lucide="file-text" class="w-4 h-4 text-slate-600"></i>
+          <span>Ficha Oficial de Presupuesto</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-gray-900 hover:bg-black text-slate-100 border border-slate-300/40 font-bold text-xs flex items-center gap-1.5 shadow">
+            <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Guardar en PDF
+          </button>
+          <button onclick="window.app.closePrintModal()" class="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Contenido Formal del Documento Imprimible -->
+      <div class="space-y-6 text-sm">
+        <!-- Cabecera -->
+        <div class="flex justify-between items-start border-b-2 border-slate-400 pb-4">
+          <div class="flex items-start gap-4">
+            <div class="p-2 rounded-xl bg-black border border-gray-300 flex items-center justify-center shrink-0">
+              <img src="./assets/img/lbm-logo-official.png" alt="Logo Live Bands Music" class="h-14 w-auto object-contain">
+            </div>
+            <div>
+              <h1 class="text-2xl font-serif font-black text-gray-900 tracking-tight">LIVE BANDS MUSIC</h1>
+              <p class="text-xs text-slate-700 font-bold tracking-widest uppercase">Música en Vivo &bull; Sonorización &bull; Iluminación</p>
+              <p class="text-[11px] text-gray-500 mt-1">Santiago Cholbi Yuste &bull; CIF: 38101927N &bull; Peralada (Girona)</p>
+              <p class="text-[11px] text-gray-500">Tel: +34 627 37 03 34 &bull; livebandsmusic@gmail.com &bull; www.livebandsmusic.com</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="inline-block px-3 py-1 bg-slate-100 text-slate-900 font-bold text-xs rounded-full border border-slate-300">PRESUPUESTO OFICIAL 2027</span>
+            <p class="text-xs text-gray-500 mt-1" id="pdf-emit-date">Fecha emisión: 8 de septiembre de 2026</p>
+            <p class="text-xs font-semibold text-gray-700 mt-0.5" id="pdf-customer-name">Cliente: Destinatario</p>
+          </div>
+        </div>
+
+        <!-- Ficha de Datos del Evento -->
+        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div>
+            <span class="text-gray-500 block">Evento:</span>
+            <strong id="pdf-event-title" class="text-gray-900">Boda</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block">Fecha / Temporada:</span>
+            <strong id="pdf-event-date" class="text-gray-900">A convenir</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block">Lugar:</span>
+            <strong id="pdf-event-location" class="text-gray-900">Peralada (Girona)</strong>
+          </div>
+          <div>
+            <span class="text-gray-500 block">Aforo / Invitados:</span>
+            <strong id="pdf-event-pax" class="text-gray-900">100 asistentes</strong>
+          </div>
+        </div>
+
+        <!-- Tabla de Partidas Contratadas -->
+        <div>
+          <h2 class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Desglose de Servicios Contratados</h2>
+          <table class="w-full text-left border-collapse proposal-table">
+            <thead>
+              <tr class="border-b-2 border-gray-300 text-[11px] text-gray-500 uppercase">
+                <th class="py-2">Servicio / Descripción</th>
+                <th class="py-2">Momento</th>
+                <th class="py-2 text-right">Importe Base</th>
+              </tr>
+            </thead>
+            <tbody id="pdf-services-tbody" class="divide-y divide-gray-200 text-xs">
+              <!-- Render dinámico -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Descuentos y Sinergias en PDF -->
+        <div id="pdf-discounts-container" class="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200 space-y-1.5 text-xs hidden">
+          <strong class="text-emerald-900 text-xs block flex items-center gap-1.5">
+            ★ Bonificaciones & Sinergias Aplicadas
+          </strong>
+          <div id="pdf-discounts-list" class="space-y-1 text-emerald-950 pt-1">
+            <!-- Render dinámico -->
+          </div>
+          <div class="border-t border-emerald-200 pt-1.5 flex justify-between font-bold text-emerald-900">
+            <span>Subtotal Descuentos Aplicados:</span>
+            <span id="pdf-discounts-subtotal" class="font-mono text-emerald-800">-0,00 €</span>
+          </div>
+        </div>
+
+        <!-- Bloque de Totales -->
+        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-1.5 text-xs">
+          <div class="flex justify-between text-gray-600">
+            <span>Subtotal Base (Sin IVA):</span>
+            <span id="pdf-subtotal" class="font-mono font-bold text-gray-900">0 €</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>IVA Aplicable (21%):</span>
+            <span id="pdf-vat" class="font-mono font-bold text-gray-900">0 €</span>
+          </div>
+          <div class="pt-2 border-t border-gray-300 flex justify-between items-baseline text-sm">
+            <strong class="text-gray-900 uppercase">TOTAL PRESUPUESTADO:</strong>
+            <span id="pdf-total" class="text-2xl font-black font-mono text-slate-950">0 €</span>
+          </div>
+        </div>
+
+        <!-- Términos de Pago y Condiciones Legales -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-gray-900 mb-1">Forma de Pago Acordada</h3>
+            <p class="text-gray-600">• 15% de reserva previa mediante factura oficial: <strong id="pdf-deposit">0 €</strong></p>
+            <p class="text-gray-600">• 85% restante liquidado el mismo día del evento.</p>
+          </div>
+          <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-gray-900 mb-1">Logística y Desplazamiento</h3>
+            <p class="text-gray-600">• Desplazamientos incluidos en la provincia de Girona.</p>
+            <p class="text-gray-600" id="pdf-staff-clause">• Se contempla menú de staff (3 menús) para el equipo técnico y artístico.</p>
+          </div>
+        </div>
+
+        <!-- Cláusula RGPD Oficial -->
+        <div class="text-[9px] text-gray-400 border-t border-gray-200 pt-3 leading-relaxed">
+          En cumplimiento del RGPD (UE) 2016/679, responsable: Santiago Cholbi Yuste (CIF: 38101927N). Dirección: C/ Germans Serra i Bonal 8A, 17491 Peralada (Girona). Correo: livebandsmusic@gmail.com. Finalidad: Gestión y formalización del presupuesto. Los precios reflejados corresponden al catálogo oficial de Live Bands Music.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE HISTORIAL DE PRESUPUESTOS (SANTIAGO)
+       ======================================================================== -->
+  <div id="historyModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="max-w-3xl w-full bg-gray-950 border border-gray-800 rounded-2xl shadow-2xl my-auto p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-cyan-500/10 text-cyan-400">
+            <i data-lucide="archive" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Historial de Presupuestos Emitidos</h3>
+            <p class="text-xs text-gray-400">Registro persistente para análisis, calibración y reapertura de propuestas</p>
+          </div>
+        </div>
+        <button onclick="window.app.closeHistoryModal()" class="p-1.5 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Lista de Presupuestos Guardados -->
+      <div id="history-items-container" class="space-y-2 max-h-96 overflow-y-auto pr-1">
+        <!-- Render dinámico -->
+      </div>
+
+      <div class="pt-3 border-t border-gray-800 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <button onclick="window.app.exportHistoryJSON()" class="px-3 py-1.5 rounded-xl bg-gray-900 hover:bg-gray-800 text-gray-200 border border-gray-700 font-medium flex items-center gap-1.5 transition cursor-pointer">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Descargar JSON</span>
+          </button>
+          <button onclick="window.app.clearHistoryQuotes()" class="px-3 py-1.5 rounded-xl bg-gray-900 hover:bg-rose-950/50 text-rose-300 border border-rose-900/40 font-medium flex items-center gap-1.5 transition cursor-pointer">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span>Vaciar Historial</span>
+          </button>
+        </div>
+        <button onclick="window.app.closeHistoryModal()" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-white text-black font-bold cursor-pointer">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE ASIGNACIÓN RÁPIDA DE BANDA (RUTA 1 COCKPIT)
+       ======================================================================== -->
+  <div id="bandAssignmentModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="max-w-xl w-full bg-gray-950 border border-gray-800 rounded-2xl shadow-2xl my-auto p-6 space-y-5">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-purple-500/10 text-purple-400">
+            <i data-lucide="music" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="modal-band-title" class="text-base font-bold text-white">Asignar Banda</h3>
+            <p id="modal-band-genre" class="text-xs text-emerald-400 font-medium">Género</p>
+          </div>
+        </div>
+        <button onclick="window.app.closeBandAssignmentModal()" class="p-1.5 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-white cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Imagen y Tagline de la Banda -->
+      <div class="relative w-full h-44 rounded-xl overflow-hidden bg-gray-900 border border-gray-800">
+        <img id="modal-band-img" src="" alt="Banda" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-3 left-4 right-4">
+          <p id="modal-band-tagline" class="text-xs text-slate-100 font-medium leading-relaxed drop-shadow"></p>
+        </div>
+      </div>
+
+      <!-- Selección de Momentos (Sin forzar autoactivación: usuario marca los que necesita) -->
+      <div class="space-y-3">
+        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+          ¿En qué momentos deseas incluir esta agrupación?
+        </label>
+        <p class="text-[11px] text-gray-400">
+          Marca las partes del evento en las que actuará esta banda (puedes activar una o varias):
+        </p>
+
+        <div id="modal-moments-list" class="space-y-2.5">
+          <!-- Render dinámico según idealFor de la banda -->
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-gray-800 flex items-center justify-between gap-3 text-xs">
+        <button type="button" onclick="window.app.closeBandAssignmentModal()" class="px-4 py-2 rounded-xl border border-gray-700 hover:bg-gray-800 text-gray-300 font-medium cursor-pointer">
+          Cancelar
+        </button>
+        <button type="button" onclick="window.app.applyBandAssignment()" class="btn-primary-action text-xs">
+          <span>Aplicar y Continuar a Música en Vivo</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificaciones -->
+  <div id="toast" class="no-print fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white px-5 py-3 rounded-xl border border-gray-700 shadow-2xl flex items-center gap-3 text-xs font-semibold pointer-events-none">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">Notificación</span>
+  </div>
+
+  <!-- ========================================================================
+       Nivel 1: Footer del Cliente (Live Bands Music)
+       ======================================================================== -->
+  <footer class="client-footer">
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="client-brand">
+          <span class="client-name">Live Bands Music</span>
+          <p class="client-tagline">Música en Vivo, Sonorización e Iluminación Profesional &bull; Peralada (Girona)</p>
+        </div>
+        <nav class="footer-legal-nav" aria-label="Enlaces legales">
+          <a href="#aviso-legal" class="legal-link">Aviso Legal</a>
+          <span class="legal-sep">◆</span>
+          <a href="#privacidad" class="legal-link">Política de Privacidad</a>
+          <span class="legal-sep">◆</span>
+          <a href="#cookies" class="legal-link">Política de Cookies</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       Nivel 2: Subfooter Oficial Marketing Amable v2.0 (Barra Independiente #0D0D0D <45px)
+       ======================================================================== -->
+  <div class="mkt-subfooter">
+    <div class="subfooter-container">
+      <div class="subfooter-copy">
+        <p>© <span id="currentYear">2026</span> Live Bands Music. Todos los derechos reservados.</p>
+      </div>
+      <div class="subfooter-signature">
+        <span class="designed-by">Diseñado con pasión por</span>
+        <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" aria-label="Sitio web oficial de Marketing Amable">
+          <img src="./assets/images/002.gif" alt="Marketing Amable isotype" class="mkt-gif" width="28" height="28">
+          <span class="mkt-white">MARKETING</span>
+          <span class="mkt-green">AMABLE</span>
+        </a>
+        <span class="mkt-version">v.17</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Módulos de la Aplicación -->
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

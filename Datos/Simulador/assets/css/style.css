@@ -1,0 +1,541 @@
+/* ==========================================================================
+   Live Bands Music — Configurador de Presupuestos 2027
+   Tokens de diseño, componentes UI, microinteracciones y estilos de impresión
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@800&display=swap');
+
+:root {
+  --bg-main: #090909;
+  --bg-surface: #121212;
+  --bg-surface-elevated: #181818;
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-active: #e2e8f0;
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #9ca3af;
+  --accent-silver: #e2e8f0; /* Color Plata Luminoso */
+  --accent-cyan: #e2e8f0;
+  --accent-silver-hover: #cbd5e1;
+  --accent-cyan-hover: #cbd5e1;
+  --accent-silver-glow: rgba(226, 232, 240, 0.25);
+  --accent-cyan-glow: rgba(226, 232, 240, 0.25);
+  --accent-emerald: #10b981;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+  background: rgba(18, 18, 18, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-card {
+  background: rgba(24, 24, 24, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(226, 232, 240, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Tarjetas de Selección Interactiva (Cards activas) */
+.selectable-card {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.selectable-card.active {
+  border-color: var(--accent-cyan) !important;
+  background: rgba(226, 232, 240, 0.08) !important;
+  box-shadow: 0 0 0 1px var(--accent-cyan), 0 8px 25px -5px rgba(226, 232, 240, 0.25);
+}
+
+.selectable-card.active .card-radio-indicator {
+  border-color: var(--accent-cyan);
+  background-color: var(--accent-cyan);
+}
+
+/* Badges de Estado */
+.badge-confirmed {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-pending {
+  background-color: rgba(226, 232, 240, 0.15);
+  color: #e2e8f0;
+  border: 1px solid rgba(226, 232, 240, 0.3);
+}
+
+/* Protección anti-corte de precios */
+.price-tag-untruncated {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  font-variant-numeric: tabular-nums;
+  padding-left: 0.75rem;
+  padding-right: 0.25rem;
+  display: inline-block;
+  min-width: 4rem;
+  text-align: right;
+}
+
+/* Scrollbar ultra-fino para el resumen de partidas (evita solapamiento de precios) */
+#summary-lines-list {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 rgba(255, 255, 255, 0.06);
+}
+
+#summary-lines-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+#summary-lines-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+#summary-lines-list::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+#summary-lines-list::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Stepper Tabs */
+.stepper-step {
+  transition: all 0.2s ease;
+}
+.stepper-step.active {
+  color: #ffffff;
+  border-color: var(--accent-cyan);
+}
+.stepper-step.completed {
+  color: #e2e8f0;
+}
+
+/* Teléfono España con Bandera */
+.phone-input-group {
+  display: flex;
+  align-items: center;
+  background-color: #121212;
+  border: 1px solid #374151;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.phone-input-group:focus-within {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 1px var(--accent-cyan);
+}
+
+.phone-flag-prefix {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.625rem 0.75rem;
+  background-color: #1a1a1a;
+  border-right: 1px solid #374151;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  user-select: none;
+}
+
+.phone-text-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.625rem 0.875rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+/* Gating de Botones de Salida */
+.btn-gated-disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  filter: grayscale(0.8);
+}
+
+.btn-gated-active {
+  opacity: 1 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   Footer Oficial Marketing Amable v2.0 (Ultra-Compacto <80px en Desktop)
+   ========================================================================== */
+.site-footer {
+  background: #090d16;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.25rem 1rem 0.25rem 1rem;
+  margin-top: auto;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+}
+
+.footer-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-client-brand .client-name {
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.footer-client-brand .client-tagline {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.footer-legal-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legal-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.68rem;
+  transition: color 0.15s ease;
+}
+
+.legal-link:hover {
+  color: #ffffff;
+}
+
+.legal-sep {
+  color: #64748b;
+  font-size: 0.4rem;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.footer-copy p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.68rem;
+  line-height: 1.2;
+}
+
+.footer-signature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.designed-by {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.mkt-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 3px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.mkt-pill:hover {
+  border-color: rgba(216, 243, 220, 0.4);
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.mkt-gif {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.mkt-white {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+}
+
+.mkt-green {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: #d8f3dc;
+  letter-spacing: 0.03em;
+}
+
+.mkt-version {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9px;
+  color: #94a3b8;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Modo Impresión Oficial / Exportación PDF (@media print)
+   Garantiza fondo blanco nítido, sin fondos oscuros ni UI sobrante
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .no-print,
+  header,
+  .site-footer,
+  #mobile-bottom-bar,
+  #toast,
+  button:not(.print-allow) {
+    display: none !important;
+  }
+
+  #printModal {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .proposal-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    color: #111827 !important;
+    background: #ffffff !important;
+  }
+
+  .proposal-table th,
+  .proposal-table td {
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+
+  .proposal-sheet * {
+    color: #111827 !important;
+  }
+
+  .text-amber-800, .text-amber-600 {
+    color: #92400e !important;
+  }
+
+  .border-amber-600 {
+    border-color: #92400e !important;
+  }
+}
+
+/* ==========================================================================
+   PIE DE PÁGINA OFICIAL MARKETING AMABLE v2.0 (ULTRA-SLIM & TONOS DIFERENCIADOS)
+   ========================================================================== */
+
+/* Nivel 1: Footer del Cliente (Live Bands Music — Superficie Carbón #18181B, ~30px) */
+.client-footer {
+  background: #18181b !important;
+  color: #cbd5e1 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5) !important;
+  padding: 0.45rem 1rem !important;
+  margin-top: auto !important;
+  width: 100% !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.client-footer .footer-container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.client-footer .footer-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 26px;
+}
+
+.client-footer .client-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.client-footer .client-name {
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.client-footer .client-tagline {
+  font-size: 0.6875rem !important;
+  color: #94a3b8 !important;
+  margin: 0 !important;
+  line-height: 1.2;
+}
+
+.client-footer .footer-legal-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem !important;
+}
+
+.client-footer .legal-link {
+  color: #cbd5e1 !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease;
+}
+
+.client-footer .legal-link:hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+
+.client-footer .legal-sep {
+  color: #64748b !important;
+  font-size: 0.45rem !important;
+}
+
+/* Nivel 2: Subfooter Oficial Marketing Amable (Barra Negro Profundo #060606, ~24px) */
+.mkt-subfooter {
+  background: #060606 !important;
+  color: #cbd5e1 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 0.3rem 1rem !important;
+  width: 100% !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.mkt-subfooter .subfooter-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 24px;
+}
+
+.mkt-subfooter .subfooter-copy p {
+  color: #cbd5e1 !important;
+  margin: 0 !important;
+  font-size: 0.6875rem !important;
+  line-height: 1.2;
+}
+
+.mkt-subfooter .subfooter-signature {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mkt-subfooter .designed-by {
+  color: #94a3b8 !important;
+  font-size: 0.65rem !important;
+}
+
+.mkt-subfooter .mkt-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 800;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.mkt-subfooter .mkt-gif {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.mkt-subfooter .mkt-white {
+  color: #ffffff;
+}
+
+.mkt-subfooter .mkt-green {
+  color: #d8f3dc;
+}
+
+.mkt-subfooter .mkt-version {
+  font-family: monospace;
+  font-size: 8.5px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard de Telemetría Comercial — Live Bands Music</title>
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lexend:wght@800&display=swap" rel="stylesheet">
+
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: #0d0d0d; color: #ffffff; min-height: 100vh; }
+    .glass-panel { background: rgba(18, 18, 18, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); }
+  </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
+
+  <!-- CABECERA -->
+  <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-800 pb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+          <span>Telemetría & Radiografía de Descuentos</span>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-bold">Supabase Live</span>
+        </h1>
+        <p class="text-xs text-gray-400">Control de cotizaciones, pruebas y motivos de descuento de Santiago Cholbi y Juan Pablo (Dirección)</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2.5">
+      <button onclick="fetchQuotesData()" class="px-3.5 py-2 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-700 text-xs font-bold flex items-center gap-2 transition cursor-pointer">
+        <i data-lucide="refresh-cw" class="w-4 h-4 text-emerald-400"></i>
+        <span>Actualizar Datos</span>
+      </button>
+      <button onclick="exportToCSV()" class="px-3.5 py-2 rounded-xl bg-slate-200 hover:bg-white text-black text-xs font-bold flex items-center gap-2 transition cursor-pointer">
+        <i data-lucide="download" class="w-4 h-4"></i>
+        <span>Exportar CSV</span>
+      </button>
+      <a href="./index.html" class="px-3.5 py-2 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-700 text-xs text-gray-300 hover:text-white flex items-center gap-1.5 transition">
+        <span>Abrir Simulador</span>
+        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- KPI CARDS -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="glass-panel p-5 rounded-2xl space-y-1">
+      <span class="text-xs text-gray-400 font-medium">Total Cotizaciones</span>
+      <div id="kpi-total-quotes" class="text-2xl font-black text-white font-mono">—</div>
+      <span class="text-[11px] text-emerald-400">Registros en Supabase</span>
+    </div>
+
+    <div class="glass-panel p-5 rounded-2xl space-y-1 border border-amber-500/20">
+      <span class="text-xs text-amber-300 font-medium">Descuento Promedio Aplicado</span>
+      <div id="kpi-avg-discount" class="text-2xl font-black text-amber-400 font-mono">—</div>
+      <span class="text-[11px] text-gray-400">Sobre cotizaciones con rebaja</span>
+    </div>
+
+    <div class="glass-panel p-5 rounded-2xl space-y-1">
+      <span class="text-xs text-gray-400 font-medium">Ahorro Total Acumulado</span>
+      <div id="kpi-total-savings" class="text-2xl font-black text-emerald-400 font-mono">—</div>
+      <span class="text-[11px] text-gray-400">Sinergias + Bonificaciones</span>
+    </div>
+
+    <div class="glass-panel p-5 rounded-2xl space-y-1">
+      <span class="text-xs text-gray-400 font-medium">Importe Medio Cotizado</span>
+      <div id="kpi-avg-total" class="text-2xl font-black text-slate-100 font-mono">—</div>
+      <span class="text-[11px] text-gray-400">Con IVA incluido</span>
+    </div>
+  </div>
+
+  <!-- BUSCADOR Y FILTROS -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+      <div class="relative w-full sm:w-80">
+        <i data-lucide="search" class="w-4 h-4 text-gray-500 absolute left-3.5 top-3"></i>
+        <input type="text" id="input-search" oninput="filterTable()" placeholder="Buscar por título, motivo, localidad, cliente..." class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500" />
+      </div>
+      <div class="inline-flex rounded-xl p-0.5 bg-gray-900 border border-gray-800 text-xs">
+        <button id="filter-op-all" onclick="setOperatorFilter('all')" class="px-2.5 py-1 rounded-lg font-bold transition bg-slate-200 text-black cursor-pointer">Todos</button>
+        <button id="filter-op-santiago" onclick="setOperatorFilter('santiago')" class="px-2.5 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer">Santiago</button>
+        <button id="filter-op-juanpablo" onclick="setOperatorFilter('juanpablo')" class="px-2.5 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer">Juan Pablo</button>
+      </div>
+    </div>
+    <div id="records-count" class="text-xs text-gray-400 font-mono shrink-0">Cargando registros...</div>
+  </div>
+
+  <!-- TABLA DE COTIZACIONES -->
+  <div class="glass-panel rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-gray-900/90 text-[10px] uppercase text-gray-400 border-b border-gray-800 tracking-wider">
+          <tr>
+            <th class="p-3.5">Fecha / Hora</th>
+            <th class="p-3.5">Operador</th>
+            <th class="p-3.5">Evento & Localización</th>
+            <th class="p-3.5 text-right">Catálogo</th>
+            <th class="p-3.5 text-right">Sinergias</th>
+            <th class="p-3.5 text-right text-amber-400">Descuento Manual</th>
+            <th class="p-3.5">Motivo del Descuento</th>
+            <th class="p-3.5 text-right text-white">Total Final</th>
+            <th class="p-3.5 text-center">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="quotes-tbody" class="divide-y divide-gray-800/60 font-sans">
+          <tr>
+            <td colspan="9" class="p-8 text-center text-gray-500">Conectando con Supabase...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="flex items-center justify-between text-[11px] text-gray-500 border-t border-gray-800 pt-4">
+    <span>Live Bands Music &bull; Panel Privado de Dirección</span>
+    <span class="font-mono text-gray-400">v.16</span>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://srocgiknbgkyngmlqniy.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyb2NnaWtuYmdreW5nbWxxbml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyNTA2ODgsImV4cCI6MjEwMDgyNjY4OH0.mXIvtwclJAreQZ89VQL-s9yMuxKED8Cc_1Gr9BTtzOg";
+
+    let rawQuotes = [];
+    let currentOperatorFilter = 'all';
+
+    async function fetchQuotesData() {
+      const tbody = document.getElementById('quotes-tbody');
+      tbody.innerHTML = '<tr><td colspan="9" class="p-8 text-center text-gray-400"><i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto mb-2"></i>Cargando cotizaciones desde Supabase...</td></tr>';
+      if (window.lucide) window.lucide.createIcons();
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/lbm_quote_logs?select=*&order=created_at.desc&limit=100`, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          }
+        });
+        rawQuotes = await res.json();
+        renderKPIs(rawQuotes);
+        filterTable();
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="9" class="p-8 text-center text-rose-400">Error conectando con la base de datos de Supabase.</td></tr>';
+        console.error(e);
+      }
+    }
+
+    function renderKPIs(quotes) {
+      if (!quotes || !quotes.length) {
+        document.getElementById('kpi-total-quotes').innerText = '0';
+        document.getElementById('kpi-avg-discount').innerText = '0 €';
+        document.getElementById('kpi-total-savings').innerText = '0 €';
+        document.getElementById('kpi-avg-total').innerText = '0 €';
+        return;
+      }
+
+      document.getElementById('kpi-total-quotes').innerText = quotes.length;
+      
+      const customDiscounts = quotes.filter(q => Number(q.santiago_discount_value) > 0);
+      const avgDiscount = customDiscounts.length 
+        ? (customDiscounts.reduce((acc, q) => acc + Number(q.santiago_discount_value), 0) / customDiscounts.length).toFixed(0)
+        : 0;
+      document.getElementById('kpi-avg-discount').innerText = `${avgDiscount} €`;
+
+      const totalSavings = quotes.reduce((acc, q) => acc + (Number(q.total_savings) || 0), 0);
+      document.getElementById('kpi-total-savings').innerText = `${totalSavings.toLocaleString('es-ES')} €`;
+
+      const avgTotal = (quotes.reduce((acc, q) => acc + (Number(q.grand_total) || 0), 0) / quotes.length).toFixed(0);
+      document.getElementById('kpi-avg-total').innerText = `${Number(avgTotal).toLocaleString('es-ES')} €`;
+    }
+
+    function renderTable(quotes) {
+      const tbody = document.getElementById('quotes-tbody');
+      document.getElementById('records-count').innerText = `${quotes.length} cotizaciones registradas`;
+
+      if (!quotes.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="p-8 text-center text-gray-500">No hay presupuestos para este filtro.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = quotes.map(q => {
+        const dateStr = q.created_at ? new Date(q.created_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—';
+        const discVal = Number(q.santiago_discount_value) || 0;
+        const discType = q.santiago_discount_type === 'percent' ? '%' : '€';
+        const hasDisc = discVal > 0;
+        const op = (q.source_role || '').toLowerCase();
+        
+        let opBadge = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">👤 Santiago</span>';
+        if (op.includes('juan') || op.includes('jpv')) {
+          opBadge = '<span class="px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[10px] font-bold">👤 Juan Pablo</span>';
+        } else if (op.includes('hugo') || op.includes('direcci')) {
+          opBadge = '<span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 text-[10px] font-bold">👑 Dirección</span>';
+        }
+
+        return `
+          <tr class="hover:bg-gray-900/60 transition">
+            <td class="p-3.5 font-mono text-gray-400 whitespace-nowrap">${dateStr}</td>
+            <td class="p-3.5 whitespace-nowrap">${opBadge}</td>
+            <td class="p-3.5">
+              <div class="font-bold text-white text-xs">${q.event_title || 'Sin Título'}</div>
+              <div class="text-[11px] text-gray-400">${q.event_location || 'Girona'} • ${q.guests_pax ? q.guests_pax + ' PAX' : 'PAX s/d'}</div>
+            </td>
+            <td class="p-3.5 text-right font-mono text-gray-400">${Number(q.gross_total || 0).toLocaleString('es-ES')} €</td>
+            <td class="p-3.5 text-right font-mono text-emerald-400">-${Number(q.total_savings || 0).toLocaleString('es-ES')} €</td>
+            <td class="p-3.5 text-right font-mono font-bold ${hasDisc ? 'text-amber-400 bg-amber-500/10 rounded-lg' : 'text-gray-500'}">
+              ${hasDisc ? '-' + discVal + ' ' + discType : '—'}
+            </td>
+            <td class="p-3.5 text-[11px]">
+              ${q.santiago_discount_reason ? `<span class="px-2 py-0.5 rounded bg-amber-950/40 text-amber-300 border border-amber-500/30 font-medium">"${q.santiago_discount_reason}"</span>` : '<span class="text-gray-600">—</span>'}
+            </td>
+            <td class="p-3.5 text-right font-mono font-black text-slate-100 text-sm">${Number(q.grand_total || 0).toLocaleString('es-ES')} €</td>
+            <td class="p-3.5 text-center">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-gray-800 text-gray-300">${q.action_type || 'quote'}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function setOperatorFilter(filter) {
+      currentOperatorFilter = filter;
+      const btnAll = document.getElementById('filter-op-all');
+      const btnStg = document.getElementById('filter-op-santiago');
+      const btnJp = document.getElementById('filter-op-juanpablo');
+
+      const activeClass = "px-2.5 py-1 rounded-lg font-bold transition bg-slate-200 text-black cursor-pointer";
+      const inactiveClass = "px-2.5 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer";
+
+      if (btnAll) btnAll.className = filter === 'all' ? activeClass : inactiveClass;
+      if (btnStg) btnStg.className = filter === 'santiago' ? activeClass : inactiveClass;
+      if (btnJp) btnJp.className = filter === 'juanpablo' ? activeClass : inactiveClass;
+
+      filterTable();
+    }
+
+    function filterTable() {
+      const q = (document.getElementById('input-search')?.value || '').toLowerCase().trim();
+      let filtered = rawQuotes;
+
+      if (currentOperatorFilter === 'santiago') {
+        filtered = filtered.filter(item => {
+          const op = (item.source_role || '').toLowerCase();
+          return !op.includes('juan') && !op.includes('jpv');
+        });
+      } else if (currentOperatorFilter === 'juanpablo') {
+        filtered = filtered.filter(item => {
+          const op = (item.source_role || '').toLowerCase();
+          return op.includes('juan') || op.includes('jpv');
+        });
+      }
+
+      if (q) {
+        filtered = filtered.filter(item => {
+          return (item.event_title && item.event_title.toLowerCase().includes(q)) ||
+                 (item.santiago_discount_reason && item.santiago_discount_reason.toLowerCase().includes(q)) ||
+                 (item.event_location && item.event_location.toLowerCase().includes(q)) ||
+                 (item.source_role && item.source_role.toLowerCase().includes(q)) ||
+                 (item.customer_name && item.customer_name.toLowerCase().includes(q));
+        });
+      }
+
+      renderTable(filtered);
+    }
+
+    function exportToCSV() {
+      if (!rawQuotes.length) return;
+      const headers = ["ID", "Fecha", "Operador", "Titulo", "Tipo", "Lugar", "PAX", "Catálogo_Bruto", "Sinergias", "Descuento_Manual", "Motivo_Descuento", "Base_Imponible", "Total_IVA", "Accion"];
+      const rows = rawQuotes.map(q => [
+        q.id,
+        q.created_at,
+        `"${(q.source_role || 'Santiago Cholbi').replace(/"/g, '""')}"`,
+        `"${(q.event_title || '').replace(/"/g, '""')}"`,
+        q.event_type,
+        `"${(q.event_location || '').replace(/"/g, '""')}"`,
+        q.guests_pax || '',
+        q.gross_total || 0,
+        q.total_savings || 0,
+        q.santiago_discount_value || 0,
+        `"${(q.santiago_discount_reason || '').replace(/"/g, '""')}"`,
+        q.net_subtotal || 0,
+        q.grand_total || 0,
+        q.action_type
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `lbm_descuentos_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchQuotesData);
+  </script>
+</body>
+</html>

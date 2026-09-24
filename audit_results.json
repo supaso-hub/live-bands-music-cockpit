@@ -1,0 +1,160 @@
+{
+  "puerta0": {
+    "onlineVer": "v.24",
+    "localPortalVer": "v.24",
+    "localHostingerVer": "v.24",
+    "pass": true
+  },
+  "puerta1": {
+    "blocks": {
+      "block1": true,
+      "block2": true,
+      "block3": true
+    },
+    "links": [
+      {
+        "name": "Escaparate de Novios",
+        "rel": "./escaparate.html",
+        "url": "https://live-bands-music-cockpit-v002.vercel.app/escaparate.html",
+        "status": 200,
+        "contentLength": 42646,
+        "ok": true
+      },
+      {
+        "name": "Mostrador de Presupuestos",
+        "rel": "./simulador.html",
+        "url": "https://live-bands-music-cockpit-v002.vercel.app/simulador.html",
+        "status": 200,
+        "contentLength": 134149,
+        "ok": true
+      },
+      {
+        "name": "Definiciones del Sistema",
+        "rel": "./alineacion.html",
+        "url": "https://live-bands-music-cockpit-v002.vercel.app/alineacion.html",
+        "status": 200,
+        "contentLength": 91524,
+        "ok": true
+      },
+      {
+        "name": "Prueba de Conexión",
+        "rel": "./test-lead-bridge.html",
+        "url": "https://live-bands-music-cockpit-v002.vercel.app/test-lead-bridge.html",
+        "status": 200,
+        "contentLength": 18910,
+        "ok": true
+      },
+      {
+        "name": "Comparativa con el Sistema Anterior",
+        "rel": "./demo.html",
+        "url": "https://live-bands-music-cockpit-v002.vercel.app/demo.html",
+        "status": 200,
+        "contentLength": 29342,
+        "ok": true
+      }
+    ],
+    "pass": true
+  },
+  "puerta2": {
+    "forbiddenFoundOnline": [],
+    "forbiddenFoundLocal": [],
+    "domainTermsPresent": [
+      {
+        "term": "Santiago",
+        "found": true
+      },
+      {
+        "term": "bodas",
+        "found": true
+      },
+      {
+        "term": "novios",
+        "found": true
+      },
+      {
+        "term": "presupuestos",
+        "found": true
+      },
+      {
+        "term": "fincas",
+        "found": false
+      },
+      {
+        "term": "músicos",
+        "found": false
+      },
+      {
+        "term": "WhatsApp",
+        "found": true
+      }
+    ],
+    "pass": true
+  },
+  "puerta3": {
+    "images": [
+      {
+        "src": "./assets/img/lbm-logo-official.png",
+        "resolvedUrl": "https://live-bands-music-cockpit-v002.vercel.app/assets/img/lbm-logo-official.png",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 13088,
+        "ok": true
+      },
+      {
+        "src": "./assets/images/002.gif",
+        "resolvedUrl": "https://live-bands-music-cockpit-v002.vercel.app/assets/images/002.gif",
+        "status": 200,
+        "contentType": "image/gif",
+        "bytes": 497641,
+        "ok": true
+      },
+      {
+        "src": "./assets/images/002.gif",
+        "resolvedUrl": "https://live-bands-music-cockpit-v002.vercel.app/assets/images/002.gif",
+        "status": 200,
+        "contentType": "image/gif",
+        "bytes": 497641,
+        "ok": true
+      }
+    ],
+    "pass": true
+  },
+  "puerta4": {
+    "contrastResults": [
+      {
+        "label": "Secundario / Copyright (#CBD5E1)",
+        "hex": "#CBD5E1",
+        "ratio": "13.41:1",
+        "passesAA": true
+      },
+      {
+        "label": "MARKETING (#FFFFFF)",
+        "hex": "#FFFFFF",
+        "ratio": "19.91:1",
+        "passesAA": true
+      },
+      {
+        "label": "AMABLE (#D8F3DC)",
+        "hex": "#D8F3DC",
+        "ratio": "16.85:1",
+        "passesAA": true
+      },
+      {
+        "label": "Versión v.24 (#CBD5E1)",
+        "hex": "#CBD5E1",
+        "ratio": "13.41:1",
+        "passesAA": true
+      }
+    ],
+    "pass": true
+  },
+  "puerta5": {
+    "localPortalPath": "D:\\2026-live-bands-music-cockpit-v002-2026-09-21\\portal.html",
+    "localHostingerPath": "D:\\2026-live-bands-music-cockpit-v002-2026-09-21\\SUBIR_A_HOSTINGER_LBM\\index.html",
+    "portalHash": "429ab6e902e9a40c07fe39c0a3688e7848fd86ba3a87ab910e63c6bddb588cf1",
+    "hostingerHash": "429ab6e902e9a40c07fe39c0a3688e7848fd86ba3a87ab910e63c6bddb588cf1",
+    "identical": true,
+    "diffSnippet": null,
+    "pass": true
+  }
+}

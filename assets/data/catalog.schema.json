@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CatalogoLiveBandsMusic2027",
+  "description": "Esquema formal de validación del catálogo canónico de Live Bands Music (LBM) para 2027",
+  "type": "object",
+  "required": [
+    "version_catalogo",
+    "updated_at",
+    "momentos_live",
+    "estilos",
+    "matriz_compatibilidad_live",
+    "bandas",
+    "formaciones_base",
+    "sistemas_sonido",
+    "sistemas_iluminacion",
+    "tech_packs",
+    "servicios_complementarios"
+  ],
+  "properties": {
+    "version_catalogo": { "type": "string", "pattern": "^\\d{4}\\.\\d+\\.\\d+$" },
+    "updated_at": { "type": "string", "format": "date" },
+    "momentos_live": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nombre", "descripcion"],
+        "properties": {
+          "id": { "type": "string", "enum": ["ceremonia", "aperitivo", "fiesta_pre_dj"] },
+          "nombre": { "type": "string" },
+          "descripcion": { "type": "string" }
+        }
+      }
+    },
+    "estilos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nombre"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "clasica",
+              "gospel",
+              "pop_jazz_soul_bossa",
+              "disco_funk_rock",
+              "latin_boleros",
+              "rumba_flamenco"
+            ]
+          },
+          "nombre": { "type": "string" }
+        }
+      }
+    },
+    "matriz_compatibilidad_live": {
+      "type": "object",
+      "required": ["ceremonia", "aperitivo", "fiesta_pre_dj"],
+      "properties": {
+        "ceremonia": { "type": "object" },
+        "aperitivo": { "type": "object" },
+        "fiesta_pre_dj": { "type": "object" }
+      }
+    },
+    "bandas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "nombre",
+          "genero",
+          "estilos_ids",
+          "momentos_compatibles",
+          "foto",
+          "tagline",
+          "descripcion",
+          "web",
+          "formaciones"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "nombre": { "type": "string" },
+          "genero": { "type": "string" },
+          "estilos_ids": { "type": "array", "items": { "type": "string" } },
+          "momentos_compatibles": { "type": "array", "items": { "type": "string" } },
+          "foto": { "type": "string" },
+          "tagline": { "type": "string" },
+          "descripcion": { "type": "string" },
+          "web": { "type": "string", "format": "uri" },
+          "formaciones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "nombre",
+                "cache_base_eur",
+                "musicos_cantidad",
+                "musicos_roles",
+                "rider_sonido_minimo_id",
+                "toma_electrica"
+              ],
+              "properties": {
+                "id": { "type": "string" },
+                "nombre": { "type": "string" },
+                "cache_base_eur": { "type": "number", "minimum": 0 },
+                "musicos_cantidad": { "type": "integer", "minimum": 1 },
+                "musicos_roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["rol", "cache_individual_eur"],
+                    "properties": {
+                      "rol": { "type": "string" },
+                      "cache_individual_eur": { "type": "number", "minimum": 0 }
+                    }
+                  }
+                },
+                "rider_sonido_minimo_id": { "type": "string", "enum": ["none", "basic", "complete"] },
+                "toma_electrica": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "formaciones_base": { "type": "array" },
+    "sistemas_sonido": { "type": "array" },
+    "sistemas_iluminacion": { "type": "array" },
+    "tech_packs": { "type": "array" },
+    "servicios_complementarios": { "type": "object" }
+  }
+}

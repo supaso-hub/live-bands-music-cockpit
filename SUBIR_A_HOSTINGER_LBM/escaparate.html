@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Bands Music — El Escaparate de Música para Bodas en Cataluña</title>
+  <meta name="description" content="Configura la música en vivo para tu boda en la Costa Brava, Empordà y Barcelona. Proyectos musicales propios para ceremonia, aperitivo y fiesta." />
+  <link rel="icon" type="image/png" href="./assets/img/LBM-logo.png" />
+  <link rel="shortcut icon" href="./favicon.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans, Playfair Display & Lexend -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Lexend:wght@800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            'serif-title': ['"Playfair Display"', 'Georgia', 'serif'],
+            lexend: ['"Lexend"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-dark: #090909;
+      --card-dark: #121212;
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --accent-gold: #f59e0b;
+      --accent-emerald: #10b981;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .glass-card {
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Estilos Canónicos del Footer Oficial v2.0 */
+    .client-footer {
+      background: #121212;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+      padding: 0.65rem 1rem;
+      margin-top: auto;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+    @media (min-width: 640px) {
+      .footer-main {
+        flex-direction: row;
+      }
+    }
+    .client-brand {
+      text-align: center;
+    }
+    @media (min-width: 640px) {
+      .client-brand {
+        text-align: left;
+      }
+    }
+    .client-name {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+    .client-tagline {
+      font-size: 0.72rem;
+      color: #cbd5e1;
+    }
+    .footer-legal-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+    }
+    .legal-link {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .legal-link:hover {
+      color: #ffffff;
+    }
+    .legal-sep {
+      color: #94a3b8;
+      font-size: 0.55rem;
+    }
+
+    /* Nivel 2: Subfooter Marketing Amable */
+    .mkt-subfooter {
+      background: #090909;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.45rem 1rem;
+    }
+    .subfooter-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.35rem;
+    }
+    @media (min-width: 640px) {
+      .subfooter-container {
+        flex-direction: row;
+      }
+    }
+    .subfooter-copy p {
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      margin: 0;
+    }
+    .subfooter-signature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .designed-by {
+      font-size: 0.72rem;
+      color: #cbd5e1;
+    }
+    .mkt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 3px 10px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .mkt-pill:hover {
+      opacity: 0.9;
+    }
+    .mkt-gif {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .mkt-white {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: #ffffff;
+    }
+    .mkt-green {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: #d8f3dc;
+    }
+    .mkt-version {
+      font-family: monospace;
+      font-size: 9px;
+      color: #cbd5e1;
+      padding-left: 2px;
+    }
+  </style>
+</head>
+<body class="selection:bg-amber-500 selection:text-black">
+
+  <!-- ========================================================================
+       CABECERA PRINCIPAL
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 border-b border-stone-800/80 bg-stone-950/90 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <img src="./assets/img/lbm-logo-official.png" alt="Live Bands Music" class="h-9 sm:h-11 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]" />
+        <div>
+          <span class="text-sm sm:text-base font-extrabold text-white tracking-wide block">Live Bands Music</span>
+          <span class="text-[10px] sm:text-xs text-amber-300 font-medium block">Peralada &bull; Girona &bull; Costa Brava</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://api.whatsapp.com/send?phone=34627370334&text=Hola%20Santiago%2C%20quer%C3%ADa%20hacerte%20una%20consulta%20sobre%20m%C3%BAsica%20para%20mi%20boda." target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20 text-xs font-bold transition">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">WhatsApp directo:</span>
+          <span>+34 627 37 03 34</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO NUPCIAL
+       ======================================================================== -->
+  <section class="border-b border-stone-800/60 bg-gradient-to-b from-stone-950 via-stone-900/40 to-stone-950 py-8 sm:py-12 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto text-center space-y-3">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+        <span>✨ Experiencia Guiada de 3 Minutos</span>
+        <span>•</span>
+        <span>Temporada 2027</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white font-serif-title leading-tight">
+        La banda sonora viva para su boda en Cataluña
+      </h1>
+      <p class="text-xs sm:text-sm text-stone-300 max-w-2xl mx-auto leading-relaxed">
+        Elegí la música para su ceremonia, aperitivo y fiesta con los proyectos propios de Santiago Cholbi. Podés cotizar por temporada o con fecha cerrada, y recibir la confirmación directa por WhatsApp.
+      </p>
+
+      <!-- Stepper Visual de 3 Pasos -->
+      <div class="pt-6 max-w-xl mx-auto">
+        <div class="flex items-center justify-between gap-2">
+          <button type="button" onclick="window.escaparate.setStep(1)" id="step-indicator-1"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm transition">
+            <span class="w-4 h-4 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center text-[10px] font-black">1</span>
+            <span>Tu Boda</span>
+          </button>
+          <div class="h-0.5 flex-1 bg-stone-800"></div>
+          <button type="button" onclick="window.escaparate.setStep(2)" id="step-indicator-2"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium text-stone-500 border border-stone-800 transition">
+            <span class="w-4 h-4 rounded-full bg-stone-800 text-stone-400 flex items-center justify-center text-[10px] font-bold">2</span>
+            <span>Música en Vivo</span>
+          </button>
+          <div class="h-0.5 flex-1 bg-stone-800"></div>
+          <button type="button" onclick="window.escaparate.setStep(3)" id="step-indicator-3"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium text-stone-500 border border-stone-800 transition">
+            <span class="w-4 h-4 rounded-full bg-stone-800 text-stone-400 flex items-center justify-center text-[10px] font-bold">3</span>
+            <span>Anteproyecto</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CONTENIDO PRINCIPAL INTERACTIVO
+       ======================================================================== -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
+
+    <!-- ESTADO DE CARGA -->
+    <div id="catalog-loading" class="py-20 text-center space-y-4">
+      <div class="w-10 h-10 border-4 border-amber-500/30 border-t-amber-400 rounded-full animate-spin mx-auto"></div>
+      <p class="text-xs text-stone-400 font-mono tracking-wider">Cargando catálogo oficial de Live Bands Music...</p>
+    </div>
+
+    <!-- PANTALLA DE DEGRADACIÓN ELEGANTE ANTE FALLO DE RED -->
+    <div id="network-fallback" class="hidden py-16 text-center max-w-lg mx-auto p-8 rounded-3xl border border-stone-800 bg-stone-950/80 shadow-2xl space-y-4">
+      <div class="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
+        <i data-lucide="music-2" class="w-6 h-6"></i>
+      </div>
+      <h2 class="text-xl font-bold text-white font-serif-title">Catálogo en sincronización</h2>
+      <p class="text-xs text-stone-300 leading-relaxed">
+        Estamos actualizando las fechas y disponibilidad de bandas para la temporada 2027. Podés consultar directamente con Santiago por WhatsApp para conocer la disponibilidad de tu fecha.
+      </p>
+      <div class="pt-2">
+        <a href="https://api.whatsapp.com/send?phone=34627370334&text=Hola%20Santiago%2C%20quisiera%20consultar%20disponibilidad%20musical%20para%20mi%20boda." target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-950/60 hover:from-emerald-500 hover:to-teal-400 transition">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Consultar fecha por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR ACTIVO DEL ESCAPARATE -->
+    <div id="catalog-content" class="hidden space-y-8">
+
+      <!-- ====================================================================
+           PASO 1: DETALLES DE LA BODA (Pareja, Fecha Flexible/Exacta, Finca, PAX >200, Notas)
+           ==================================================================== -->
+      <section id="step-section-1" class="space-y-6">
+        <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+          <div class="border-b border-stone-800/80 pb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">Paso 1 de 3</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-stone-100 font-serif-title">Los detalles de su día</h2>
+            <p class="text-xs text-stone-400 mt-1">
+              Indicá dónde y cuándo será la celebración para verificar la logística y recomendarte las formaciones acústicas ideales.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <!-- Nombres de la pareja -->
+            <div class="space-y-1.5 sm:col-span-2">
+              <label for="input-pareja" class="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                Nombres de la pareja
+              </label>
+              <div class="relative">
+                <i data-lucide="heart" class="w-4 h-4 text-stone-500 absolute left-3 top-3"></i>
+                <input type="text" id="input-pareja" placeholder="Ej. Marta & Jordi"
+                  class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl py-2.5 pl-10 pr-3 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition" />
+              </div>
+            </div>
+
+            <!-- Selector de Fecha Flexible vs Exacta (Pedido de Santiago) -->
+            <div class="sm:col-span-2 p-4 rounded-xl bg-stone-900/50 border border-stone-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-amber-400">
+                  Fecha o Temporada de la Boda
+                </label>
+                <div class="inline-flex rounded-lg p-0.5 bg-stone-950 border border-stone-800 text-xs">
+                  <button type="button" id="btn-date-flexible" onclick="window.escaparate.setDateMode('flexible')"
+                    class="px-3 py-1 rounded-md font-bold text-xs bg-amber-500 text-stone-950 transition">
+                    🗓️ Fecha Aproximada / Temporada
+                  </button>
+                  <button type="button" id="btn-date-exact" onclick="window.escaparate.setDateMode('exact')"
+                    class="px-3 py-1 rounded-md font-medium text-xs text-stone-400 hover:text-white transition">
+                    📅 Día Exacto
+                  </button>
+                </div>
+              </div>
+
+              <!-- Contenedor Fecha Flexible / Temporadas -->
+              <div id="container-date-flexible" class="space-y-1.5">
+                <select id="select-event-season"
+                  class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400 transition">
+                  <option value="Verano 2027 (Junio - Septiembre)">Verano 2027 (Junio - Septiembre) — Temporada Principal</option>
+                  <option value="Primavera 2027 (Abril - Mayo)">Primavera 2027 (Abril - Mayo)</option>
+                  <option value="Septiembre 2027">Septiembre 2027</option>
+                  <option value="Otoño 2027 (Octubre - Noviembre)">Otoño 2027 (Octubre - Noviembre)</option>
+                  <option value="Temporada 2027 (A convenir)">Temporada 2027 (Fecha por definir)</option>
+                </select>
+                <span class="text-[11px] text-emerald-400 block font-medium">
+                  ✓ Podés cotizar sin tener el día cerrado con la finca. Bloqueamos 24h de asesoramiento sin compromiso.
+                </span>
+              </div>
+
+              <!-- Contenedor Fecha Exacta -->
+              <div id="container-date-exact" class="hidden space-y-1.5">
+                <div class="relative">
+                  <i data-lucide="calendar" class="w-4 h-4 text-stone-500 absolute left-3 top-3"></i>
+                  <input type="date" id="input-fecha"
+                    class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl py-2.5 pl-10 pr-3 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition" />
+                </div>
+                <span class="text-[11px] text-stone-400 block">Antelación mínima recomendada: 48 horas.</span>
+              </div>
+            </div>
+
+            <!-- Finca o Población con Chips de Girona -->
+            <div class="sm:col-span-2 space-y-2">
+              <label for="input-finca" class="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                Finca, hotel o población del evento
+              </label>
+              <div class="relative">
+                <i data-lucide="map-pin" class="w-4 h-4 text-stone-500 absolute left-3 top-3"></i>
+                <input type="text" id="input-finca" list="fincas-datalist" placeholder="Ej. Castell d'Empordà, Peralada, Begur, Mas Solers..."
+                  class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl py-2.5 pl-10 pr-3 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition" />
+                <datalist id="fincas-datalist"></datalist>
+              </div>
+
+              <!-- Chips Rápidos de Poblaciones en Girona -->
+              <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                <span class="text-[11px] text-stone-400 font-medium mr-1">Común:</span>
+                <button type="button" onclick="window.escaparate.setLocationQuick('Peralada')" class="text-[11px] px-2.5 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition">Peralada</button>
+                <button type="button" onclick="window.escaparate.setLocationQuick('Castell d\'Empordà')" class="text-[11px] px-2.5 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition">Castell d'Empordà</button>
+                <button type="button" onclick="window.escaparate.setLocationQuick('Begur')" class="text-[11px] px-2.5 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition">Begur</button>
+                <button type="button" onclick="window.escaparate.setLocationQuick('Cadaqués')" class="text-[11px] px-2.5 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition">Cadaqués</button>
+                <button type="button" onclick="window.escaparate.setLocationQuick('Girona Capital')" class="text-[11px] px-2.5 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 transition">Girona Capital</button>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 shrink-0 text-emerald-400"></i>
+                <span><strong>Desplazamiento 100% incluido (0 €)</strong> en toda la provincia de Girona (Costa Brava y Empordà). Para eventos en Barcelona u otras provincias se cotiza kilometraje.</span>
+              </div>
+            </div>
+
+            <!-- Rango de Invitados (PAX con opción >200 personas) -->
+            <div class="sm:col-span-2 space-y-2 pt-2">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-amber-400">
+                ¿Cuántos invitados acompañarán la celebración aproximadamente? (Aforo acústico)
+              </label>
+              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <button type="button" data-rango="menos_50" onclick="window.escaparate.setPax('menos_50', '< 50 invitados')"
+                  class="pax-option-btn py-2.5 px-2 rounded-xl border text-xs font-medium transition flex flex-col items-center justify-center gap-1 border-stone-800 bg-stone-900/60 text-stone-300 hover:border-stone-700 hover:bg-stone-800/40">
+                  <span class="font-bold text-sm">&lt; 50</span>
+                  <span class="text-[10px] text-stone-400">Íntimo</span>
+                </button>
+
+                <button type="button" data-rango="50_100" onclick="window.escaparate.setPax('50_100', '50 – 100 invitados')"
+                  class="pax-option-btn py-2.5 px-2 rounded-xl border text-xs font-medium transition flex flex-col items-center justify-center gap-1 border-stone-800 bg-stone-900/60 text-stone-300 hover:border-stone-700 hover:bg-stone-800/40">
+                  <span class="font-bold text-sm">50 – 100</span>
+                  <span class="text-[10px] text-stone-400">Estándar</span>
+                </button>
+
+                <button type="button" data-rango="100_160" onclick="window.escaparate.setPax('100_160', '100 – 160 invitados')"
+                  class="pax-option-btn py-2.5 px-2 rounded-xl border text-xs font-bold transition flex flex-col items-center justify-center gap-1 border-amber-500 bg-amber-500/15 text-amber-200 shadow-sm">
+                  <span class="font-bold text-sm">100 – 160</span>
+                  <span class="text-[10px] text-amber-300/80">Mediano</span>
+                </button>
+
+                <button type="button" data-rango="160_200" onclick="window.escaparate.setPax('160_200', '160 – 200 invitados')"
+                  class="pax-option-btn py-2.5 px-2 rounded-xl border text-xs font-medium transition flex flex-col items-center justify-center gap-1 border-stone-800 bg-stone-900/60 text-stone-300 hover:border-stone-700 hover:bg-stone-800/40">
+                  <span class="font-bold text-sm">160 – 200</span>
+                  <span class="text-[10px] text-stone-400">Grande</span>
+                </button>
+
+                <button type="button" data-rango="mas_200" onclick="window.escaparate.setPax('mas_200', 'Más de 200 invitados (>200 PAX)')"
+                  class="pax-option-btn py-2.5 px-2 rounded-xl border text-xs font-medium transition flex flex-col items-center justify-center gap-1 border-stone-800 bg-stone-900/60 text-stone-300 hover:border-stone-700 hover:bg-stone-800/40 col-span-2 sm:col-span-1">
+                  <span class="font-bold text-sm">&gt; 200</span>
+                  <span class="text-[10px] text-stone-400">Macro evento</span>
+                </button>
+              </div>
+
+              <!-- Aviso Acústico para >200 PAX (Regla oficial LBM) -->
+              <div id="pax-acoustics-warning" class="hidden p-3.5 rounded-xl bg-purple-950/30 border border-purple-500/30 text-xs text-purple-200 leading-relaxed">
+                <div class="flex items-start gap-2">
+                  <i data-lucide="volume-2" class="w-4 h-4 text-purple-400 shrink-0 mt-0.5"></i>
+                  <p>
+                    <strong>Regla Acústica LBM (>200 PAX):</strong> Al superar los 200 invitados es indispensable incorporar <em>Sonorización Completa (900 €)</em> con refuerzo de subwoofers y microfonía auxiliar para garantizar presión sonora uniforme en exteriores o carpas amplias.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campo Opcional de Notas / Espacio -->
+            <div class="sm:col-span-2 space-y-1.5 pt-2">
+              <label for="input-notas" class="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                Notas sobre su boda o finca (opcional)
+              </label>
+              <textarea id="input-notas" rows="2" placeholder="Ej. Ceremonia en jardín de olivos, aperitivo en piscina, plan de lluvia en sala de piedra..."
+                class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl p-3 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition"></textarea>
+            </div>
+
+            <!-- Email de la pareja (v.25) -->
+            <div class="sm:col-span-2 space-y-1.5 pt-2">
+              <label for="input-email" class="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                Email de contacto <span class="text-stone-500 font-normal normal-case">(para recibir el anteproyecto)</span>
+              </label>
+              <input type="email" id="input-email" placeholder="Ej. marta@gmail.com"
+                class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl p-3 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 transition" />
+            </div>
+
+            <!-- Horario del evento (v.25) -->
+            <div class="sm:col-span-2 space-y-1.5 pt-1">
+              <label for="select-horario" class="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                ¿Cuándo se celebra principalmente la boda?
+              </label>
+              <select id="select-horario"
+                class="w-full bg-stone-900/90 border border-stone-700/80 rounded-xl p-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400 transition appearance-none">
+                <option value="">Selecciona el horario principal…</option>
+                <option value="Mediodía / Aperitivo">Mediodía / Aperitivo</option>
+                <option value="Tarde / Noche">Tarde / Noche</option>
+                <option value="Jornada Completa">Jornada Completa</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-stone-800 flex justify-end">
+            <button type="button" onclick="window.escaparate.handleStep1Next()"
+              class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-extrabold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-amber-950/40">
+              <span>Continuar a Elegir la Música</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           PASO 2: MÚSICA EN VIVO POR MOMENTOS (Ceremonia, Aperitivo, Fiesta)
+           ==================================================================== -->
+      <section id="step-section-2" class="hidden space-y-6">
+        <div class="glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-stone-800 pb-3">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-0.5">Paso 2 de 3</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white font-serif-title">Música en Vivo por Momentos</h2>
+            </div>
+            <button type="button" onclick="window.escaparate.setStep(1)" class="text-xs text-stone-400 hover:text-white flex items-center gap-1 transition">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Editar fecha / finca</span>
+            </button>
+          </div>
+
+          <!-- Pestañas de Momentos -->
+          <div class="flex flex-wrap gap-2">
+            <button type="button" id="tab-moment-ceremonia" onclick="window.escaparate.switchMomentTab('ceremonia')"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition bg-amber-500/15 text-amber-300 border-amber-500/50 shadow-sm flex items-center gap-2">
+              <span>💍</span>
+              <span>1. Ceremonia</span>
+            </button>
+
+            <button type="button" id="tab-moment-aperitivo" onclick="window.escaparate.switchMomentTab('aperitivo')"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border border-stone-800 text-stone-400 hover:text-stone-200 hover:border-stone-700 transition flex items-center gap-2">
+              <span>🥂</span>
+              <span>2. Aperitivo / Cóctel</span>
+            </button>
+
+            <button type="button" id="tab-moment-fiesta_pre_dj" onclick="window.escaparate.switchMomentTab('fiesta_pre_dj')"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border border-stone-800 text-stone-400 hover:text-stone-200 hover:border-stone-700 transition flex items-center gap-2">
+              <span>🎉</span>
+              <span>3. Fiesta en Directo</span>
+            </button>
+          </div>
+
+          <!-- Filtro de Estilos según Matriz Oficial -->
+          <div class="pt-3 border-t border-stone-800/80">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-2">
+              Filtrar bandas compatibles por estilo musical:
+            </label>
+            <div id="filter-estilos-container" class="flex flex-wrap gap-1.5">
+              <!-- Inyectado dinámicamente -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid de Tarjetas de Bandas -->
+        <div id="bands-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Inyectado dinámicamente con fotos reales, canciones a la carta y botón de audio -->
+        </div>
+
+        <!-- Servicios Complementarios Técnicos (Banquete y DJ) -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="border-b border-stone-800 pb-3">
+            <h3 class="text-base font-bold text-white font-serif-title">Servicios Complementarios Opcionales</h3>
+            <p class="text-xs text-stone-400 mt-0.5">
+              Podés sumar soporte técnico para momentos clave o sesión DJ para continuar el baile.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Soporte Cena -->
+            <label class="p-4 rounded-xl border border-stone-800 bg-stone-900/40 hover:border-stone-700 cursor-pointer flex items-start gap-3 transition">
+              <input type="checkbox" onchange="window.escaparate.toggleExtra('dinnerSpeech')" class="mt-1 w-4 h-4 rounded text-amber-500 focus:ring-amber-400 focus:ring-offset-stone-900 bg-stone-800 border-stone-700" />
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-stone-100">Soporte Técnico de Cena (+150 € base)</span>
+                </div>
+                <p class="text-[11px] text-stone-400 leading-relaxed">
+                  2 micrófonos inalámbricos para discursos/brindis y técnico para lanzar temas clave (entrada de novios, corte de tarta y regalos).
+                </p>
+              </div>
+            </label>
+
+            <!-- Sesión DJ -->
+            <label class="p-4 rounded-xl border border-stone-800 bg-stone-900/40 hover:border-stone-700 cursor-pointer flex items-start gap-3 transition">
+              <input type="checkbox" onchange="window.escaparate.toggleExtra('djParty')" class="mt-1 w-4 h-4 rounded text-amber-500 focus:ring-amber-400 focus:ring-offset-stone-900 bg-stone-800 border-stone-700" />
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-stone-100">Sesión DJ Profesional (+500 € base)</span>
+                </div>
+                <p class="text-[11px] text-stone-400 leading-relaxed">
+                  DJ profesional con cabina, controladora y repertorio para continuar la barra libre tras la música en vivo (3,5 h aprox.).
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4">
+          <button type="button" onclick="window.escaparate.setStep(1)" class="px-5 py-2.5 rounded-xl border border-stone-800 text-stone-300 hover:text-white text-xs font-semibold transition">
+            &larr; Volver a datos de la boda
+          </button>
+          <button type="button" onclick="window.escaparate.setStep(3)"
+            class="px-8 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-extrabold text-sm flex items-center gap-2 transition shadow-lg shadow-amber-950/40">
+            <span>Revisar mi Anteproyecto</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           PASO 3: ANTEPROYECTO, IVA 21%, RESERVA 15%, RGPD Y ENVÍO POR WHATSAPP
+           ==================================================================== -->
+      <section id="step-section-3" class="hidden space-y-6">
+        <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6 border-amber-500/30">
+          <div class="border-b border-stone-800 pb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">Paso 3 de 3</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white font-serif-title">Su Anteproyecto Musical</h2>
+            <p class="text-xs text-stone-400 mt-1">
+              Revisá el desglose de su selección. Al enviarlo por WhatsApp, Santiago Cholbi abrirá su anteproyecto exacto en su Cockpit para confirmar disponibilidad y condiciones del recinto.
+            </p>
+            <div id="summary-date-notice" class="mt-2 text-xs text-emerald-400 font-medium"></div>
+          </div>
+
+          <!-- Desglose de Momentos y Precios -->
+          <div id="summary-details-box" class="space-y-1">
+            <!-- Inyectado por escaparate.js -->
+          </div>
+
+          <!-- Cuadro Económico Oficial con IVA 21% (Condición comercial LBM) -->
+          <div class="pt-4 border-t border-stone-800 space-y-3">
+            <div class="bg-stone-900/60 rounded-xl p-4 border border-stone-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-stone-300">
+                <span>Subtotal base de servicios:</span>
+                <span id="summary-base-total" class="font-bold font-mono">0 €</span>
+              </div>
+              <div class="flex items-center justify-between text-stone-400">
+                <span>IVA 21% aplicable:</span>
+                <span id="summary-iva-total" class="font-mono">0 €</span>
+              </div>
+              <div class="pt-2 border-t border-stone-800/80 flex items-center justify-between text-sm sm:text-base font-extrabold text-amber-300">
+                <span>Total estimado con IVA:</span>
+                <span id="summary-final-total" class="text-xl sm:text-2xl font-serif-title">0 €</span>
+              </div>
+            </div>
+
+            <!-- Estructura de Pagos Oficial (15% Reserva / 85% Evento) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-xl bg-emerald-950/25 border border-emerald-500/25 space-y-1">
+                <span class="text-emerald-400 font-bold block uppercase tracking-wider text-[10px]">1. Reserva formal (15%)</span>
+                <span id="summary-reserva-15" class="text-base font-extrabold text-white font-mono">0 €</span>
+                <p class="text-[11px] text-stone-300">Se abona mediante factura proforma para bloquear la fecha en la agenda de los músicos.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-stone-900/70 border border-stone-800 space-y-1">
+                <span class="text-stone-400 font-bold block uppercase tracking-wider text-[10px]">2. Saldo final (85%)</span>
+                <span id="summary-pago-85" class="text-base font-extrabold text-stone-200 font-mono">0 €</span>
+                <p class="text-[11px] text-stone-400">Se abona el mismo día del evento, al finalizar la actuación.</p>
+              </div>
+            </div>
+
+            <!-- Leyenda de estimación según recinto -->
+            <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
+              <div class="flex items-start gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                <p id="summary-pax-notice">
+                  Presupuesto orientativo. El importe definitivo lo confirma Santiago Cholbi según los requerimientos acústicos y logística de la finca.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consentimiento de privacidad -->
+          <div class="pt-2">
+            <label class="flex items-start gap-3 p-3.5 rounded-xl border border-stone-800 bg-stone-900/60 cursor-pointer">
+              <input type="checkbox" id="rgpd-consent-checkbox" onchange="window.escaparate.handleRgpdChange(this)"
+                class="mt-1 w-4 h-4 rounded text-amber-500 focus:ring-amber-400 focus:ring-offset-stone-950 bg-stone-800 border-stone-700" />
+              <div class="text-xs text-stone-300 leading-relaxed">
+                <span>Acepto que Live Bands Music trate los datos facilitados para confeccionar mi anteproyecto musical y responder a mi solicitud por WhatsApp. Ver</span>
+                <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="text-amber-400 underline ml-1">Política de Privacidad</a>.
+              </div>
+            </label>
+          </div>
+
+          <!-- Botones de Envío: WhatsApp + Email (v.25) -->
+          <div class="space-y-3 pt-2">
+            <button type="button" id="btn-submit-whatsapp" disabled onclick="window.escaparate.submitLeadWhatsApp()"
+              class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition shadow-xl shadow-emerald-950/60 opacity-50 cursor-not-allowed">
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+              <span>Enviar Anteproyecto a Santiago por WhatsApp</span>
+            </button>
+            <button type="button" id="btn-submit-email" disabled onclick="window.escaparate.submitLeadEmail()"
+              class="w-full py-3 px-6 rounded-xl bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-200 font-bold text-sm flex items-center justify-center gap-3 transition opacity-50 cursor-not-allowed">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+              <span>Enviar anteproyecto por Email</span>
+            </button>
+            <p class="text-[11px] text-stone-400 text-center">
+              WhatsApp abre conversación directa con Santiago Cholbi (+34 627 37 03 34) · El Email envía el resumen a <em>info@livebandsmusic.com</em> con copia a tu correo.
+            </p>
+          </div>
+
+          <!-- Feedback y opciones de respaldo -->
+          <div id="lead-completed-feedback" class="hidden p-5 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 space-y-3">
+            <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              <span>¡Anteproyecto generado con éxito!</span>
+            </div>
+            <p class="text-xs text-stone-300">
+              Si no tienes WhatsApp abierto en este dispositivo, podés copiar el enlace directo o descargar el resumen:
+            </p>
+
+            <div class="flex items-center gap-2">
+              <input type="text" id="generated-cockpit-link" readonly
+                class="flex-1 bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-stone-300 font-mono select-all focus:outline-none" />
+              <button type="button" onclick="window.escaparate.copyGeneratedLink()"
+                class="px-4 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-white text-xs font-bold transition flex items-center gap-1.5 shrink-0">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copiar enlace</span>
+              </button>
+            </div>
+            <span id="copy-status-indicator" class="text-[11px] text-emerald-400 font-bold block"></span>
+
+            <div class="pt-2 border-t border-stone-800/80 flex items-center justify-between">
+              <button type="button" onclick="window.escaparate.downloadLeadSummary()" class="text-xs text-amber-300 hover:underline flex items-center gap-1.5 font-semibold">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Descargar copia del anteproyecto (.txt)</span>
+              </button>
+              <button type="button" onclick="window.escaparate.setStep(2)" class="text-xs text-stone-400 hover:text-white">
+                Modificar selección de música &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       STICKY BAR INFERIOR (CARRITO DE MOMENTOS Y TOTAL ORIENTATIVO)
+       ======================================================================== -->
+  <aside id="sticky-cart-bar" class="fixed bottom-0 inset-x-0 z-30 transform translate-y-full transition-transform duration-300 border-t border-stone-800/90 bg-stone-950/95 backdrop-blur-md px-4 py-3 shadow-2xl">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+          <i data-lucide="music" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <span id="sticky-momentos-count" class="text-xs text-stone-400 block font-medium">0 momentos seleccionados</span>
+          <span id="sticky-total-estimate" class="text-base sm:text-lg font-bold text-amber-300 font-serif-title">0 € base*</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="window.escaparate.setStep(3)"
+          class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs sm:text-sm flex items-center gap-2 transition shadow-md shadow-amber-950/50">
+          <span>Ver Anteproyecto</span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       PIE DE PÁGINA OFICIAL MARKETING AMABLE v2.0 (DOBLE NIVEL ULTRA-SLIM)
+       ======================================================================== -->
+  <div id="footer-section" class="w-full mt-auto">
+    <!-- Nivel 1: Footer del Cliente -->
+    <footer class="client-footer">
+      <div class="footer-container">
+        <div class="footer-main">
+          <div class="client-brand">
+            <span class="client-name">Live Bands Music</span>
+            <p class="client-tagline">Música en Vivo, Sonorización e Iluminación Profesional &bull; Peralada (Girona)</p>
+          </div>
+          <nav class="footer-legal-nav" aria-label="Enlaces legales">
+            <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Aviso Legal</a>
+            <span class="legal-sep">◆</span>
+            <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Política de Privacidad</a>
+            <span class="legal-sep">◆</span>
+            <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Código Ético</a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Nivel 2: Subfooter Oficial Marketing Amable v2.0 -->
+    <div class="mkt-subfooter">
+      <div class="subfooter-container">
+        <div class="subfooter-copy">
+          <p>© <span id="currentYear">2026</span> Live Bands Music. Todos los derechos reservados.</p>
+        </div>
+        <div class="subfooter-signature">
+          <span class="designed-by">Diseñado con pasión por</span>
+          <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" aria-label="Sitio web oficial de Marketing Amable">
+            <img src="./assets/images/002.gif" alt="Marketing Amable isotype" class="mkt-gif" width="28" height="28" />
+            <span class="mkt-white">MARKETING</span>
+            <span class="mkt-green">AMABLE</span>
+          </a>
+          <span class="mkt-version">v.25</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT DEL CONTROLADOR ES MODULE -->
+  <script type="module" src="./assets/js/escaparate.js"></script>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

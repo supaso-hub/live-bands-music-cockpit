@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario de Validación de Reglas y Descuentos — Live Bands Music</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            lexend: ['"Lexend"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0c111d;
+      color: #f1f5f9;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .option-card {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .option-card:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(31, 41, 55, 0.6);
+    }
+    .option-card.selected {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.12);
+    }
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #111827 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .glass-card {
+        background: #ffffff !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+        color: #111827 !important;
+      }
+      textarea {
+        border: 1px solid #d1d5db !important;
+        background: #f9fafb !important;
+        color: #111827 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
+
+  <!-- Header -->
+  <header class="no-print sticky top-0 z-40 border-b border-gray-800 bg-[#0c111d]/90 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-900/20">
+          <i data-lucide="clipboard-check" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white tracking-wide">Live Bands Music</h1>
+          <p class="text-xs text-gray-400">Cuestionario de Validación de Descuentos & Automatización Web</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="./simulador-presupuestos.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold transition border border-gray-700">
+          <i data-lucide="sliders" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Volver al Simulador</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra de Progreso Superior -->
+  <div class="no-print bg-gray-900/80 border-b border-gray-800 py-2.5 sticky top-20 z-30 backdrop-blur-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="text-gray-400">Progreso de Validación:</span>
+        <span id="progress-text" class="font-bold text-emerald-400 font-mono">0 / 6 completadas</span>
+      </div>
+      <div class="w-48 bg-gray-800 rounded-full h-2 overflow-hidden border border-gray-700">
+        <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido del Cuestionario -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Introducción -->
+    <div class="glass-card rounded-2xl p-6 border-emerald-500/20">
+      <h2 class="text-base sm:text-lg font-bold text-white mb-2 flex items-center gap-2">
+        <i data-lucide="help-circle" class="w-5 h-5 text-emerald-400"></i>
+        <span>Validación de Reglas Comerciales para el Cotizador Online</span>
+      </h2>
+      <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+        Para que la página web genere presupuestos automáticos con la misma precisión que tú haces manualmente, necesitamos definir cómo tratar algunos casos que no aparecían en los ejemplos. 
+        Por favor, marca la opción que prefieras en cada punto o escribe tus notas si necesitas matizar.
+      </p>
+    </div>
+
+    <!-- PREGUNTA 1: Bandas Grandes -->
+    <div class="glass-card rounded-2xl p-6 space-y-4" id="card-q1">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-500/30">1</span>
+          <h3 class="text-sm sm:text-base font-bold text-white">Descuentos en Formaciones Grandes (Quinteto a Octeto)</h3>
+        </div>
+        <span class="text-[11px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Bandas PVP</span>
+      </div>
+      <p class="text-xs text-gray-300">
+        En los ejemplos analizados vimos descuentos de hasta 40% en Dúos y 20-35% en Tríos y Cuartetos. Si un cliente contrata un <strong>Quinteto (1.725 €)</strong>, <strong>Sexteto (1.730 €)</strong> o <strong>Octeto (2.610 €)</strong> en un paquete con varios momentos:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q1', 'pct_standard', this)">
+          <div class="font-semibold text-white mb-1">A) Mismo descuento porcentual (~15% a 20%)</div>
+          <p class="text-gray-400 text-[11px]">Se rebaja de forma proporcional al número de momentos igual que los cuartetos.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q1', 'fixed_margin', this)">
+          <div class="font-semibold text-white mb-1">B) Descuento más reducido (máx 10%)</div>
+          <p class="text-gray-400 text-[11px]">Al ser muchos músicos, el caché de los integrantes no permite tanto margen de descuento.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q1', 'custom', this)">
+          <div class="font-semibold text-white mb-1">C) Precio a consultar / Caso a medida</div>
+          <p class="text-gray-400 text-[11px]">La web ofrece un precio estimado pero avisa que bandas >5 músicos requieren validación.</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="block text-xs text-gray-400 mb-1">Observaciones o notas adicionales para esta pregunta:</label>
+        <textarea id="notes-q1" class="w-full bg-gray-800/70 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:ring-1 focus:ring-emerald-500" rows="2" placeholder="Ej: 'En octeto máximo hacemos 250 € de descuento global porque son 8 nóminas...'"></textarea>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 2: Ceremonia Suelta -->
+    <div class="glass-card rounded-2xl p-6 space-y-4" id="card-q2">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-500/30">2</span>
+          <h3 class="text-sm sm:text-base font-bold text-white">Contratación Exclusiva de Ceremonia (Momento Suelto)</h3>
+        </div>
+        <span class="text-[11px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Ceremonia</span>
+      </div>
+      <p class="text-xs text-gray-300">
+        En las propuestas reales, el Dúo de ceremonia baja de 795 € a 400 € porque el cliente también contrató aperitivo y fiesta. Si alguien pide <strong>SOLO la Ceremonia</strong> (1 hora de música + micros):
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q2', 'full_pvp', this)">
+          <div class="font-semibold text-white mb-1">A) 100% Tarifa Oficial (Sin descuento)</div>
+          <p class="text-gray-400 text-[11px]">Paga Dúo 795 € + Sonido 400 € = 1.195 €. No hay descuento al ser acto único.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q2', 'special_pack', this)">
+          <div class="font-semibold text-white mb-1">B) Pack Especial Ceremonia Cerrado</div>
+          <p class="text-gray-400 text-[11px]">Se ofrece una tarifa fija cerrada de ceremonia (ej. Dúo + Sonido + Micros por 650 € - 750 €).</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q2', 'sono_discount', this)">
+          <div class="font-semibold text-white mb-1">C) Banda a tarifa oficial + Sonido al 50%</div>
+          <p class="text-gray-400 text-[11px]">Dúo 795 € + Sonido bonificado a 200 € = 995 €.</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="block text-xs text-gray-400 mb-1">Observaciones o notas adicionales:</label>
+        <textarea id="notes-q2" class="w-full bg-gray-800/70 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:ring-1 focus:ring-emerald-500" rows="2" placeholder="Escribe aquí si tienes una tarifa fija para ceremonias sueltas..."></textarea>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 3: Espacios Separados -->
+    <div class="glass-card rounded-2xl p-6 space-y-4" id="card-q3">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-500/30">3</span>
+          <h3 class="text-sm sm:text-base font-bold text-white">Tarificación de Espacios Físicos Separados</h3>
+        </div>
+        <span class="text-[11px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Infraestructura</span>
+      </div>
+      <p class="text-xs text-gray-300">
+        Cuando el aperitivo, la cena y la fiesta son en zonas distintas (ej. Jardín, Salón y Discoteca) y obligan a montar <strong>3 equipos de sonido independientes con altavoces y cableado</strong>:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q3', 'add_200', this)">
+          <div class="font-semibold text-white mb-1">A) +200 € por cada punto extra</div>
+          <p class="text-gray-400 text-[11px]">Primer punto de sonido 200 €, y cada espacio extra que requiera montaje físico suma 200 €.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q3', 'complete_sound', this)">
+          <div class="font-semibold text-white mb-1">B) Pasar a Tarifa Sonorización Completa (900 €)</div>
+          <p class="text-gray-400 text-[11px]">Al requerir más material y técnicos, se aplica el pack de sonorización completa del catálogo.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q3', 'flat_extra', this)">
+          <div class="font-semibold text-white mb-1">C) Tarifa Plana de Desplazamiento Interno</div>
+          <p class="text-gray-400 text-[11px]">Un suplemento fijo único (ej. +150 €) por montaje múltiple en el mismo recinto.</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="block text-xs text-gray-400 mb-1">Observaciones o notas adicionales:</label>
+        <textarea id="notes-q3" class="w-full bg-gray-800/70 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:ring-1 focus:ring-emerald-500" rows="2" placeholder="Detalla cómo calculas los montajes en masías o recintos con varios ambientes..."></textarea>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 4: Desplazamiento Fuera de Girona -->
+    <div class="glass-card rounded-2xl p-6 space-y-4" id="card-q4">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-500/30">4</span>
+          <h3 class="text-sm sm:text-base font-bold text-white">Desplazamientos Fuera de la Provincia de Girona</h3>
+        </div>
+        <span class="text-[11px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Logística</span>
+      </div>
+      <p class="text-xs text-gray-300">
+        El catálogo incluye desplazamiento en Girona. Para solicitudes en Barcelona, Tarragona, Lleida o sur de Francia:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q4', 'warning_calc', this)">
+          <div class="font-semibold text-white mb-1">A) Mostrar alerta "Consultar kilometraje"</div>
+          <p class="text-gray-400 text-[11px]">El cotizador calcula la música y técnica, y avisa que el desplazamiento se cotizará con la dirección exacta.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q4', 'flat_zone', this)">
+          <div class="font-semibold text-white mb-1">B) Suplementos Fijos por Zona</div>
+          <p class="text-gray-400 text-[11px]">Ej: Barcelona provincia (+150 €), Maresme (+100 €), Tarragona/Lleida (+250 €), Francia (+200 €).</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q4', 'per_km', this)">
+          <div class="font-semibold text-white mb-1">C) Cálculo automático por Kilómetro</div>
+          <p class="text-gray-400 text-[11px]">Calcular ida y vuelta desde Girona (ej. 0,35 €/km por vehículo).</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="block text-xs text-gray-400 mb-1">Observaciones o notas adicionales:</label>
+        <textarea id="notes-q4" class="w-full bg-gray-800/70 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:ring-1 focus:ring-emerald-500" rows="2" placeholder="Indica los suplementos aproximados que sueles cobrar según la zona..."></textarea>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 5: Horas Extras de DJ y Bandas -->
+    <div class="glass-card rounded-2xl p-6 space-y-4" id="card-q5">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-500/30">5</span>
+          <h3 class="text-sm sm:text-base font-bold text-white">Tarificación de Horas Extras y Horarios Nocturnos</h3>
+        </div>
+        <span class="text-[11px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Horarios</span>
+      </div>
+      <p class="text-xs text-gray-300">
+        En los presupuestos el DJ cobra 500 € por 3,5h y las horas extras a <strong>100 €/hora</strong>. Para el resto de servicios:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q5', 'same_dj', this)">
+          <div class="font-semibold text-white mb-1">A) DJ a 100 €/h y Técnico a 50 €/h</div>
+          <p class="text-gray-400 text-[11px]">Si la fiesta se extiende de madrugada, el DJ cobra 100 €/h extra y soporte técnico 50 €/h.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q5', 'band_ext', this)">
+          <div class="font-semibold text-white mb-1">B) Banda en directo (Pase extra)</div>
+          <p class="text-gray-400 text-[11px]">Cada 45 min adicionales de show en directo suma un % fijo por músico.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q5', 'all_custom', this)">
+          <div class="font-semibold text-white mb-1">C) Pack fiesta cerrado sin horas sueltas</div>
+          <p class="text-gray-400 text-[11px]">Se contrata un bloque cerrado hasta la hora pactada (máximo hasta las 03:00 / 04:00).</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="block text-xs text-gray-400 mb-1">Observaciones o notas adicionales:</label>
+        <textarea id="notes-q5" class="w-full bg-gray-800/70 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:ring-1 focus:ring-emerald-500" rows="2" placeholder="Especifica tarifas de horas extras si difieren..."></textarea>
+      </div>
+    </div>
+
+    <!-- PREGUNTA 6: Tipo de Presupuesto en la Web (Particular vs. Wedding Planner) -->
+    <div class="glass-card rounded-2xl p-6 space-y-4" id="card-q6">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-500/30">6</span>
+          <h3 class="text-sm sm:text-base font-bold text-white">Comisiones para Wedding Planners en el Cotizador Web</h3>
+        </div>
+        <span class="text-[11px] font-mono text-gray-400 uppercase px-2 py-0.5 rounded bg-gray-800">Canal Comercial</span>
+      </div>
+      <p class="text-xs text-gray-300">
+        En el presupuesto a organizadoras (Ejemplo 3) aplicas un <strong>15% de comisión</strong> para la planner sobre los precios netos:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q6', 'toggle_mode', this)">
+          <div class="font-semibold text-white mb-1">A) Incluir Switch "Soy Wedding Planner"</div>
+          <p class="text-gray-400 text-[11px]">Permite a las organizadoras calcular su comisión (15%) de forma transparente en la web.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q6', 'public_only', this)">
+          <div class="font-semibold text-white mb-1">B) Web solo para Cliente Final (Novios)</div>
+          <p class="text-gray-400 text-[11px]">La web muestra el precio neto/final para los novios y las comisiones se gestionan en privado.</p>
+        </div>
+        <div class="option-card p-3 rounded-xl border border-gray-700/80 bg-gray-800/40 text-xs" onclick="selectOption('q6', 'agency_login', this)">
+          <div class="font-semibold text-white mb-1">C) Acceso privado / Clave para agencias</div>
+          <p class="text-gray-400 text-[11px]">Las planners pueden desbloquear la vista profesional con un código de descuento/colaborador.</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="block text-xs text-gray-400 mb-1">Observaciones o notas adicionales:</label>
+        <textarea id="notes-q6" class="w-full bg-gray-800/70 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:ring-1 focus:ring-emerald-500" rows="2" placeholder="Escribe aquí tu preferencia sobre la gestión con organizadoras..."></textarea>
+      </div>
+    </div>
+
+    <!-- Barra de Acciones Finales -->
+    <div class="no-print glass-card rounded-2xl p-6 border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <h4 class="text-sm font-bold text-white">¿Has terminado de responder?</h4>
+        <p class="text-xs text-gray-400">Puedes copiar el informe estructurado o descargarlo para enviarlo.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="copyAnswers()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-emerald-950/40">
+          <i data-lucide="copy" class="w-4 h-4"></i>
+          <span>Copiar Respuestas para WhatsApp / Email</span>
+        </button>
+        <button onclick="downloadJson()" class="px-3.5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700 transition flex items-center gap-1.5">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Descargar (.txt)</span>
+        </button>
+        <button onclick="window.print()" class="px-3.5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700 transition flex items-center gap-1.5">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span>Imprimir</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Notificación Toast de Copiado -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-bold">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-white"></i>
+    <span id="toast-msg">¡Respuestas copiadas al portapapeles con éxito!</span>
+  </div>
+
+  <!-- Footer Oficial Marketing Amable v2.0 -->
+  <footer class="site-footer border-t border-gray-800/80 bg-[#090909] text-gray-400 py-4 mt-12 text-xs">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="text-gray-400">
+        <p>© <span id="currentYear">2026</span> Live Bands Music. Todos los derechos reservados.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-gray-500">Diseñado con pasión por</span>
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/85 border border-white/15 text-[11px]">
+          <img src="./002.gif" alt="Marketing Amable" width="24" height="24" class="h-5 w-auto">
+          <span class="font-lexend font-extrabold text-white">MARKETING</span>
+          <span class="font-lexend font-extrabold text-[#D8F3DC]">AMABLE</span>
+        </div>
+        <span class="font-mono text-[9px] text-[#94A3B8]">v.01</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    const answers = {
+      q1: null,
+      q2: null,
+      q3: null,
+      q4: null,
+      q5: null,
+      q6: null
+    };
+
+    function selectOption(questionId, value, cardElement) {
+      answers[questionId] = value;
+      const parent = cardElement.parentElement;
+      parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      cardElement.classList.add('selected');
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const answeredCount = Object.values(answers).filter(v => v !== null).length;
+      document.getElementById('progress-text').textContent = `${answeredCount} / 6 completadas`;
+      const pct = Math.round((answeredCount / 6) * 100);
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+    }
+
+    function buildReportText() {
+      const qTitles = {
+        q1: '1. Descuentos en Bandas Grandes (Quinteto a Octeto)',
+        q2: '2. Contratación Exclusiva de Ceremonia',
+        q3: '3. Espacios Físicos Separados',
+        q4: '4. Desplazamientos Fuera de Girona',
+        q5: '5. Horas Extras y Nocturnidad',
+        q6: '6. Comisiones Wedding Planners'
+      };
+
+      let text = `=========================================================\n`;
+      text += `VALIDACIÓN DE REGLAS DE DESCUENTO — LIVE BANDS MUSIC 2027\n`;
+      text += `Fecha: ${new Date().toLocaleDateString('es-ES')} ${new Date().toLocaleTimeString('es-ES')}\n`;
+      text += `=========================================================\n\n`;
+
+      for (let i = 1; i <= 6; i++) {
+        const qKey = `q${i}`;
+        const selectedVal = answers[qKey] || 'No seleccionada';
+        const note = document.getElementById(`notes-${qKey}`).value.trim();
+
+        text += `${qTitles[qKey]}:\n`;
+        text += `  • Opción elegida: [${selectedVal}]\n`;
+        if (note) {
+          text += `  • Observaciones del cliente: "${note}"\n`;
+        }
+        text += `\n`;
+      }
+
+      text += `=========================================================\n`;
+      return text;
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    function copyAnswers() {
+      const report = buildReportText();
+      navigator.clipboard.writeText(report).then(() => {
+        showToast('¡Respuestas copiadas! Puedes pegarlas en WhatsApp o email.');
+      }).catch(() => {
+        showToast('Error al copiar automáticamente. Descarga el archivo de texto.');
+      });
+    }
+
+    function downloadJson() {
+      const report = buildReportText();
+      const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `validacion-reglas-livebands-${new Date().toISOString().slice(0, 10)}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

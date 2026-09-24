@@ -1,0 +1,5 @@
+Datos/
+.git/
+*.log
+assets/data/catalog.private.json
+SUBIR_A_HOSTINGER_LBM/

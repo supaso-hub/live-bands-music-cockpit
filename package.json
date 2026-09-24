@@ -1,0 +1,13 @@
+{
+  "name": "live-bands-music-cockpit",
+  "version": "2027.1.0",
+  "type": "module",
+  "scripts": {
+    "validate-catalog": "node scripts/validate-catalog.js",
+    "test-bridge": "node scripts/test-lead-bridge.js",
+    "sync-hostinger": "node scripts/sync-hostinger.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.11.0"
+  }
+}

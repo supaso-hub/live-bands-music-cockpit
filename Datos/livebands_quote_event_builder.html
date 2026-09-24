@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveBands Music - Generador de Presupuestos 2027</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fdf8f6',
+              100: '#f2e8e5',
+              200: '#eaddd7',
+              500: '#c25e38',
+              600: '#a34825',
+              700: '#843719',
+              800: '#672a13',
+              900: '#2c1208',
+            },
+            amberAccent: '#f59e0b',
+            darkSlate: '#0f172a',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0c111c;
+      color: #f1f5f9;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+    
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563;
+    }
+
+    .glass-panel {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-card {
+      background: rgba(31, 41, 55, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Print styles for official proposal generation */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #111827 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .proposal-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+        background: #fff !important;
+        color: #111827 !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <header class="no-print sticky top-0 z-40 border-b border-gray-800/80 bg-gray-950/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-amber-500 flex items-center justify-center font-serif font-black text-xl text-white shadow-lg shadow-brand-500/20">
+          LB
+        </div>
+        <div>
+          <h1 class="text-base font-bold text-white tracking-wide flex items-center gap-2">
+            LiveBands Music
+            <span class="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-500 border border-brand-500/30">Tarifas 2027</span>
+          </h1>
+          <p class="text-xs text-gray-400">Cotizador & Generador de Presupuestos para Bodas y Eventos</p>
+        </div>
+      </div>
+
+      <!-- Quick Preset Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="loadPreset('ejemplo1')" class="text-xs px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition flex items-center gap-1.5 shadow-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="hidden sm:inline">Cargar</span> Ej. 1 (Hayati & Guillaume)
+        </button>
+        <button onclick="loadPreset('ejemplo2')" class="text-xs px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition flex items-center gap-1.5 shadow-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i>
+          <span class="hidden sm:inline">Cargar</span> Ej. 2 (Olaf & Silvio)
+        </button>
+        <button onclick="openCatalogModal()" class="text-xs px-3 py-1.5 rounded-lg bg-brand-600/30 hover:bg-brand-600/50 text-brand-200 border border-brand-500/40 transition flex items-center gap-1.5">
+          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+          <span class="hidden md:inline">Ver</span> Tarifas PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 no-print">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT COLUMN: Form Builder (8 Cols) -->
+      <div class="lg:col-span-8 space-y-6">
+
+        <!-- Card: Datos Generales del Evento -->
+        <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-lg bg-brand-500/10 text-brand-500">
+                <i data-lucide="calendar" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-white">Datos del Evento y Cliente</h2>
+                <p class="text-xs text-gray-400">Detalles básicos del enlace y localización</p>
+              </div>
+            </div>
+            <button onclick="resetForm()" class="text-xs text-gray-400 hover:text-rose-400 transition flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Limpiar
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Nombre Pareja / Evento</label>
+              <input type="text" id="eventTitle" value="Boda de Hayati & Guillaume" class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500" oninput="updateAll()" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Destinatario / Planner (Para el saludo)</label>
+              <input type="text" id="recipientName" value="Phédile" class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500" oninput="updateAll()" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Fecha del Evento</label>
+              <input type="text" id="eventDate" value="Jueves 26 de agosto de 2027" class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" oninput="updateAll()" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Horario Global</label>
+              <input type="text" id="eventSchedule" value="de 16:00h a 02:00h (+1)" class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" oninput="updateAll()" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Lugar / Población</label>
+              <input type="text" id="eventLocation" value="St. Martí d'Empúries y L'Escala" class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" oninput="updateAll()" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Invitados (PAX)</label>
+              <input type="number" id="eventPax" value="75" class="w-full bg-gray-900/90 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" oninput="updateAll()" />
+            </div>
+          </div>
+
+          <!-- Comisión para Wedding Planner -->
+          <div class="pt-2 flex items-center justify-between bg-brand-900/30 border border-brand-500/20 rounded-xl px-4 py-3">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="includeCommission" checked class="w-4 h-4 rounded text-brand-600 bg-gray-900 border-gray-700 focus:ring-brand-500" onchange="updateAll()">
+              <div>
+                <label for="includeCommission" class="text-sm font-bold text-gray-200 cursor-pointer">Incluye 15% de comisión para Wedding Planner</label>
+                <p class="text-xs text-gray-400">Añade la nota de cortesía al texto de cotización</p>
+              </div>
+            </div>
+            <span class="text-xs font-mono font-bold text-brand-400 bg-brand-500/10 px-2 py-1 rounded">15% WP</span>
+          </div>
+        </section>
+
+        <!-- FASE 1: CEREMONIA -->
+        <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="enableCeremony" checked class="w-5 h-5 rounded text-brand-600 bg-gray-900 border-gray-700 focus:ring-brand-500" onchange="toggleSection('ceremony')">
+              <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+                <i data-lucide="church" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">1. Ceremonia</h3>
+                <p class="text-xs text-gray-400">Música en directo y sonorización de rito / llegada</p>
+              </div>
+            </div>
+            <div id="badge-ceremony-total" class="text-sm font-mono font-bold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-lg border border-amber-400/20">
+              930 €
+            </div>
+          </div>
+
+          <div id="section-ceremony-body" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Espacio & Enlace Google Maps</label>
+                <input type="text" id="ceremonySpace" value="Iglesia de St. Martí d'Empúries" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white mb-1.5" oninput="updateAll()" />
+                <input type="text" id="ceremonyMaps" value="https://maps.app.goo.gl/SegGrAVYq8x2LtPJ6" placeholder="URL Google Maps" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-1.5 text-xs text-blue-400 font-mono" oninput="updateAll()" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Horario Ceremonia</label>
+                <input type="text" id="ceremonySchedule" value="de 16:00 a 17:00h (1h)" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+            </div>
+
+            <!-- Banda Selector Ceremonia -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Grupo / Estilo</label>
+                <select id="ceremonyBand" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" onchange="onBandChange('ceremony')">
+                  <option value="GOSPEL ON">Gospel On (Spiritual & Gospel)</option>
+                  <option value="JAZZ DE COPES">Jazz de Copes (Jazz, Pop, Bossa)</option>
+                  <option value="VIENNA BRAVA">Vienna Brava (Classical)</option>
+                  <option value="THE GUITAR KINGS">The Guitar Kings (Rumba/Flamenco)</option>
+                  <option value="SWEET PLANET">Sweet Planet (Soul, Disco)</option>
+                  <option value="REVER QUEEN">Rever Queen (Pop)</option>
+                  <option value="LATIN BIRDS">Latin Birds (Latin & Boleros)</option>
+                  <option value="PERSONALIZADO">Otro / A medida</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Formato</label>
+                <select id="ceremonyFormat" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" onchange="onFormatChange('ceremony')">
+                  <option value="SOLO">SOLO (495 €)</option>
+                  <option value="DUO">DUO (795 €)</option>
+                  <option value="TRIO" selected>TRIO (1.145 €)</option>
+                  <option value="QUARTET">QUARTET (1.435 €)</option>
+                  <option value="QUINTET">QUINTET (1.725 €)</option>
+                  <option value="SEXTET">SEXTET (1.730 €)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Detalle Formación</label>
+                <input type="text" id="ceremonyBandDesc" value="2 voces y piano" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+            </div>
+
+            <!-- Pricing & Sonorización de Ceremonia -->
+            <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-4 space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-400 uppercase">PVP Catálogo 2027</label>
+                  <div class="relative">
+                    <input type="number" id="ceremonyBasePrice" value="1335" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-white font-mono" oninput="calcPrices()" />
+                    <span class="absolute right-3 top-2 text-xs text-gray-500">€</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-400 uppercase">Descuento (%)</label>
+                  <div class="relative">
+                    <input type="number" id="ceremonyDiscount" value="30" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-emerald-400 font-mono" oninput="calcPrices()" />
+                    <span class="absolute right-3 top-2 text-xs text-gray-500">%</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-brand-400 uppercase">Precio Final Ofertado</label>
+                  <div class="relative">
+                    <input type="number" id="ceremonyFinalPrice" value="930" class="w-full bg-brand-950/40 border border-brand-500/50 rounded-lg px-3 py-1.5 text-sm text-brand-300 font-mono font-bold" oninput="onFinalPriceManual('ceremony')" />
+                    <span class="absolute right-3 top-2 text-xs text-brand-400">€</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sonorización toggle -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-gray-800 text-xs text-gray-300 gap-2">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="ceremonySoundIncluded" checked class="w-4 h-4 rounded text-brand-600 bg-gray-950 border-gray-700 focus:ring-brand-500" onchange="updateAll()">
+                  <label for="ceremonySoundIncluded" class="cursor-pointer">Sonorización incluida con técnico y micros para lecturas</label>
+                </div>
+                <input type="text" id="ceremonyBandLink" value="https://livebandsmusic.com/gospel-on/#GOTRIO" placeholder="Enlace web banda" class="bg-gray-950 border border-gray-800 rounded px-2.5 py-1 text-[11px] text-blue-400 font-mono w-full sm:w-64" oninput="updateAll()" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FASE 2: APERITIVO / CÓCTEL -->
+        <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="enableAppetizer" checked class="w-5 h-5 rounded text-brand-600 bg-gray-900 border-gray-700 focus:ring-brand-500" onchange="toggleSection('appetizer')">
+              <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+                <i data-lucide="wine" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">2. Aperitivo / Cóctel</h3>
+                <p class="text-xs text-gray-400">Música en directo (90m) + playlist ambiental</p>
+              </div>
+            </div>
+            <div id="badge-appetizer-total" class="text-sm font-mono font-bold text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-lg border border-emerald-400/20">
+              1.120 €
+            </div>
+          </div>
+
+          <div id="section-appetizer-body" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Espacio & Enlace Google Maps</label>
+                <input type="text" id="appetizerSpace" value="Restaurant Bretta" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white mb-1.5" oninput="updateAll()" />
+                <input type="text" id="appetizerMaps" value="https://maps.app.goo.gl/NhUQ9MQ1Epg9scg58" placeholder="URL Google Maps" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-1.5 text-xs text-blue-400 font-mono" oninput="updateAll()" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Horario Aperitivo</label>
+                <input type="text" id="appetizerSchedule" value="de 17:30 a 19:30h (1,5h directo + 30m playlist)" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+            </div>
+
+            <!-- Banda Aperitivo -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Grupo / Estilo</label>
+                <select id="appetizerBand" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" onchange="onBandChange('appetizer')">
+                  <option value="THE GUITAR KINGS" selected>The Guitar Kings (Rumba & Flamenco)</option>
+                  <option value="JAZZ DE COPES">Jazz de Copes (Jazz, Bossa, Soul)</option>
+                  <option value="SWEET PLANET">Sweet Planet (Disco, Funk, Latin)</option>
+                  <option value="VIENNA BRAVA">Vienna Brava (Classical)</option>
+                  <option value="GOSPEL ON">Gospel On (Spiritual & Gospel)</option>
+                  <option value="REVER QUEEN">Rever Queen (Pop)</option>
+                  <option value="LATIN BIRDS">Latin Birds (Latin & Boleros)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Formato</label>
+                <select id="appetizerFormat" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" onchange="onFormatChange('appetizer')">
+                  <option value="SOLO">SOLO (495 €)</option>
+                  <option value="DUO">DUO (795 €)</option>
+                  <option value="TRIO" selected>TRIO (1.145 €)</option>
+                  <option value="QUARTET">QUARTET (1.435 €)</option>
+                  <option value="QUINTET">QUINTET (1.725 €)</option>
+                  <option value="SEXTET">SEXTET (1.730 €)</option>
+                  <option value="OCTET">OCTET (2.610 €)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Detalle Formación</label>
+                <input type="text" id="appetizerBandDesc" value="voz y guitarra, guitarra solista y percusión" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+            </div>
+
+            <!-- Pricing Aperitivo -->
+            <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-4 space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-400 uppercase">PVP Catálogo 2027</label>
+                  <div class="relative">
+                    <input type="number" id="appetizerBasePrice" value="1335" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-white font-mono" oninput="calcPrices()" />
+                    <span class="absolute right-3 top-2 text-xs text-gray-500">€</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-400 uppercase">Descuento (%)</label>
+                  <div class="relative">
+                    <input type="number" id="appetizerDiscount" value="15" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-emerald-400 font-mono" oninput="calcPrices()" />
+                    <span class="absolute right-3 top-2 text-xs text-gray-500">%</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-brand-400 uppercase">Precio Final Ofertado</label>
+                  <div class="relative">
+                    <input type="number" id="appetizerFinalPrice" value="1120" class="w-full bg-brand-950/40 border border-brand-500/50 rounded-lg px-3 py-1.5 text-sm text-brand-300 font-mono font-bold" oninput="onFinalPriceManual('appetizer')" />
+                    <span class="absolute right-3 top-2 text-xs text-brand-400">€</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-gray-800 text-xs text-gray-300 gap-2">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="appetizerSoundIncluded" checked class="w-4 h-4 rounded text-brand-600 bg-gray-950 border-gray-700 focus:ring-brand-500" onchange="updateAll()">
+                  <label for="appetizerSoundIncluded" class="cursor-pointer">Sonorización incluida + Playlist durante descansos</label>
+                </div>
+                <input type="text" id="appetizerBandLink" value="https://livebandsmusic.com/the-guitar-kings/#tgkp3" placeholder="Enlace web banda" class="bg-gray-950 border border-gray-800 rounded px-2.5 py-1 text-[11px] text-blue-400 font-mono w-full sm:w-64" oninput="updateAll()" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FASE 3: CENA -->
+        <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="enableDinner" checked class="w-5 h-5 rounded text-brand-600 bg-gray-900 border-gray-700 focus:ring-brand-500" onchange="toggleSection('dinner')">
+              <div class="p-2 rounded-lg bg-purple-500/10 text-purple-400">
+                <i data-lucide="utensils" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">3. Cena / Banquete</h3>
+                <p class="text-xs text-gray-400">Sonorización ambiental, micrófonos discursos y momentos clave</p>
+              </div>
+            </div>
+            <div id="badge-dinner-total" class="text-sm font-mono font-bold text-purple-400 bg-purple-400/10 px-3 py-1 rounded-lg border border-purple-400/20">
+              150 €
+            </div>
+          </div>
+
+          <div id="section-dinner-body" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Horario Cena</label>
+                <input type="text" id="dinnerSchedule" value="19:30 a 22:30h aprox. (3h)" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Precio Servicio Cena (€)</label>
+                <input type="number" id="dinnerPrice" value="150" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white font-mono" oninput="calcPrices()" />
+              </div>
+            </div>
+            <div class="text-xs text-gray-400 bg-gray-900/60 p-3 rounded-xl border border-gray-800">
+              <span class="font-bold text-gray-300">Incluye:</span> Reutilización de sonorización de aperitivo, 2 micrófonos inalámbricos de mano para parlamentos/discursos y técnico para reproducir temas de entrada de novios, entrega de ramos y tarta nupcial.
+            </div>
+          </div>
+        </section>
+
+        <!-- FASE 4: FIESTA & DJ -->
+        <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="enableParty" checked class="w-5 h-5 rounded text-brand-600 bg-gray-900 border-gray-700 focus:ring-brand-500" onchange="toggleSection('party')">
+              <div class="p-2 rounded-lg bg-pink-500/10 text-pink-400">
+                <i data-lucide="disc" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">4. Fiesta, DJ & Luces</h3>
+                <p class="text-xs text-gray-400">DJ profesional, puente de luces, cabezas móviles, láser y humo</p>
+              </div>
+            </div>
+            <div id="badge-party-total" class="text-sm font-mono font-bold text-pink-400 bg-pink-400/10 px-3 py-1 rounded-lg border border-pink-400/20">
+              750 €
+            </div>
+          </div>
+
+          <div id="section-party-body" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Horario Fiesta</label>
+                <input type="text" id="partySchedule" value="22:30 a 02:00h aprox. (3,5h)" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">DJ Asignado</label>
+                <input type="text" id="partyDjName" value="DJ MARC" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Precio DJ Base (€)</label>
+                <input type="number" id="partyDjPrice" value="500" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white font-mono" oninput="calcPrices()" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Pack de Iluminación de Fiesta</label>
+                <select id="partyLightingType" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" onchange="onLightingChange()">
+                  <option value="bridge_custom">Puente 4,5m (Láser, 2 humo, 4 focos, 4 cabezas) - 250 €</option>
+                  <option value="basic_light">Basic Light System (PVP 380€ -> Oferta 250€)</option>
+                  <option value="complete_light">Complete Light System 6m (PVP 795€)</option>
+                  <option value="custom">Personalizado</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Precio Iluminación Fiesta (€)</label>
+                <input type="number" id="partyLightingPrice" value="250" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white font-mono" oninput="calcPrices()" />
+              </div>
+            </div>
+
+            <!-- Iluminación Perimetral Adicional -->
+            <div class="p-3 bg-gray-900/60 rounded-xl border border-gray-800 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <input type="checkbox" id="enablePerimeterLight" class="w-4 h-4 rounded text-brand-600 bg-gray-950 border-gray-700" onchange="calcPrices()">
+                <div>
+                  <label for="enablePerimeterLight" class="text-xs font-bold text-gray-200 cursor-pointer">Iluminación Perimetral del Espacio (18 Focos LED a batería)</label>
+                  <p class="text-[11px] text-gray-400">Para árboles, muros, columnas y fachada</p>
+                </div>
+              </div>
+              <div class="w-24">
+                <input type="number" id="perimeterLightPrice" value="100" class="w-full bg-gray-950 border border-gray-700 rounded px-2 py-1 text-xs text-white font-mono text-right" oninput="calcPrices()" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FASE 5: LOGÍSTICA & PAGO -->
+        <section class="glass-panel rounded-2xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center gap-2.5 border-b border-gray-800 pb-3">
+            <div class="p-2 rounded-lg bg-blue-500/10 text-blue-400">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">5. Logística, Dietas y Forma de Pago</h3>
+              <p class="text-xs text-gray-400">Desplazamiento, personal y condiciones de abono</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-medium text-gray-300 mb-1">Dietas de Staff / Menú Staff</label>
+              <input type="text" id="staffMeals" value="Se tendrá en cuenta la cena de 2 personas de Staff." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-gray-300 mb-1">Desplazamiento</label>
+              <input type="text" id="travelPolicy" value="Incluidos en el precio (Provincia de Girona)." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" oninput="updateAll()" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Plantilla de Forma de Pago</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <button onclick="setPaymentMode('standard')" class="payment-preset-btn text-xs p-3 rounded-xl border border-brand-500/50 bg-brand-500/10 text-brand-200 text-left transition hover:border-brand-400">
+                <div class="font-bold">15% Factura + 85% Evento</div>
+                <div class="text-[10px] text-gray-400">Reserva 15%+IVA previa y 85% día D</div>
+              </button>
+
+              <button onclick="setPaymentMode('friend')" class="payment-preset-btn text-xs p-3 rounded-xl border border-gray-800 bg-gray-900 text-gray-300 text-left transition hover:border-gray-700">
+                <div class="font-bold">100% Día del Evento</div>
+                <div class="text-[10px] text-gray-400">Abono íntegro el mismo día</div>
+              </button>
+
+              <button onclick="setPaymentMode('custom')" class="payment-preset-btn text-xs p-3 rounded-xl border border-gray-800 bg-gray-900 text-gray-300 text-left transition hover:border-gray-700">
+                <div class="font-bold">30% Reserva + 70% Transferencia</div>
+                <div class="text-[10px] text-gray-400">Personalizado con contrato</div>
+              </button>
+            </div>
+
+            <textarea id="paymentTermsText" rows="2" class="mt-3 w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-xs text-gray-200 font-mono focus:outline-none" oninput="updateAll()">15%+IVA (21%) - antes del evento. Se presentará factura.&#10;85% - el mismo día del evento</textarea>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Live Budget Summary & Export Tools (4 Cols) -->
+      <div class="lg:col-span-4 space-y-6">
+
+        <!-- Sticky Summary Box -->
+        <div class="sticky top-20 space-y-6">
+
+          <div class="glass-panel rounded-2xl p-6 shadow-2xl border-brand-500/30 relative overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-40 h-40 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Resumen Financiero</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-semibold">Tarifa 2027</span>
+            </div>
+
+            <!-- Dynamic Line Breakdown -->
+            <div class="space-y-3 py-4 text-sm">
+              <div id="summary-line-ceremony" class="flex justify-between items-center text-gray-300">
+                <span class="flex items-center gap-1.5"><i data-lucide="church" class="w-4 h-4 text-amber-400"></i> Ceremonia</span>
+                <span id="sum-ceremony" class="font-mono font-semibold">930 €</span>
+              </div>
+              <div id="summary-line-appetizer" class="flex justify-between items-center text-gray-300">
+                <span class="flex items-center gap-1.5"><i data-lucide="wine" class="w-4 h-4 text-emerald-400"></i> Aperitivo</span>
+                <span id="sum-appetizer" class="font-mono font-semibold">1.120 €</span>
+              </div>
+              <div id="summary-line-dinner" class="flex justify-between items-center text-gray-300">
+                <span class="flex items-center gap-1.5"><i data-lucide="utensils" class="w-4 h-4 text-purple-400"></i> Cena</span>
+                <span id="sum-dinner" class="font-mono font-semibold">150 €</span>
+              </div>
+              <div id="summary-line-party" class="flex justify-between items-center text-gray-300">
+                <span class="flex items-center gap-1.5"><i data-lucide="disc" class="w-4 h-4 text-pink-400"></i> Fiesta + Luces</span>
+                <span id="sum-party" class="font-mono font-semibold">750 €</span>
+              </div>
+              <div id="summary-line-perimeter" class="flex justify-between items-center text-gray-300 hidden">
+                <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-yellow-400"></i> Ilum. Perimetral</span>
+                <span id="sum-perimeter" class="font-mono font-semibold">100 €</span>
+              </div>
+            </div>
+
+            <!-- Total Hero Card -->
+            <div class="border-t border-gray-800 pt-4 space-y-2">
+              <div class="flex justify-between items-baseline">
+                <span class="text-sm font-semibold text-gray-400">Subtotal Tarifa Oficial:</span>
+                <span id="sum-official-pvp" class="text-sm text-gray-500 line-through font-mono">3.450 €</span>
+              </div>
+              <div class="flex justify-between items-baseline">
+                <span class="text-sm font-semibold text-emerald-400">Ahorro / Descuentos:</span>
+                <span id="sum-total-discount" class="text-sm text-emerald-400 font-mono font-bold">-500 €</span>
+              </div>
+
+              <div class="pt-3 border-t border-gray-700/60 flex justify-between items-end">
+                <div>
+                  <span class="text-xs uppercase tracking-wider text-gray-400 font-bold block">PRECIO TOTAL</span>
+                  <span class="text-[11px] text-gray-500">Sin IVA / Base imponible</span>
+                </div>
+                <div class="text-right">
+                  <span id="sum-grand-total" class="text-3xl font-extrabold text-white tracking-tight font-mono text-brand-400">2.950 €</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Commission Info for Planner -->
+            <div id="sum-planner-box" class="mt-4 p-3 bg-brand-900/40 border border-brand-500/30 rounded-xl text-xs space-y-1">
+              <div class="flex justify-between text-brand-300 font-semibold">
+                <span>Comisión Wedding Planner (15%):</span>
+                <span id="sum-planner-commission" class="font-mono font-bold">442,50 €</span>
+              </div>
+              <p class="text-[10px] text-gray-400">Incluido en el total presupuestado para el cliente</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-5 space-y-2.5">
+              <button onclick="copyFormattedProposal()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-amber-600 hover:from-brand-500 hover:to-amber-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2 transition active:scale-[0.98]">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+                Copiar Texto para Email / WhatsApp
+              </button>
+
+              <button onclick="openPrintProposalModal()" class="w-full py-2.5 px-4 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 font-semibold text-xs flex items-center justify-center gap-2 transition">
+                <i data-lucide="file-text" class="w-4 h-4 text-brand-400"></i>
+                Vista Previa PDF / Imprimir Ficha
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Quick Contacts Widget -->
+          <div class="glass-card rounded-2xl p-4 text-xs space-y-2 text-gray-400 border border-gray-800">
+            <div class="flex items-center gap-2 text-gray-300 font-semibold">
+              <i data-lucide="user-check" class="w-4 h-4 text-brand-400"></i>
+              <span>Santiago Cholbi (Live Bands Music)</span>
+            </div>
+            <p>📱 +34 627 370 334 &bull; ✉️ livebandsmusic@gmail.com</p>
+            <p class="text-[11px] text-gray-500">Peralada (Girona) &bull; NIF: 38101927N</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: CATÁLOGO OFICIAL 2027 -->
+  <div id="catalogModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-panel max-w-4xl w-full rounded-2xl max-h-[90vh] flex flex-col shadow-2xl border border-gray-700 overflow-hidden">
+      <div class="p-4 border-b border-gray-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5 text-brand-400"></i>
+          <h3 class="text-base font-bold text-white">Tarifas Oficiales 2027 - Live Bands Music</h3>
+        </div>
+        <button onclick="closeCatalogModal()" class="p-1 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 text-xs text-gray-300">
+        <!-- Bands Table -->
+        <div>
+          <h4 class="text-sm font-bold text-amber-400 mb-2 flex items-center gap-2">
+            <i data-lucide="music" class="w-4 h-4"></i> TARIFAS GRUPOS EN DIRECTO 2027 (90 min actuación)
+          </h4>
+          <div class="overflow-x-auto rounded-xl border border-gray-800">
+            <table class="w-full text-left">
+              <thead class="bg-gray-900 text-gray-400 border-b border-gray-800 uppercase text-[10px]">
+                <tr>
+                  <th class="p-3">Formato</th>
+                  <th class="p-3">PVP Base (Sin Sonorización)</th>
+                  <th class="p-3">Condiciones</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-800">
+                <tr><td class="p-3 font-bold text-white">SOLO</td><td class="p-3 font-mono text-amber-300">495 €</td><td class="p-3 text-gray-400">Desplazamiento Girona incluido</td></tr>
+                <tr><td class="p-3 font-bold text-white">DUO</td><td class="p-3 font-mono text-amber-300">795 €</td><td class="p-3 text-gray-400">Altas SS e IRPF incluidos</td></tr>
+                <tr><td class="p-3 font-bold text-white">TRIO</td><td class="p-3 font-mono text-amber-300">1.145 €</td><td class="p-3 text-gray-400">Validez hasta 31/12/2027</td></tr>
+                <tr><td class="p-3 font-bold text-white">QUARTET</td><td class="p-3 font-mono text-amber-300">1.435 €</td><td class="p-3 text-gray-400">+200 pax requiere sonorización</td></tr>
+                <tr><td class="p-3 font-bold text-white">QUINTET</td><td class="p-3 font-mono text-amber-300">1.725 €</td><td class="p-3 text-gray-400">Formaciones con voz requieren equipo</td></tr>
+                <tr><td class="p-3 font-bold text-white">SEXTET</td><td class="p-3 font-mono text-amber-300">1.730 €</td><td class="p-3 text-gray-400">Consultar otras provincias</td></tr>
+                <tr><td class="p-3 font-bold text-white">SEPTET</td><td class="p-3 font-mono text-amber-300">2.320 €</td><td class="p-3 text-gray-400">Gastos de facturación incluidos</td></tr>
+                <tr><td class="p-3 font-bold text-white">OCTET</td><td class="p-3 font-mono text-amber-300">2.610 €</td><td class="p-3 text-gray-400">Gran formación</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tech Table -->
+        <div>
+          <h4 class="text-sm font-bold text-blue-400 mb-2 flex items-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4"></i> TARIFAS SONIDO E ILUMINACIÓN 2027
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gray-900/80 p-4 rounded-xl border border-gray-800 space-y-2">
+              <div class="flex justify-between font-bold text-white">
+                <span>Sonorización Básica</span>
+                <span class="text-blue-400 font-mono">400 €</span>
+              </div>
+              <p class="text-gray-400 text-[11px]">2 Altavoces Yamaha DXR12 Biamplificados, Mesa Soundcraft UI24R, Microfonía, 1 Técnico de Sonido.</p>
+            </div>
+            <div class="bg-gray-900/80 p-4 rounded-xl border border-gray-800 space-y-2">
+              <div class="flex justify-between font-bold text-white">
+                <span>Sonorización Completa</span>
+                <span class="text-blue-400 font-mono">900 €</span>
+              </div>
+              <p class="text-gray-400 text-[11px]">2 Yamaha DXR12 + 2 Subs Yamaha DXS15, 4 Monitores DXR10, UI24R, Microfonía, 2 Técnicos de Sonido.</p>
+            </div>
+            <div class="bg-gray-900/80 p-4 rounded-xl border border-gray-800 space-y-2">
+              <div class="flex justify-between font-bold text-white">
+                <span>Iluminación Básica</span>
+                <span class="text-pink-400 font-mono">380 €</span>
+              </div>
+              <p class="text-gray-400 text-[11px]">2 Torres con 4 focos LED Par 64, 2 Torres con 4 cabezas móviles LED, 1 Técnico.</p>
+            </div>
+            <div class="bg-gray-900/80 p-4 rounded-xl border border-gray-800 space-y-2">
+              <div class="flex justify-between font-bold text-white">
+                <span>Iluminación Completa</span>
+                <span class="text-pink-400 font-mono">795 €</span>
+              </div>
+              <p class="text-gray-400 text-[11px]">DMX con 2 torres PAR LED, 1 Puente de 6m con 4 cabezas móviles, 4 Pars LED 64, Láser DMX, 2 Técnicos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL / VISTA PREVIA IMPRESIÓN Y PDF -->
+  <div id="printModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-2 sm:p-6 overflow-y-auto">
+    <div class="max-w-4xl w-full bg-white text-gray-900 rounded-2xl shadow-2xl my-auto p-6 sm:p-10 proposal-sheet relative">
+      
+      <!-- Top Action Bar (hidden when printing) -->
+      <div class="no-print flex items-center justify-between pb-6 mb-6 border-b border-gray-200">
+        <div class="flex items-center gap-2 text-sm text-gray-600">
+          <i data-lucide="eye" class="w-4 h-4 text-brand-600"></i>
+          <span>Vista Previa de la Ficha Formal de Presupuesto</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs flex items-center gap-2 shadow-md">
+            <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Guardar en PDF
+          </button>
+          <button onclick="closePrintModal()" class="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Content Container -->
+      <div id="printableContent" class="space-y-6 text-sm">
+        <!-- Header -->
+        <div class="flex justify-between items-start border-b-2 border-amber-600 pb-4">
+          <div>
+            <h1 class="text-2xl font-serif font-black text-gray-900 tracking-tight">LIVE BANDS MUSIC</h1>
+            <p class="text-xs text-amber-700 font-semibold tracking-widest uppercase">Música en Vivo &bull; Sonorización &bull; Iluminación</p>
+            <p class="text-[11px] text-gray-500 mt-1">www.livebandsmusic.com &bull; livebandsmusic@gmail.com &bull; +34 627 370 334</p>
+          </div>
+          <div class="text-right">
+            <span class="inline-block px-3 py-1 bg-amber-100 text-amber-900 font-bold text-xs rounded-full">PRESUPUESTO 2027</span>
+            <p class="text-xs text-gray-500 mt-1" id="pdf-current-date">Fecha emisión: 27 de agosto de 2026</p>
+          </div>
+        </div>
+
+        <!-- Event Summary Box -->
+        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div>
+            <span class="text-gray-500 block font-medium">Evento:</span>
+            <span id="pdf-event-title" class="font-bold text-gray-900">Boda de Hayati & Guillaume</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block font-medium">Fecha:</span>
+            <span id="pdf-event-date" class="font-bold text-gray-900">26/08/2027</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block font-medium">Lugar:</span>
+            <span id="pdf-event-location" class="font-bold text-gray-900">St. Martí d'Empúries</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block font-medium">Invitados:</span>
+            <span id="pdf-event-pax" class="font-bold text-gray-900">75 PAX</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Stages Breakdown Table -->
+        <div class="space-y-3">
+          <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Desglose de Servicios Contratados</h2>
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-gray-300 text-[11px] text-gray-500 uppercase">
+                <th class="py-2">Momento / Servicio</th>
+                <th class="py-2">Formación / Detalles</th>
+                <th class="py-2 text-right">Importe</th>
+              </tr>
+            </thead>
+            <tbody id="pdf-services-tbody" class="divide-y divide-gray-200 text-xs">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Total Box -->
+        <div class="border-t-2 border-gray-900 pt-4 flex justify-between items-center bg-gray-50 p-4 rounded-xl">
+          <div>
+            <span class="text-xs text-gray-500 uppercase block font-semibold">Total Presupuesto Acordado</span>
+            <span class="text-[11px] text-gray-500">Precios sin IVA aplicable (21%)</span>
+          </div>
+          <div class="text-right">
+            <span id="pdf-total-amount" class="text-2xl font-mono font-black text-gray-900">2.950,00 €</span>
+          </div>
+        </div>
+
+        <!-- Logistics & Payments -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2">
+          <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-gray-800 mb-1">Dietas y Desplazamiento</h3>
+            <p id="pdf-dietas-text" class="text-gray-600">Se tendrá en cuenta la cena de 2 personas de Staff.</p>
+            <p id="pdf-travel-text" class="text-gray-600 mt-1">Desplazamientos incluidos dentro de Girona.</p>
+          </div>
+          <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-gray-800 mb-1">Forma de Pago</h3>
+            <p id="pdf-payment-text" class="text-gray-600 whitespace-pre-line">15%+IVA previa factura antes del evento.<br>85% el mismo día del evento.</p>
+          </div>
+        </div>
+
+        <!-- RGPD Legal Footnote -->
+        <div class="text-[9px] text-gray-400 border-t border-gray-200 pt-3 leading-relaxed">
+          En cumplimiento del RGPD (UE) 2016/679, responsable: CHOLBI YUSTE, SANTIAGO (CIF: 38101927N). Dirección: C/ Germans Serra i Bonal 8A, 17491 Peralada (Girona). Correo: santicholbi@gmail.com. Finalidad: Gestión presupuestaria y comercial.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white px-5 py-3 rounded-xl border border-gray-700 shadow-2xl flex items-center gap-3 text-xs font-semibold pointer-events-none">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">Copiado al portapapeles</span>
+  </div>
+
+  <script>
+    /* Catalog Data 2027 */
+    const BAND_CATALOG = {
+      "SOLO": { pvp: 495, desc: "Solista vocal o instrumental" },
+      "DUO": { pvp: 795, desc: "Voz y guitarra / piano" },
+      "TRIO": { pvp: 1145, desc: "2 voces y piano / voz, guitarra y percusión" },
+      "QUARTET": { pvp: 1435, desc: "Cuarteto completo" },
+      "QUINTET": { pvp: 1725, desc: "Quinteto" },
+      "SEXTET": { pvp: 1730, desc: "Sexteto" },
+      "SEPTET": { pvp: 2320, desc: "Septeto" },
+      "OCTET": { pvp: 2610, desc: "Octeto / Gran formación" }
+    };
+
+    const BAND_LINKS = {
+      "GOSPEL ON": { link: "https://livebandsmusic.com/gospel-on/#GOTRIO", genre: "Spiritual & Gospel" },
+      "THE GUITAR KINGS": { link: "https://livebandsmusic.com/the-guitar-kings/#tgkp3", genre: "Rumba & Flamenco" },
+      "JAZZ DE COPES": { link: "https://livebandsmusic.com/jazz-de-copes/#jdcv4", genre: "Jazz, Pop, Bossa, Soul" },
+      "SWEET PLANET": { link: "https://livebandsmusic.com", genre: "Disco, Funk, Pop, Soul, Latin" },
+      "VIENNA BRAVA": { link: "https://livebandsmusic.com", genre: "Classical" },
+      "REVER QUEEN": { link: "https://livebandsmusic.com", genre: "Pop" },
+      "LATIN BIRDS": { link: "https://livebandsmusic.com", genre: "Latin & Boleros" }
+    };
+
+    const PRESETS = {
+      ejemplo1: {
+        eventTitle: "Boda de Hayati & Guillaume",
+        recipientName: "Phédile",
+        eventDate: "Jueves 26 de agosto de 2027",
+        eventSchedule: "de 16h del jueves a 2h del viernes",
+        eventLocation: "St. Martí d'Empúries y L'Escala",
+        eventPax: 75,
+        includeCommission: true,
+        ceremony: {
+          enabled: true,
+          space: "Iglesia de St. Martí d'Empúries",
+          maps: "https://maps.app.goo.gl/SegGrAVYq8x2LtPJ6",
+          schedule: "de 16 a 17h (1h)",
+          band: "GOSPEL ON",
+          format: "TRIO",
+          bandDesc: "2 voces y piano",
+          basePrice: 1335,
+          discount: 30,
+          finalPrice: 930,
+          soundIncluded: true,
+          link: "https://livebandsmusic.com/gospel-on/#GOTRIO"
+        },
+        appetizer: {
+          enabled: true,
+          space: "Restaurant Bretta",
+          maps: "https://maps.app.goo.gl/NhUQ9MQ1Epg9scg58",
+          schedule: "de 17:30 a 19:30h (1,5 h de música en directo - 30 min de playlist)",
+          band: "THE GUITAR KINGS",
+          format: "TRIO",
+          bandDesc: "voz y guitarra, guitarra solista y percusionista",
+          basePrice: 1335,
+          discount: 15,
+          finalPrice: 1120,
+          soundIncluded: true,
+          link: "https://livebandsmusic.com/the-guitar-kings/#tgkp3"
+        },
+        dinner: {
+          enabled: true,
+          schedule: "19:30 a 22:30h aprox. (3h)",
+          price: 150
+        },
+        party: {
+          enabled: true,
+          schedule: "22:30 a 2:00h aprox. (3,5h)",
+          djName: "DJ MARC",
+          djPrice: 500,
+          lightingType: "bridge_custom",
+          lightingPrice: 250,
+          perimeterLight: false,
+          perimeterPrice: 100
+        },
+        staffMeals: "Se tendrá en cuenta la cena de 2 personas de Staff.",
+        travelPolicy: "Incluidos en el precio (Provincia de Girona).",
+        paymentTerms: "15%+IVA (21%) - antes del evento. Se presentará factura.\n85% \"de aquella manera\" - el mismo dia del evento"
+      },
+      ejemplo2: {
+        eventTitle: "Boda de Olaf y Silvio",
+        recipientName: "Silvio y Olaf",
+        eventDate: "Sábado 19 de junio de 2027",
+        eventSchedule: "de 16h a 24h aprox.",
+        eventLocation: "Casa Particular en Tossa de Mar",
+        eventPax: 35,
+        includeCommission: false,
+        ceremony: {
+          enabled: true,
+          space: "A definir (Tossa de Mar)",
+          maps: "",
+          schedule: "de 16:30 a 17:30h (1h)",
+          band: "JAZZ DE COPES",
+          format: "DUO",
+          bandDesc: "Voz y guitarra",
+          basePrice: 795,
+          discount: 40,
+          finalPrice: 600, // 400 band + 200 sound
+          soundIncluded: true,
+          link: "https://livebandsmusic.com/jazz-de-copes"
+        },
+        appetizer: {
+          enabled: true,
+          space: "A definir",
+          maps: "",
+          schedule: "de 17:30 a 19:30h (1,5 h de música en directo - 30 min de playlist)",
+          band: "JAZZ DE COPES",
+          format: "QUARTET",
+          bandDesc: "Cuarteto de Jazz y Bossa",
+          basePrice: 1435,
+          discount: 15,
+          finalPrice: 1400, // 1200 band + 200 sound
+          soundIncluded: true,
+          link: "https://livebandsmusic.com/jazz-de-copes/#jdcv4"
+        },
+        dinner: {
+          enabled: true,
+          schedule: "19:30 a 22:00h aprox. (2,5h)",
+          price: 100
+        },
+        party: {
+          enabled: true,
+          schedule: "22:00 a 1:30h aprox. (3,5h)",
+          djName: "DJ MARC",
+          djPrice: 500,
+          lightingType: "basic_light",
+          lightingPrice: 250,
+          perimeterLight: true,
+          perimeterPrice: 100
+        },
+        staffMeals: "Se tendrá en cuenta la cena de 2 personas de Staff y del DJ.",
+        travelPolicy: "Incluidos en el precio (Provincia de Girona).",
+        paymentTerms: "100% \"de amigo\" - el mismo día del evento."
+      }
+    };
+
+    function calcPrices() {
+      // Ceremony
+      const cerEnabled = document.getElementById('enableCeremony').checked;
+      const cerBase = parseFloat(document.getElementById('ceremonyBasePrice').value) || 0;
+      const cerDisc = parseFloat(document.getElementById('ceremonyDiscount').value) || 0;
+      let cerFinal = parseFloat(document.getElementById('ceremonyFinalPrice').value);
+      if (isNaN(cerFinal)) {
+        cerFinal = Math.round(cerBase * (1 - cerDisc / 100));
+        document.getElementById('ceremonyFinalPrice').value = cerFinal;
+      }
+      document.getElementById('badge-ceremony-total').innerText = (cerEnabled ? cerFinal : 0) + ' €';
+      document.getElementById('sum-ceremony').innerText = (cerEnabled ? cerFinal : 0) + ' €';
+
+      // Appetizer
+      const appEnabled = document.getElementById('enableAppetizer').checked;
+      const appBase = parseFloat(document.getElementById('appetizerBasePrice').value) || 0;
+      const appDisc = parseFloat(document.getElementById('appetizerDiscount').value) || 0;
+      let appFinal = parseFloat(document.getElementById('appetizerFinalPrice').value);
+      if (isNaN(appFinal)) {
+        appFinal = Math.round(appBase * (1 - appDisc / 100));
+        document.getElementById('appetizerFinalPrice').value = appFinal;
+      }
+      document.getElementById('badge-appetizer-total').innerText = (appEnabled ? appFinal : 0) + ' €';
+      document.getElementById('sum-appetizer').innerText = (appEnabled ? appFinal : 0) + ' €';
+
+      // Dinner
+      const dinEnabled = document.getElementById('enableDinner').checked;
+      const dinPrice = parseFloat(document.getElementById('dinnerPrice').value) || 0;
+      document.getElementById('badge-dinner-total').innerText = (dinEnabled ? dinPrice : 0) + ' €';
+      document.getElementById('sum-dinner').innerText = (dinEnabled ? dinPrice : 0) + ' €';
+
+      // Party & DJ
+      const parEnabled = document.getElementById('enableParty').checked;
+      const partyDj = parseFloat(document.getElementById('partyDjPrice').value) || 0;
+      const partyLight = parseFloat(document.getElementById('partyLightingPrice').value) || 0;
+      const perimEnabled = document.getElementById('enablePerimeterLight').checked;
+      const perimPrice = parseFloat(document.getElementById('perimeterLightPrice').value) || 0;
+
+      const partySubtotal = partyDj + partyLight;
+      document.getElementById('badge-party-total').innerText = (parEnabled ? partySubtotal : 0) + ' €';
+      document.getElementById('sum-party').innerText = (parEnabled ? partySubtotal : 0) + ' €';
+
+      // Perimeter light visibility
+      const perimLine = document.getElementById('summary-line-perimeter');
+      if (perimEnabled) {
+        perimLine.classList.remove('hidden');
+        document.getElementById('sum-perimeter').innerText = perimPrice + ' €';
+      } else {
+        perimLine.classList.add('hidden');
+      }
+
+      // Grand Totals
+      const grandTotal = (cerEnabled ? cerFinal : 0) +
+                         (appEnabled ? appFinal : 0) +
+                         (dinEnabled ? dinPrice : 0) +
+                         (parEnabled ? partySubtotal : 0) +
+                         (perimEnabled ? perimPrice : 0);
+
+      const officialPvp = (cerEnabled ? cerBase : 0) +
+                          (appEnabled ? appBase : 0) +
+                          (dinEnabled ? dinPrice : 0) +
+                          (parEnabled ? (partyDj + 380) : 0) +
+                          (perimEnabled ? perimPrice : 0);
+
+      const totalSavings = officialPvp - grandTotal;
+
+      document.getElementById('sum-grand-total').innerText = grandTotal.toLocaleString('es-ES') + ' €';
+      document.getElementById('sum-official-pvp').innerText = officialPvp.toLocaleString('es-ES') + ' €';
+      document.getElementById('sum-total-discount').innerText = (totalSavings > 0 ? '-' : '') + Math.abs(totalSavings).toLocaleString('es-ES') + ' €';
+
+      // Commission 15%
+      const commBox = document.getElementById('sum-planner-box');
+      const commChecked = document.getElementById('includeCommission').checked;
+      if (commChecked) {
+        commBox.classList.remove('hidden');
+        const commValue = (grandTotal * 0.15).toFixed(2);
+        document.getElementById('sum-planner-commission').innerText = parseFloat(commValue).toLocaleString('es-ES', { minimumFractionDigits: 2 }) + ' €';
+      } else {
+        commBox.classList.add('hidden');
+      }
+    }
+
+    function onFinalPriceManual(phase) {
+      const base = parseFloat(document.getElementById(`${phase}BasePrice`).value) || 0;
+      const finalVal = parseFloat(document.getElementById(`${phase}FinalPrice`).value) || 0;
+      if (base > 0) {
+        const disc = Math.round(((base - finalVal) / base) * 100);
+        document.getElementById(`${phase}Discount`).value = disc;
+      }
+      calcPrices();
+    }
+
+    function onBandChange(phase) {
+      const band = document.getElementById(`${phase}Band`).value;
+      if (BAND_LINKS[band]) {
+        document.getElementById(`${phase}BandLink`).value = BAND_LINKS[band].link;
+      }
+      updateAll();
+    }
+
+    function onFormatChange(phase) {
+      const format = document.getElementById(`${phase}Format`).value;
+      if (BAND_CATALOG[format]) {
+        document.getElementById(`${phase}BasePrice`).value = BAND_CATALOG[format].pvp;
+        document.getElementById(`${phase}BandDesc`).value = BAND_CATALOG[format].desc;
+        // recalculate final
+        const disc = parseFloat(document.getElementById(`${phase}Discount`).value) || 0;
+        document.getElementById(`${phase}FinalPrice`).value = Math.round(BAND_CATALOG[format].pvp * (1 - disc / 100));
+      }
+      calcPrices();
+    }
+
+    function onLightingChange() {
+      const type = document.getElementById('partyLightingType').value;
+      if (type === 'bridge_custom') {
+        document.getElementById('partyLightingPrice').value = 250;
+      } else if (type === 'basic_light') {
+        document.getElementById('partyLightingPrice').value = 250;
+      } else if (type === 'complete_light') {
+        document.getElementById('partyLightingPrice').value = 795;
+      }
+      calcPrices();
+    }
+
+    function toggleSection(sectionId) {
+      const isChecked = document.getElementById(`enable${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}`).checked;
+      const body = document.getElementById(`section-${sectionId}-body`);
+      const sumLine = document.getElementById(`summary-line-${sectionId}`);
+      if (isChecked) {
+        body.classList.remove('opacity-40', 'pointer-events-none');
+        sumLine.classList.remove('hidden');
+      } else {
+        body.classList.add('opacity-40', 'pointer-events-none');
+        sumLine.classList.add('hidden');
+      }
+      calcPrices();
+    }
+
+    function setPaymentMode(mode) {
+      const terms = document.getElementById('paymentTermsText');
+      if (mode === 'standard') {
+        terms.value = "15%+IVA (21%) - antes del evento. Se presentará factura.\n85% \"de aquella manera\" - el mismo día del evento";
+      } else if (mode === 'friend') {
+        terms.value = "100% \"de amigo\" - el mismo día del evento.";
+      } else {
+        terms.value = "30% Reserva con contrato firmado.\n70% restante 7 días antes del evento mediante transferencia bancaria.";
+      }
+      updateAll();
+    }
+
+    function updateAll() {
+      calcPrices();
+    }
+
+    function loadPreset(key) {
+      const data = PRESETS[key];
+      if (!data) return;
+
+      document.getElementById('eventTitle').value = data.eventTitle;
+      document.getElementById('recipientName').value = data.recipientName;
+      document.getElementById('eventDate').value = data.eventDate;
+      document.getElementById('eventSchedule').value = data.eventSchedule;
+      document.getElementById('eventLocation').value = data.eventLocation;
+      document.getElementById('eventPax').value = data.eventPax;
+      document.getElementById('includeCommission').checked = data.includeCommission;
+
+      // Ceremony
+      document.getElementById('enableCeremony').checked = data.ceremony.enabled;
+      document.getElementById('ceremonySpace').value = data.ceremony.space;
+      document.getElementById('ceremonyMaps').value = data.ceremony.maps;
+      document.getElementById('ceremonySchedule').value = data.ceremony.schedule;
+      document.getElementById('ceremonyBand').value = data.ceremony.band;
+      document.getElementById('ceremonyFormat').value = data.ceremony.format;
+      document.getElementById('ceremonyBandDesc').value = data.ceremony.bandDesc;
+      document.getElementById('ceremonyBasePrice').value = data.ceremony.basePrice;
+      document.getElementById('ceremonyDiscount').value = data.ceremony.discount;
+      document.getElementById('ceremonyFinalPrice').value = data.ceremony.finalPrice;
+      document.getElementById('ceremonySoundIncluded').checked = data.ceremony.soundIncluded;
+      document.getElementById('ceremonyBandLink').value = data.ceremony.link;
+
+      // Appetizer
+      document.getElementById('enableAppetizer').checked = data.appetizer.enabled;
+      document.getElementById('appetizerSpace').value = data.appetizer.space;
+      document.getElementById('appetizerMaps').value = data.appetizer.maps;
+      document.getElementById('appetizerSchedule').value = data.appetizer.schedule;
+      document.getElementById('appetizerBand').value = data.appetizer.band;
+      document.getElementById('appetizerFormat').value = data.appetizer.format;
+      document.getElementById('appetizerBandDesc').value = data.appetizer.bandDesc;
+      document.getElementById('appetizerBasePrice').value = data.appetizer.basePrice;
+      document.getElementById('appetizerDiscount').value = data.appetizer.discount;
+      document.getElementById('appetizerFinalPrice').value = data.appetizer.finalPrice;
+      document.getElementById('appetizerSoundIncluded').checked = data.appetizer.soundIncluded;
+      document.getElementById('appetizerBandLink').value = data.appetizer.link;
+
+      // Dinner
+      document.getElementById('enableDinner').checked = data.dinner.enabled;
+      document.getElementById('dinnerSchedule').value = data.dinner.schedule;
+      document.getElementById('dinnerPrice').value = data.dinner.price;
+
+      // Party
+      document.getElementById('enableParty').checked = data.party.enabled;
+      document.getElementById('partySchedule').value = data.party.schedule;
+      document.getElementById('partyDjName').value = data.party.djName;
+      document.getElementById('partyDjPrice').value = data.party.djPrice;
+      document.getElementById('partyLightingType').value = data.party.lightingType;
+      document.getElementById('partyLightingPrice').value = data.party.lightingPrice;
+      document.getElementById('enablePerimeterLight').checked = data.party.perimeterLight;
+      document.getElementById('perimeterLightPrice').value = data.party.perimeterPrice;
+
+      // Logistics
+      document.getElementById('staffMeals').value = data.staffMeals;
+      document.getElementById('travelPolicy').value = data.travelPolicy;
+      document.getElementById('paymentTermsText').value = data.paymentTerms;
+
+      toggleSection('ceremony');
+      toggleSection('appetizer');
+      toggleSection('dinner');
+      toggleSection('party');
+
+      showToast(`Plantilla "${data.eventTitle}" cargada con éxito.`);
+    }
+
+    function resetForm() {
+      document.getElementById('eventTitle').value = "Boda";
+      document.getElementById('recipientName').value = "Cliente";
+      document.getElementById('eventLocation').value = "Provincia de Girona";
+      document.getElementById('ceremonyFinalPrice').value = 600;
+      document.getElementById('appetizerFinalPrice').value = 1100;
+      document.getElementById('dinnerPrice').value = 150;
+      document.getElementById('partyDjPrice').value = 500;
+      document.getElementById('partyLightingPrice').value = 250;
+      calcPrices();
+      showToast("Formulario restablecido.");
+    }
+
+    function copyFormattedProposal() {
+      const recipient = document.getElementById('recipientName').value;
+      const eventTitle = document.getElementById('eventTitle').value;
+      const date = document.getElementById('eventDate').value;
+      const location = document.getElementById('eventLocation').value;
+      const schedule = document.getElementById('eventSchedule').value;
+      const pax = document.getElementById('eventPax').value;
+      const commChecked = document.getElementById('includeCommission').checked;
+
+      const cerEnabled = document.getElementById('enableCeremony').checked;
+      const appEnabled = document.getElementById('enableAppetizer').checked;
+      const dinEnabled = document.getElementById('enableDinner').checked;
+      const parEnabled = document.getElementById('enableParty').checked;
+      const perimEnabled = document.getElementById('enablePerimeterLight').checked;
+
+      let text = `Hola ${recipient},\n\n`;
+      text += `Tal y como hablamos por teléfono y whatsapp he preparado la propuesta detallada para el evento:\n\n`;
+      text += `Adjunto nuestros precios oficiales para el 2027.\n`;
+      if (commChecked) {
+        text += `Te recuerdo que los precios incluyen un 15% de comisión para ti.\n`;
+      }
+      text += `\nTipo de celebración: ${eventTitle}\n`;
+      text += `Servicios a contratar: Música en directo y sonorizaciones para ${[cerEnabled ? 'la ceremonia' : '', appEnabled ? 'aperitivo' : '', dinEnabled ? 'cena' : '', parEnabled ? 'fiesta' : ''].filter(Boolean).join(', ')}.\n`;
+      text += `Fecha: ${date}\n`;
+      text += `Lugar: ${location}\n`;
+      text += `Horarios: ${schedule}\n`;
+      text += `Sonorizaciones: Live Bands Music\n`;
+      text += `PAX: ${pax}\n\n`;
+
+      if (cerEnabled) {
+        const cSpace = document.getElementById('ceremonySpace').value;
+        const cMaps = document.getElementById('ceremonyMaps').value;
+        const cSched = document.getElementById('ceremonySchedule').value;
+        const cBand = document.getElementById('ceremonyBand').value;
+        const cForm = document.getElementById('ceremonyFormat').value;
+        const cDesc = document.getElementById('ceremonyBandDesc').value;
+        const cBase = document.getElementById('ceremonyBasePrice').value;
+        const cDisc = document.getElementById('ceremonyDiscount').value;
+        const cFinal = document.getElementById('ceremonyFinalPrice').value;
+        const cLink = document.getElementById('ceremonyBandLink').value;
+
+        text += `CEREMONIA\n`;
+        text += `Espacio: ${cSpace}${cMaps ? ' - ' + cMaps : ''}\n`;
+        text += `Horario: ${cSched}\n`;
+        text += `Banda: ${cBand} ${cForm} (${cDesc}) ${cLink ? '- ' + cLink : ''}\n`;
+        text += `Precio: ${cBase}€ (aplicando un ${cDisc}% de descuento quedaría en ${cFinal}€)\n`;
+        text += `Repertorio: 6 temas a la carta durante la ceremonia y 6 temas del repertorio de los artistas durante la llegada de invitados.\n`;
+        text += `Sonorización: Incluida en el precio. La realizaría Live Bands Music, incluyendo micrófonos extras necesarios y técnico dedicado.\n\n`;
+      }
+
+      if (appEnabled) {
+        const aSpace = document.getElementById('appetizerSpace').value;
+        const aMaps = document.getElementById('appetizerMaps').value;
+        const aSched = document.getElementById('appetizerSchedule').value;
+        const aBand = document.getElementById('appetizerBand').value;
+        const aForm = document.getElementById('appetizerFormat').value;
+        const aDesc = document.getElementById('appetizerBandDesc').value;
+        const aBase = document.getElementById('appetizerBasePrice').value;
+        const aDisc = document.getElementById('appetizerDiscount').value;
+        const aFinal = document.getElementById('appetizerFinalPrice').value;
+        const aLink = document.getElementById('appetizerBandLink').value;
+
+        text += `APERITIVO\n`;
+        text += `Espacio: ${aSpace}${aMaps ? ' - ' + aMaps : ''}\n`;
+        text += `Horario: ${aSched}\n`;
+        text += `Banda: ${aBand} ${aForm} (${aDesc}) ${aLink ? '- ' + aLink : ''}\n`;
+        text += `Precio: ${aBase}€ (aplicando un ${aDisc}% de descuento quedaría en ${aFinal}€)\n`;
+        text += `Sonorización: Incluida en el precio. Durante los posibles descansos de música en directo se reproducirá una playlist de ambiente.\n\n`;
+      }
+
+      if (dinEnabled) {
+        const dSched = document.getElementById('dinnerSchedule').value;
+        const dPrice = document.getElementById('dinnerPrice').value;
+        text += `CENA\n`;
+        text += `Horario: ${dSched}\n`;
+        text += `Sonorización: Se aportarán dos micrófonos inalámbricos para parlamentos y el técnico reproducirá canciones clave para entradas y pastel.\n`;
+        text += `Precio: ${dPrice}€\n\n`;
+      }
+
+      if (parEnabled) {
+        const pSched = document.getElementById('partySchedule').value;
+        const pDjName = document.getElementById('partyDjName').value;
+        const pDjPrice = document.getElementById('partyDjPrice').value;
+        const pLightPrice = document.getElementById('partyLightingPrice').value;
+
+        text += `FIESTA\n`;
+        text += `Horario: ${pSched}\n`;
+        text += `${pDjName}: https://youtu.be/0XQfjmOrcME\n`;
+        text += `Precio DJ: ${pDjPrice}€ (Hora extra: 100€/h)\n`;
+        text += `Iluminación de fiesta: Puente DMX, cabezas móviles, láser y máquinas de humo - https://youtu.be/9RV2LAJhh44\n`;
+        text += `Precio Iluminación: ${pLightPrice}€\n\n`;
+      }
+
+      if (perimEnabled) {
+        const perimPrice = document.getElementById('perimeterLightPrice').value;
+        text += `ILUMINACIÓN PERIMETRAL DEL ESPACIO\n`;
+        text += `18 focos LED a batería para paredes, árboles y jardines: ${perimPrice}€\n\n`;
+      }
+
+      text += `DIETAS\n${document.getElementById('staffMeals').value}\n\n`;
+      text += `DESPLAZAMIENTOS\n${document.getElementById('travelPolicy').value}\n\n`;
+
+      const grandTotal = document.getElementById('sum-grand-total').innerText;
+      text += `PRECIO TOTAL\n`;
+      if (cerEnabled) text += `Ceremonia: ${document.getElementById('ceremonyFinalPrice').value}€\n`;
+      if (appEnabled) text += `Aperitivo: ${document.getElementById('appetizerFinalPrice').value}€\n`;
+      if (dinEnabled) text += `Cena: ${document.getElementById('dinnerPrice').value}€\n`;
+      if (parEnabled) text += `Fiesta: ${document.getElementById('partyDjPrice').value}€ + Iluminación ${document.getElementById('partyLightingPrice').value}€\n`;
+      if (perimEnabled) text += `Iluminación perimetral: ${document.getElementById('perimeterLightPrice').value}€\n`;
+      text += `\nTOTAL : ${grandTotal}\n\n`;
+
+      text += `FORMA DE PAGO\n${document.getElementById('paymentTermsText').value}\n\n`;
+      text += `Saludos y muchas gracias.\nSanti Cholbi - Live Bands Music\n+34 627 370 334 | livebandsmusic@gmail.com\nwww.livebandsmusic.com`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("¡Texto copiado al portapapeles con formato exacto!");
+      }).catch(() => {
+        showToast("Error al copiar. Por favor selecciona el texto manualmente.");
+      });
+    }
+
+    function openPrintProposalModal() {
+      document.getElementById('pdf-event-title').innerText = document.getElementById('eventTitle').value;
+      document.getElementById('pdf-event-date').innerText = document.getElementById('eventDate').value;
+      document.getElementById('pdf-event-location').innerText = document.getElementById('eventLocation').value;
+      document.getElementById('pdf-event-pax').innerText = document.getElementById('eventPax').value + ' PAX';
+      document.getElementById('pdf-total-amount').innerText = document.getElementById('sum-grand-total').innerText;
+      document.getElementById('pdf-dietas-text').innerText = document.getElementById('staffMeals').value;
+      document.getElementById('pdf-travel-text').innerText = document.getElementById('travelPolicy').value;
+      document.getElementById('pdf-payment-text').innerText = document.getElementById('paymentTermsText').value;
+
+      const tbody = document.getElementById('pdf-services-tbody');
+      tbody.innerHTML = '';
+
+      if (document.getElementById('enableCeremony').checked) {
+        const cBand = document.getElementById('ceremonyBand').value;
+        const cForm = document.getElementById('ceremonyFormat').value;
+        const cPrice = document.getElementById('ceremonyFinalPrice').value;
+        tbody.innerHTML += `
+          <tr>
+            <td class="py-2.5 font-bold text-gray-900">Ceremonia Rito & Llegada</td>
+            <td class="py-2.5 text-gray-600">${cBand} (${cForm}) + Sonorización dedicada & micrófonos de lectura</td>
+            <td class="py-2.5 text-right font-mono font-bold text-gray-900">${cPrice} €</td>
+          </tr>
+        `;
+      }
+
+      if (document.getElementById('enableAppetizer').checked) {
+        const aBand = document.getElementById('appetizerBand').value;
+        const aForm = document.getElementById('appetizerFormat').value;
+        const aPrice = document.getElementById('appetizerFinalPrice').value;
+        tbody.innerHTML += `
+          <tr>
+            <td class="py-2.5 font-bold text-gray-900">Aperitivo / Cóctel</td>
+            <td class="py-2.5 text-gray-600">${aBand} (${aForm}) - 90 min en directo + playlist descansos</td>
+            <td class="py-2.5 text-right font-mono font-bold text-gray-900">${aPrice} €</td>
+          </tr>
+        `;
+      }
+
+      if (document.getElementById('enableDinner').checked) {
+        const dPrice = document.getElementById('dinnerPrice').value;
+        tbody.innerHTML += `
+          <tr>
+            <td class="py-2.5 font-bold text-gray-900">Sonorización Cena</td>
+            <td class="py-2.5 text-gray-600">Playlist ambiente + 2 micros inalámbricos para discursos + técnico para cortes de pastel/entradas</td>
+            <td class="py-2.5 text-right font-mono font-bold text-gray-900">${dPrice} €</td>
+          </tr>
+        `;
+      }
+
+      if (document.getElementById('enableParty').checked) {
+        const pDjName = document.getElementById('partyDjName').value;
+        const pDjPrice = document.getElementById('partyDjPrice').value;
+        const pLightPrice = document.getElementById('partyLightingPrice').value;
+        tbody.innerHTML += `
+          <tr>
+            <td class="py-2.5 font-bold text-gray-900">Fiesta & DJ</td>
+            <td class="py-2.5 text-gray-600">${pDjName} (Sesión fiesta ~3.5h)</td>
+            <td class="py-2.5 text-right font-mono font-bold text-gray-900">${pDjPrice} €</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 font-bold text-gray-900">Iluminación Fiesta</td>
+            <td class="py-2.5 text-gray-600">Puente DMX, cabezas móviles LED, láser y 2 máquinas de humo</td>
+            <td class="py-2.5 text-right font-mono font-bold text-gray-900">${pLightPrice} €</td>
+          </tr>
+        `;
+      }
+
+      if (document.getElementById('enablePerimeterLight').checked) {
+        const perPrice = document.getElementById('perimeterLightPrice').value;
+        tbody.innerHTML += `
+          <tr>
+            <td class="py-2.5 font-bold text-gray-900">Iluminación Perimetral</td>
+            <td class="py-2.5 text-gray-600">18 focos LED a batería para muros, jardines y árboles</td>
+            <td class="py-2.5 text-right font-mono font-bold text-gray-900">${perPrice} €</td>
+          </tr>
+        `;
+      }
+
+      document.getElementById('printModal').classList.remove('hidden');
+      document.getElementById('printModal').classList.add('flex');
+    }
+
+    function closePrintModal() {
+      document.getElementById('printModal').classList.add('hidden');
+      document.getElementById('printModal').classList.remove('flex');
+    }
+
+    function openCatalogModal() {
+      document.getElementById('catalogModal').classList.remove('hidden');
+      document.getElementById('catalogModal').classList.add('flex');
+    }
+
+    function closeCatalogModal() {
+      document.getElementById('catalogModal').classList.add('hidden');
+      document.getElementById('catalogModal').classList.remove('flex');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      calcPrices();
+    });
+  </script>
+</body>
+</html>

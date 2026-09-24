@@ -1,0 +1,765 @@
+{
+  "$schema": "./catalog.schema.json",
+  "version_catalogo": "2027.1.0",
+  "updated_at": "2026-09-22",
+  "empresa": {
+    "nombre": "Live Bands Music",
+    "director": "Santiago Cholbi",
+    "base_operativa": "Peralada, Girona (Catalunya)",
+    "telefono": "+34 627 37 03 34",
+    "web": "https://livebandsmusic.com"
+  },
+  "momentos_live": [
+    {
+      "id": "ceremonia",
+      "nombre": "Ceremonia",
+      "descripcion": "Rito civil o religioso. Momentos clave: entrada de novios, lecturas, rito de anillos y salida."
+    },
+    {
+      "id": "aperitivo",
+      "nombre": "Aperitivo / Cóctel",
+      "descripcion": "Recepción de bienvenida y cóctel de invitados. Música viva, dinámica y elegante."
+    },
+    {
+      "id": "fiesta_pre_dj",
+      "nombre": "Fiesta en Directo (pre-DJ)",
+      "descripcion": "Pase de baile en directo de alta energía para abrir la pista antes o durante la barra libre."
+    }
+  ],
+  "estilos": [
+    { "id": "clasica", "nombre": "Música Clásica & Cuerdas" },
+    { "id": "gospel", "nombre": "Gospel & Espirituales" },
+    { "id": "pop_jazz_soul_bossa", "nombre": "Pop, Jazz, Soul & Bossa Nova" },
+    { "id": "disco_funk_rock", "nombre": "Disco, Funk, Soul & Pop-Rock" },
+    { "id": "latin_boleros", "nombre": "Latin & Boleros" },
+    { "id": "rumba_flamenco", "nombre": "Rumba & Flamenco Fusión" }
+  ],
+  "matriz_compatibilidad_live": {
+    "ceremonia": {
+      "clasica": ["vienna-brava"],
+      "gospel": ["gospel-on"],
+      "pop_jazz_soul_bossa": ["jazz-de-copes", "rever-queen"],
+      "rumba_flamenco": ["the-guitar-kings"],
+      "latin_boleros": ["latin-birds"]
+    },
+    "aperitivo": {
+      "clasica": ["vienna-brava"],
+      "gospel": ["gospel-on"],
+      "pop_jazz_soul_bossa": ["jazz-de-copes", "rever-queen", "gospel-on"],
+      "disco_funk_rock": ["sweet-planet"],
+      "latin_boleros": ["latin-birds"],
+      "rumba_flamenco": ["the-guitar-kings"]
+    },
+    "fiesta_pre_dj": {
+      "gospel": ["gospel-on"],
+      "pop_jazz_soul_bossa": ["jazz-de-copes", "rever-queen", "gospel-on"],
+      "disco_funk_rock": ["sweet-planet"],
+      "latin_boleros": ["latin-birds"],
+      "rumba_flamenco": ["the-guitar-kings"]
+    }
+  },
+  "servicios_complementarios": {
+    "banquete": {
+      "id": "banquete",
+      "nombre": "Soporte Técnico de Cena y Discursos",
+      "tipo": "sonorizacion_evento",
+      "descripcion": "2 micrófonos inalámbricos de mano para discursos/brindis y técnico para lanzar temas clave (entrada novios, tarta y regalos).",
+      "precio_eur": 150,
+      "status": "PENDIENTE_CONFIRMACION_CLIENTE"
+    },
+    "fiesta_dj": {
+      "id": "fiesta_dj",
+      "nombre": "Sesión DJ Profesional para Fiesta",
+      "tipo": "dj_barra_libre",
+      "descripcion": "DJ profesional con cabina, controladora y repertorio adaptado para barra libre (3,5 h de sesión aprox.).",
+      "precio_eur": 500,
+      "status": "PENDIENTE_CONFIRMACION_CLIENTE"
+    },
+    "iluminacion_perimetral": {
+      "id": "iluminacion_perimetral",
+      "nombre": "Iluminación Perimetral Arquitectónica",
+      "tipo": "iluminacion_ambiental",
+      "descripcion": "Kit de 18 focos LED a batería para realzar árboles, columnas, fachadas de piedra o jardines.",
+      "precio_eur": 100,
+      "status": "PENDIENTE_CONFIRMACION_CLIENTE"
+    }
+  },
+  "formaciones_base": [
+    {
+      "id": "SOLO",
+      "nombre": "Solo",
+      "duracion_min": 90,
+      "cache_base_eur": 495,
+      "musicos_cantidad": 1,
+      "musicos_roles": [
+        { "rol": "Músico Solista", "cache_individual_eur": 495 }
+      ],
+      "rider_sonido_minimo_id": "none",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Hasta 50 PAX • Momentos íntimos y rito"
+    },
+    {
+      "id": "DUO",
+      "nombre": "Duo",
+      "duracion_min": 90,
+      "cache_base_eur": 795,
+      "musicos_cantidad": 2,
+      "musicos_roles": [
+        { "rol": "Voz principal / Solista", "cache_individual_eur": 395 },
+        { "rol": "Instrumento armónico (Guitarra / Teclado)", "cache_individual_eur": 400 }
+      ],
+      "rider_sonido_minimo_id": "basic",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Hasta 100 PAX • Formato acústico elegante"
+    },
+    {
+      "id": "TRIO",
+      "nombre": "Trio",
+      "duracion_min": 90,
+      "cache_base_eur": 1145,
+      "musicos_cantidad": 3,
+      "musicos_roles": [
+        { "rol": "Voz principal", "cache_individual_eur": 385 },
+        { "rol": "Instrumento armónico (Guitarra / Piano)", "cache_individual_eur": 380 },
+        { "rol": "Base rítmica / Percusión / Bajo", "cache_individual_eur": 380 }
+      ],
+      "rider_sonido_minimo_id": "basic",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Hasta 160 PAX • Equilibrio acústico y ritmo"
+    },
+    {
+      "id": "QUARTET",
+      "nombre": "Quartet",
+      "duracion_min": 90,
+      "cache_base_eur": 1435,
+      "musicos_cantidad": 4,
+      "musicos_roles": [
+        { "rol": "Voz principal", "cache_individual_eur": 360 },
+        { "rol": "Guitarra / Teclados", "cache_individual_eur": 360 },
+        { "rol": "Bajo eléctrico / Contrabajo", "cache_individual_eur": 360 },
+        { "rol": "Batería / Percusión completa", "cache_individual_eur": 355 }
+      ],
+      "rider_sonido_minimo_id": "complete",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Hasta 220 PAX • Banda completa con percusión"
+    },
+    {
+      "id": "QUINTET",
+      "nombre": "Quintet",
+      "duracion_min": 90,
+      "cache_base_eur": 1725,
+      "musicos_cantidad": 5,
+      "musicos_roles": [
+        { "rol": "Voz principal", "cache_individual_eur": 345 },
+        { "rol": "Guitarra solista", "cache_individual_eur": 345 },
+        { "rol": "Teclados / Piano", "cache_individual_eur": 345 },
+        { "rol": "Bajo eléctrico", "cache_individual_eur": 345 },
+        { "rol": "Batería completa", "cache_individual_eur": 345 }
+      ],
+      "rider_sonido_minimo_id": "complete",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Hasta 300 PAX • Sonido potente y amplio repertorio"
+    },
+    {
+      "id": "SEXTET",
+      "nombre": "Sextet",
+      "duracion_min": 90,
+      "cache_base_eur": 2015,
+      "musicos_cantidad": 6,
+      "musicos_roles": [
+        { "rol": "Voz principal", "cache_individual_eur": 340 },
+        { "rol": "Coros / Segunda voz", "cache_individual_eur": 340 },
+        { "rol": "Guitarra / Teclados", "cache_individual_eur": 340 },
+        { "rol": "Bajo eléctrico", "cache_individual_eur": 340 },
+        { "rol": "Batería completa", "cache_individual_eur": 340 },
+        { "rol": "Sección de vientos (Saxo / Trompeta)", "cache_individual_eur": 315 }
+      ],
+      "rider_sonido_minimo_id": "complete",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Más de 250 PAX • Gran banda con sección de vientos"
+    },
+    {
+      "id": "OCTET",
+      "nombre": "Octet",
+      "duracion_min": 90,
+      "cache_base_eur": 2595,
+      "musicos_cantidad": 8,
+      "musicos_roles": [
+        { "rol": "Director musical / Pianista", "cache_individual_eur": 355 },
+        { "rol": "Voz solista 1", "cache_individual_eur": 320 },
+        { "rol": "Voz solista 2", "cache_individual_eur": 320 },
+        { "rol": "Corista tenor 1", "cache_individual_eur": 320 },
+        { "rol": "Corista tenor 2", "cache_individual_eur": 320 },
+        { "rol": "Corista soprano 1", "cache_individual_eur": 320 },
+        { "rol": "Corista soprano 2", "cache_individual_eur": 320 },
+        { "rol": "Corista contralto", "cache_individual_eur": 320 }
+      ],
+      "rider_sonido_minimo_id": "complete",
+      "toma_electrica": "16A standard",
+      "pax_recomendado": "Eventos multitudinarios (>350 PAX) • Show de gran formato"
+    }
+  ],
+  "bandas": [
+    {
+      "id": "vienna-brava",
+      "nombre": "Vienna Brava",
+      "genero": "Música Clásica & Cuerdas",
+      "estilos_ids": ["clasica"],
+      "momentos_compatibles": ["ceremonia", "aperitivo"],
+      "foto": "./assets/img/bands/VB.jpg",
+      "tagline": "Arreglos clásicos de alta escuela y bandas sonoras cinematográficas con cuerdas sublimes.",
+      "descripcion": "Arreglos clásicos de alta escuela y adaptaciones modernas con violines, violonchelo y arpa.",
+      "web": "https://livebandsmusic.com",
+      "formaciones": [
+        {
+          "id": "SOLO",
+          "nombre": "Solo",
+          "cache_base_eur": 495,
+          "musicos_cantidad": 1,
+          "musicos_roles": [
+            { "rol": "Violín o arpa clásica", "cache_individual_eur": 495 }
+          ],
+          "rider_sonido_minimo_id": "none",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "DUO",
+          "nombre": "Dúo",
+          "cache_base_eur": 795,
+          "musicos_cantidad": 2,
+          "musicos_roles": [
+            { "rol": "Violín 1", "cache_individual_eur": 395 },
+            { "rol": "Piano o Violonchelo", "cache_individual_eur": 400 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "TRIO",
+          "nombre": "Trío",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Violín 1", "cache_individual_eur": 385 },
+            { "rol": "Violonchelo", "cache_individual_eur": 380 },
+            { "rol": "Piano / Arpa", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto de Cuerdas",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Violín 1", "cache_individual_eur": 360 },
+            { "rol": "Violín 2", "cache_individual_eur": 360 },
+            { "rol": "Viola", "cache_individual_eur": 360 },
+            { "rol": "Violonchelo", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        }
+      ]
+    },
+    {
+      "id": "gospel-on",
+      "nombre": "Gospel On",
+      "genero": "Spiritual & Gospel",
+      "estilos_ids": ["gospel", "pop_jazz_soul_bossa"],
+      "momentos_compatibles": ["ceremonia", "aperitivo", "fiesta_pre_dj"],
+      "foto": "./assets/img/bands/GO.jpg",
+      "tagline": "Espirituales y armonías vocales conmovedoras para elevar la emoción de tu evento.",
+      "descripcion": "Armonías vocales profundas y espirituales para ritos nupciales y cócteles de gran calidez humana.",
+      "web": "https://livebandsmusic.com/gospel-on/#GOTRIO",
+      "formaciones": [
+        {
+          "id": "DUO",
+          "nombre": "Dúo",
+          "cache_base_eur": 795,
+          "musicos_cantidad": 2,
+          "musicos_roles": [
+            { "rol": "Voz solista", "cache_individual_eur": 395 },
+            { "rol": "Pianista acompañante", "cache_individual_eur": 400 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "TRIO",
+          "nombre": "Trío",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Voz solista 1", "cache_individual_eur": 385 },
+            { "rol": "Voz solista 2", "cache_individual_eur": 380 },
+            { "rol": "Piano / Teclados", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Voz líder", "cache_individual_eur": 360 },
+            { "rol": "Segunda voz (tenor)", "cache_individual_eur": 360 },
+            { "rol": "Tercera voz (alto)", "cache_individual_eur": 360 },
+            { "rol": "Pianista y director", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "OCTET",
+          "nombre": "Octeto",
+          "cache_base_eur": 2595,
+          "musicos_cantidad": 8,
+          "musicos_roles": [
+            { "rol": "Director musical / Pianista", "cache_individual_eur": 355 },
+            { "rol": "Voz solista 1", "cache_individual_eur": 320 },
+            { "rol": "Voz solista 2", "cache_individual_eur": 320 },
+            { "rol": "Corista tenor 1", "cache_individual_eur": 320 },
+            { "rol": "Corista tenor 2", "cache_individual_eur": 320 },
+            { "rol": "Corista soprano 1", "cache_individual_eur": 320 },
+            { "rol": "Corista soprano 2", "cache_individual_eur": 320 },
+            { "rol": "Corista contralto", "cache_individual_eur": 320 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        }
+      ]
+    },
+    {
+      "id": "jazz-de-copes",
+      "nombre": "Jazz de Copes",
+      "genero": "Jazz, Pop, Bossa Nova & Soul",
+      "estilos_ids": ["pop_jazz_soul_bossa"],
+      "momentos_compatibles": ["ceremonia", "aperitivo", "fiesta_pre_dj"],
+      "foto": "./assets/img/bands/JDC.jpg",
+      "tagline": "Elegante y versátil, perfecto para dar un toque de distinción a tu ceremonia, aperitivo o fiesta.",
+      "descripcion": "Estándares de jazz, swing, bossa y pop versionado en clave elegante con instrumentistas de primer nivel.",
+      "web": "https://livebandsmusic.com/jazz-de-copes/#jdcv4",
+      "formaciones": [
+        {
+          "id": "DUO",
+          "nombre": "Dúo (JDC2)",
+          "cache_base_eur": 795,
+          "musicos_cantidad": 2,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 395 },
+            { "rol": "Guitarra / Piano", "cache_individual_eur": 400 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "TRIO",
+          "nombre": "Trío (JDC3)",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 385 },
+            { "rol": "Guitarra / Piano", "cache_individual_eur": 380 },
+            { "rol": "Percusión o Contrabajo", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 3
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto (JDC4)",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 360 },
+            { "rol": "Guitarra / Teclados", "cache_individual_eur": 360 },
+            { "rol": "Contrabajo / Bajo eléctrico", "cache_individual_eur": 360 },
+            { "rol": "Batería jazz", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        },
+        {
+          "id": "QUINTET",
+          "nombre": "Quinteto (JDC5)",
+          "cache_base_eur": 1725,
+          "musicos_cantidad": 5,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 345 },
+            { "rol": "Guitarra", "cache_individual_eur": 345 },
+            { "rol": "Piano / Teclados", "cache_individual_eur": 345 },
+            { "rol": "Contrabajo / Bajo", "cache_individual_eur": 345 },
+            { "rol": "Batería y Saxofón", "cache_individual_eur": 345 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        }
+      ]
+    },
+    {
+      "id": "the-guitar-kings",
+      "nombre": "The Guitar Kings",
+      "genero": "Rumba & Flamenco Fusión",
+      "estilos_ids": ["rumba_flamenco"],
+      "momentos_compatibles": ["ceremonia", "aperitivo", "fiesta_pre_dj"],
+      "foto": "./assets/img/bands/TGK.jpg",
+      "tagline": "Energía mediterránea viva y festiva con guitarras españolas para un evento inolvidable.",
+      "descripcion": "Rumba flamenca viva y elegante con guitarras españolas, percusión y ritmo envolvente.",
+      "web": "https://livebandsmusic.com/the-guitar-kings/#tgkp3",
+      "formaciones": [
+        {
+          "id": "DUO",
+          "nombre": "Dúo",
+          "cache_base_eur": 795,
+          "musicos_cantidad": 2,
+          "musicos_roles": [
+            { "rol": "Guitarra flamenca solista", "cache_individual_eur": 395 },
+            { "rol": "Guitarra rítmica y voz", "cache_individual_eur": 400 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 2
+        },
+        {
+          "id": "TRIO",
+          "nombre": "Trío (Percussion Trio)",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Voz y guitarra flamenca", "cache_individual_eur": 385 },
+            { "rol": "Guitarra solista", "cache_individual_eur": 380 },
+            { "rol": "Cajón y percusión flamenca", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 3
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Voz principal y guitarra", "cache_individual_eur": 360 },
+            { "rol": "Segunda guitarra", "cache_individual_eur": 360 },
+            { "rol": "Bajo eléctrico", "cache_individual_eur": 360 },
+            { "rol": "Percusión completa y coros", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        }
+      ]
+    },
+    {
+      "id": "sweet-planet",
+      "nombre": "Sweet Planet",
+      "genero": "Disco, Funk, Pop, Soul & Latin",
+      "estilos_ids": ["disco_funk_rock"],
+      "momentos_compatibles": ["aperitivo", "fiesta_pre_dj"],
+      "foto": "./assets/img/bands/SWPL.jpg",
+      "tagline": "Grandes clásicos del funk, pop, disco y ritmos latinos para mantener a todos bailando.",
+      "descripcion": "Grandes éxitos funk, soul, pop y disco para ambientar con ritmo desbordante y diversión garantizada.",
+      "web": "https://livebandsmusic.com",
+      "formaciones": [
+        {
+          "id": "TRIO",
+          "nombre": "Trío",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 385 },
+            { "rol": "Teclados / Sintetizadores", "cache_individual_eur": 380 },
+            { "rol": "Batería electrónica / Percusión", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 2
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 360 },
+            { "rol": "Guitarra eléctrica", "cache_individual_eur": 360 },
+            { "rol": "Bajo eléctrico", "cache_individual_eur": 360 },
+            { "rol": "Batería acústica", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        },
+        {
+          "id": "QUINTET",
+          "nombre": "Quinteto",
+          "cache_base_eur": 1725,
+          "musicos_cantidad": 5,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 345 },
+            { "rol": "Guitarra eléctrica", "cache_individual_eur": 345 },
+            { "rol": "Teclados", "cache_individual_eur": 345 },
+            { "rol": "Bajo eléctrico", "cache_individual_eur": 345 },
+            { "rol": "Batería acústica", "cache_individual_eur": 345 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        },
+        {
+          "id": "SEXTET",
+          "nombre": "Sexteto",
+          "cache_base_eur": 2015,
+          "musicos_cantidad": 6,
+          "musicos_roles": [
+            { "rol": "Voz líder", "cache_individual_eur": 340 },
+            { "rol": "Guitarra", "cache_individual_eur": 340 },
+            { "rol": "Teclados", "cache_individual_eur": 340 },
+            { "rol": "Bajo eléctrico", "cache_individual_eur": 340 },
+            { "rol": "Batería", "cache_individual_eur": 340 },
+            { "rol": "Sección de metales (Saxo / Trompeta)", "cache_individual_eur": 315 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        }
+      ]
+    },
+    {
+      "id": "rever-queen",
+      "nombre": "Rever Queen",
+      "genero": "Pop Rock Internacional",
+      "estilos_ids": ["disco_funk_rock", "pop_jazz_soul_bossa"],
+      "momentos_compatibles": ["ceremonia", "aperitivo", "fiesta_pre_dj"],
+      "foto": "./assets/img/bands/RQ.jpg",
+      "tagline": "Tributo vibrante a los mayores éxitos del pop-rock internacional en riguroso directo.",
+      "descripcion": "Clásicos del pop-rock internacional versionados con energía, potencia y sonido de estadio.",
+      "web": "https://livebandsmusic.com",
+      "formaciones": [
+        {
+          "id": "DUO",
+          "nombre": "Dúo Acústico",
+          "cache_base_eur": 795,
+          "musicos_cantidad": 2,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 395 },
+            { "rol": "Guitarra acústica", "cache_individual_eur": 400 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 2
+        },
+        {
+          "id": "TRIO",
+          "nombre": "Trío",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 385 },
+            { "rol": "Guitarra eléctrica / acústica", "cache_individual_eur": 380 },
+            { "rol": "Cajón o batería ligera", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 2
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Voz líder", "cache_individual_eur": 360 },
+            { "rol": "Guitarra eléctrica solista", "cache_individual_eur": 360 },
+            { "rol": "Bajo eléctrico", "cache_individual_eur": 360 },
+            { "rol": "Batería de directo", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        },
+        {
+          "id": "QUINTET",
+          "nombre": "Quinteto",
+          "cache_base_eur": 1725,
+          "musicos_cantidad": 5,
+          "musicos_roles": [
+            { "rol": "Voz líder", "cache_individual_eur": 345 },
+            { "rol": "Guitarra rítmica / coros", "cache_individual_eur": 345 },
+            { "rol": "Guitarra solista", "cache_individual_eur": 345 },
+            { "rol": "Bajo eléctrico", "cache_individual_eur": 345 },
+            { "rol": "Batería completa", "cache_individual_eur": 345 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        }
+      ]
+    },
+    {
+      "id": "latin-birds",
+      "nombre": "Latin Birds",
+      "genero": "Boleros & Ritmos Latinos",
+      "estilos_ids": ["latin_boleros"],
+      "momentos_compatibles": ["ceremonia", "aperitivo", "fiesta_pre_dj"],
+      "foto": "./assets/img/bands/LB.jpg",
+      "tagline": "Boleros románticos y calidez de son cubano para crear una atmósfera íntima y seductora.",
+      "descripcion": "Boleros románticos, son cubano y ritmos cálidos para recepciones elegantes y atardeceres mágicos.",
+      "web": "https://livebandsmusic.com",
+      "formaciones": [
+        {
+          "id": "SOLO",
+          "nombre": "Solo",
+          "cache_base_eur": 495,
+          "musicos_cantidad": 1,
+          "musicos_roles": [
+            { "rol": "Guitarra española y voz latina", "cache_individual_eur": 495 }
+          ],
+          "rider_sonido_minimo_id": "none",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 4
+        },
+        {
+          "id": "DUO",
+          "nombre": "Dúo",
+          "cache_base_eur": 795,
+          "musicos_cantidad": 2,
+          "musicos_roles": [
+            { "rol": "Voz solista latina", "cache_individual_eur": 395 },
+            { "rol": "Guitarra / Requinto", "cache_individual_eur": 400 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "TRIO",
+          "nombre": "Trío",
+          "cache_base_eur": 1145,
+          "musicos_cantidad": 3,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 385 },
+            { "rol": "Guitarra y coros", "cache_individual_eur": 380 },
+            { "rol": "Percusión latina (Bongós / Maracas)", "cache_individual_eur": 380 }
+          ],
+          "rider_sonido_minimo_id": "basic",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 6
+        },
+        {
+          "id": "QUARTET",
+          "nombre": "Cuarteto",
+          "cache_base_eur": 1435,
+          "musicos_cantidad": 4,
+          "musicos_roles": [
+            { "rol": "Voz principal", "cache_individual_eur": 360 },
+            { "rol": "Guitarra / Tres cubano", "cache_individual_eur": 360 },
+            { "rol": "Baby bass / Bajo", "cache_individual_eur": 360 },
+            { "rol": "Percusión completa (Congas / Bongó)", "cache_individual_eur": 355 }
+          ],
+          "rider_sonido_minimo_id": "complete",
+          "toma_electrica": "16A standard",
+          "canciones_a_la_carta": 0
+        }
+      ]
+    }
+  ],
+  "sistemas_sonido": [
+    {
+      "id": "none",
+      "nombre": "Sin sonorización",
+      "precio_eur": 0,
+      "descripcion": "Solo viable para solistas estrictamente acústicos en espacios reducidos y con menos de 200 asistentes.",
+      "specs": "Sin equipamiento de megafonía."
+    },
+    {
+      "id": "basic",
+      "nombre": "Basic Sound System",
+      "precio_eur": 400,
+      "descripcion": "Sonorización profesional ideal para formaciones vocales y aforos estándar.",
+      "specs": "2 Altavoces Yamaha DXR12 Biamplificados, Mesa de Mezclas Soundcraft UI24R, microfonía inalámbrica/cableada y 1 técnico de sonido."
+    },
+    {
+      "id": "complete",
+      "nombre": "Complete Sound System",
+      "precio_eur": 900,
+      "descripcion": "Infraestructura de alta potencia para bandas completas y exteriores amplios.",
+      "specs": "2 Altavoces Yamaha DXR12, 2 Subwoofers Yamaha DXS15, 4 Monitores Yamaha DXR10, Mesa Soundcraft UI24R, microfonía y 2 técnicos de sonido."
+    }
+  ],
+  "sistemas_iluminacion": [
+    {
+      "id": "none",
+      "nombre": "Sin iluminación",
+      "precio_eur": 0,
+      "descripcion": "Para eventos exclusivamente diurnos en exteriores o recintos con iluminación técnica propia.",
+      "specs": "Sin luces añadidas."
+    },
+    {
+      "id": "basic",
+      "nombre": "Basic Light System",
+      "precio_eur": 380,
+      "descripcion": "Iluminación de escenario y zona de actuación con ambiente dinámico.",
+      "specs": "2 Torres con 4 focos LED Par 64, 2 Torres con 4 cabezas móviles LED y 1 técnico de iluminación."
+    },
+    {
+      "id": "complete",
+      "nombre": "Complete Light System",
+      "precio_eur": 795,
+      "descripcion": "Estructura escénica completa con puente y efectos sincronizados.",
+      "specs": "Sistema DMX con 2 torres PAR LED 64, 1 Puente de 6 m con 4 cabezas móviles LED, 4 Pars LED 64, Láser DMX y 2 técnicos de iluminación."
+    }
+  ],
+  "tech_packs": [
+    {
+      "id": "pack-basic",
+      "nombre": "Pack Básico (Sonido + Iluminación)",
+      "precio_eur": 465,
+      "sonido_equivalente_id": "basic",
+      "iluminacion_equivalente_id": "basic",
+      "precio_separado_eur": 780,
+      "ahorro_eur": 315,
+      "ahorro_porcentaje": "40%",
+      "descripcion": "Sonorización profesional + Iluminación ambiental en un solo montaje (Ideal hasta 150 invitados)."
+    },
+    {
+      "id": "pack-medium",
+      "nombre": "Pack Medio (Sonido Completo + Iluminación)",
+      "precio_eur": 975,
+      "sonido_equivalente_id": "complete",
+      "iluminacion_equivalente_id": "basic",
+      "precio_separado_eur": 1280,
+      "ahorro_eur": 305,
+      "ahorro_porcentaje": "24%",
+      "descripcion": "Sonorización de alta potencia con subwoofers + Iluminación básica (Ideal exteriores y bandas grandes)."
+    },
+    {
+      "id": "pack-complete",
+      "nombre": "Pack Completo (Gran Escenario & Puente 6m)",
+      "precio_eur": 1270,
+      "sonido_equivalente_id": "complete",
+      "iluminacion_equivalente_id": "complete",
+      "precio_separado_eur": 1695,
+      "ahorro_eur": 425,
+      "ahorro_porcentaje": "25%",
+      "descripcion": "Infraestructura escénica completa con puente de luces de 6 m, láser y sonido envolvente."
+    }
+  ]
+}

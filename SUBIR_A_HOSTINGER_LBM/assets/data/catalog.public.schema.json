@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CatalogoPublicoLiveBandsMusic2027",
+  "description": "Esquema formal de validación del catálogo PÚBLICO de Live Bands Music para El Escaparate. Prohíbe terminantemente la presencia de cachés individuales, costes internos o márgenes.",
+  "type": "object",
+  "required": [
+    "version_catalogo",
+    "updated_at",
+    "tipo_catalogo",
+    "momentos_live",
+    "estilos",
+    "matriz_compatibilidad_live",
+    "bandas",
+    "formaciones_base",
+    "tech_packs",
+    "servicios_complementarios"
+  ],
+  "properties": {
+    "version_catalogo": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "tipo_catalogo": { "type": "string", "const": "PUBLICO_CLIENTES" },
+    "momentos_live": { "type": "array" },
+    "estilos": { "type": "array" },
+    "matriz_compatibilidad_live": { "type": "object" },
+    "servicios_complementarios": { "type": "object" },
+    "formaciones_base": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nombre", "precio_orientativo_eur", "musicos_en_escenario"],
+        "not": { "required": ["musicos_roles"] }
+      }
+    },
+    "bandas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nombre", "genero", "estilos_ids", "momentos_compatibles", "foto", "formaciones"],
+        "properties": {
+          "formaciones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "nombre", "precio_orientativo_eur"],
+              "not": { "required": ["musicos_roles"] }
+            }
+          }
+        }
+      }
+    },
+    "tech_packs": { "type": "array" }
+  }
+}

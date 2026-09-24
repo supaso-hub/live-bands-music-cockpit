@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-black text-gray-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador del Puente de Datos LBM • Escaparate ➔ Cockpit (Fase 2)</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0D0D0D; }
+    .font-brand { font-family: 'Lexend', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass-card {
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between p-4 sm:p-6 lg:p-8">
+
+  <div class="max-w-4xl mx-auto w-full space-y-6">
+    
+    <!-- Encabezado -->
+    <header class="glass-card rounded-2xl p-6 border-b border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+          <i data-lucide="network" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              Fase 2 • Arquitectura Serverless
+            </span>
+            <span class="text-xs text-gray-400 font-mono">v.2027.1</span>
+          </div>
+          <h1 class="text-xl font-extrabold text-white mt-1 font-brand">
+            Simulador del Puente de Datos (Escaparate ➔ Cockpit)
+          </h1>
+          <p class="text-xs text-gray-400">
+            Generador de tokens cortos no secuenciales tipo <span class="text-emerald-300 font-mono font-bold">LBM-XXX</span> para precarga instantánea.
+          </p>
+        </div>
+      </div>
+      <a href="./simulador.html" class="px-4 py-2 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-700 text-xs font-bold text-gray-300 transition flex items-center gap-2">
+        <span>Abrir Cockpit Vacío</span>
+        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+      </a>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Panel de Entrada (Simula la selección de los novios en El Escaparate) -->
+      <div class="lg:col-span-6 glass-card rounded-2xl p-6 border border-gray-800 space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+          <div class="flex items-center gap-2 text-sm font-bold text-white">
+            <i data-lucide="heart" class="w-4 h-4 text-emerald-400"></i>
+            <span>1. Selección de la Pareja (Front)</span>
+          </div>
+          <button type="button" onclick="loadSampleLead()" class="text-xs text-cyan-400 hover:text-cyan-300 font-bold transition">
+            ⚡ Cargar Ejemplo
+          </button>
+        </div>
+
+        <form id="lead-form" onsubmit="handleGenerateLead(event)" class="space-y-4">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-1">Nombre Pareja</label>
+              <input type="text" id="lead-name" required value="Laura & Marc" class="w-full px-3 py-2 rounded-xl bg-black border border-gray-800 text-xs text-white focus:border-emerald-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-1">Teléfono</label>
+              <input type="tel" id="lead-phone" value="+34 600 11 22 33" class="w-full px-3 py-2 rounded-xl bg-black border border-gray-800 text-xs text-white focus:border-emerald-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-1">Finca / Ubicación</label>
+              <select id="lead-venue" class="w-full px-3 py-2 rounded-xl bg-black border border-gray-800 text-xs text-white focus:border-emerald-500 focus:outline-none">
+                <option value="Castell d'Empordà">Castell d'Empordà (La Bisbal)</option>
+                <option value="Mas Solers">Finca Mas Solers (Sant Pere de Ribes)</option>
+                <option value="Bell Recó">Bell Recó (Argentona)</option>
+                <option value="El Convent de Blanes">El Convent de Blanes (Blanes)</option>
+                <option value="Castell de Peralada">Castell de Peralada (Peralada)</option>
+                <option value="Finca particular">Finca privada / Otra</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-1">Fecha de Boda</label>
+              <input type="date" id="lead-date" required value="2027-07-15" class="w-full px-3 py-2 rounded-xl bg-black border border-gray-800 text-xs text-white focus:border-emerald-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Selección de Momentos Musicales -->
+          <div class="space-y-3 pt-2">
+            <span class="text-xs font-bold text-gray-300 block uppercase tracking-wider">Momentos Seleccionados</span>
+
+            <!-- Ceremonia -->
+            <div class="p-3 rounded-xl bg-gray-950/60 border border-gray-800 space-y-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="check-ceremony" checked class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+                <span class="text-xs font-bold text-white">Ceremonia</span>
+              </label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <select id="ceremony-band" class="px-2 py-1.5 rounded-lg bg-black border border-gray-800 text-gray-300">
+                  <option value="vienna-brava" selected>Vienna Brava (Clásica)</option>
+                  <option value="gospel-on">Gospel On (Gospel)</option>
+                  <option value="jazz-de-copes">Jazz de Copes (Jazz/Pop)</option>
+                  <option value="latin-birds">Latin Birds (Boleros)</option>
+                  <option value="the-guitar-kings">The Guitar Kings (Rumba)</option>
+                </select>
+                <select id="ceremony-format" class="px-2 py-1.5 rounded-lg bg-black border border-gray-800 text-gray-300">
+                  <option value="SOLO">Solo (495 €)</option>
+                  <option value="DUO" selected>Dúo (795 €)</option>
+                  <option value="TRIO">Trío (1.145 €)</option>
+                  <option value="QUARTET">Cuarteto (1.435 €)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Aperitivo -->
+            <div class="p-3 rounded-xl bg-gray-950/60 border border-gray-800 space-y-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="check-appetizer" checked class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+                <span class="text-xs font-bold text-white">Aperitivo / Cóctel</span>
+              </label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <select id="appetizer-band" class="px-2 py-1.5 rounded-lg bg-black border border-gray-800 text-gray-300">
+                  <option value="jazz-de-copes" selected>Jazz de Copes (Swing/Pop)</option>
+                  <option value="the-guitar-kings">The Guitar Kings (Flamenco)</option>
+                  <option value="sweet-planet">Sweet Planet (Funk/Disco)</option>
+                  <option value="rever-queen">Rever Queen (Pop-Rock)</option>
+                  <option value="gospel-on">Gospel On (Gospel/Soul)</option>
+                </select>
+                <select id="appetizer-format" class="px-2 py-1.5 rounded-lg bg-black border border-gray-800 text-gray-300">
+                  <option value="DUO">Dúo (795 €)</option>
+                  <option value="TRIO" selected>Trío (1.145 €)</option>
+                  <option value="QUARTET">Cuarteto (1.435 €)</option>
+                  <option value="QUINTET">Quinteto (1.725 €)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Fiesta -->
+            <div class="p-3 rounded-xl bg-gray-950/60 border border-gray-800 space-y-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="check-party" checked class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+                <span class="text-xs font-bold text-white">Fiesta en Directo (pre-DJ)</span>
+              </label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <select id="party-band" class="px-2 py-1.5 rounded-lg bg-black border border-gray-800 text-gray-300">
+                  <option value="sweet-planet" selected>Sweet Planet (Disco/Funk)</option>
+                  <option value="rever-queen">Rever Queen (Rock)</option>
+                  <option value="the-guitar-kings">The Guitar Kings (Rumba)</option>
+                  <option value="jazz-de-copes">Jazz de Copes</option>
+                </select>
+                <select id="party-format" class="px-2 py-1.5 rounded-lg bg-black border border-gray-800 text-gray-300">
+                  <option value="QUARTET" selected>Cuarteto (1.435 €)</option>
+                  <option value="QUINTET">Quinteto (1.725 €)</option>
+                  <option value="SEXTET">Sexteto (2.015 €)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-black font-extrabold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-950/50 cursor-pointer">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+            <span>Generar Token Corto y Enlace de Precarga</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Panel de Salida / Resultados del Puente -->
+      <div class="lg:col-span-6 space-y-5">
+        
+        <div id="output-empty" class="glass-card rounded-2xl p-8 border border-dashed border-gray-800 text-center space-y-3">
+          <div class="w-12 h-12 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-500 mx-auto">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-sm font-bold text-gray-300">Listo para generar el anteproyecto</h3>
+          <p class="text-xs text-gray-500 max-w-sm mx-auto">
+            Completá los datos a la izquierda y hacé clic en el botón verde para crear el token corto y el enlace que Santiago recibirá por WhatsApp.
+          </p>
+        </div>
+
+        <div id="output-card" class="hidden glass-card rounded-2xl p-6 border-2 border-emerald-500/50 space-y-5 shadow-2xl animate-fadeIn">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider">Token Generado con Éxito</span>
+            </div>
+            <span id="badge-token" class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono font-bold text-sm border border-emerald-500/40">
+              LBM-XXXX
+            </span>
+          </div>
+
+          <!-- Botón de apertura directa -->
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-gray-400">Probar Simulación de Clic de Santiago:</span>
+            <a id="btn-open-cockpit" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-950/60 cursor-pointer">
+              <span>Abrir Cockpit Precargado al 100% ↗</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+            <p class="text-[11px] text-gray-400 text-center">
+              Al abrir, el Cockpit leerá el token, precargará la finca, fecha y bandas, y saltará automáticamente al panel de cotización.
+            </p>
+          </div>
+
+          <!-- Enlace de WhatsApp -->
+          <div class="p-3.5 rounded-xl bg-black/60 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+                <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Mensaje Formateado para WhatsApp</span>
+              </span>
+              <button type="button" onclick="copyWhatsAppMsg()" class="text-[11px] text-emerald-400 hover:text-emerald-300 font-bold">
+                Copiar
+              </button>
+            </div>
+            <pre id="wa-preview" class="text-[11px] text-gray-300 font-mono whitespace-pre-wrap leading-relaxed bg-gray-950 p-2.5 rounded-lg border border-gray-900"></pre>
+          </div>
+
+          <!-- Enlaces técnicos generados -->
+          <div class="space-y-2 text-xs">
+            <span class="font-bold text-gray-400 block">URLs Técnicas Generadas:</span>
+            <div class="space-y-1.5">
+              <div>
+                <span class="text-[10px] text-gray-500 font-mono">1. URL Limpia (Serverless KV):</span>
+                <input type="text" id="input-url-clean" readonly class="w-full px-2.5 py-1.5 rounded-lg bg-black border border-gray-800 text-[11px] font-mono text-gray-300 select-all">
+              </div>
+              <div>
+                <span class="text-[10px] text-gray-500 font-mono">2. URL Resiliente (Fallback Inline Base64URL):</span>
+                <input type="text" id="input-url-fallback" readonly class="w-full px-2.5 py-1.5 rounded-lg bg-black border border-gray-800 text-[11px] font-mono text-gray-300 select-all">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Script interactivo del simulador -->
+  <script type="module">
+    import { generateLeadRef, saveLead, encodeLeadState } from "./assets/js/services/lead-bridge.js";
+
+    let currentLeadResult = null;
+
+    window.handleGenerateLead = async function(e) {
+      e.preventDefault();
+
+      const leadData = {
+        ref: generateLeadRef(),
+        fecha: document.getElementById("lead-date").value,
+        finca: document.getElementById("lead-venue").value,
+        contacto: {
+          nombre: document.getElementById("lead-name").value,
+          telefono: document.getElementById("lead-phone").value,
+          email: ""
+        },
+        momentos: {},
+        servicios_extra: {
+          banquete: false,
+          fiesta_dj: false
+        }
+      };
+
+      if (document.getElementById("check-ceremony").checked) {
+        leadData.momentos.ceremonia = {
+          bandaId: document.getElementById("ceremony-band").value,
+          formationId: document.getElementById("ceremony-format").value
+        };
+      }
+
+      if (document.getElementById("check-appetizer").checked) {
+        leadData.momentos.aperitivo = {
+          bandaId: document.getElementById("appetizer-band").value,
+          formationId: document.getElementById("appetizer-format").value
+        };
+      }
+
+      if (document.getElementById("check-party").checked) {
+        leadData.momentos.fiesta_pre_dj = {
+          bandaId: document.getElementById("party-band").value,
+          formationId: document.getElementById("party-format").value
+        };
+      }
+
+      // Guardar lead
+      const result = await saveLead(leadData);
+      currentLeadResult = result;
+
+      // Actualizar UI
+      document.getElementById("output-empty").classList.add("hidden");
+      document.getElementById("output-card").classList.remove("hidden");
+
+      document.getElementById("badge-token").textContent = result.ref;
+      document.getElementById("btn-open-cockpit").href = result.urlFallback; // Usar fallback para garantía total en local y preview
+      document.getElementById("input-url-clean").value = result.urlLimpia;
+      document.getElementById("input-url-fallback").value = result.urlFallback;
+
+      // Mensaje de WhatsApp
+      const waText = `Hola Santiago, completamos nuestra selección musical para nuestra boda:\n\n` +
+        `👰🤵 Pareja: ${leadData.contacto.nombre}\n` +
+        `📅 Fecha: ${leadData.fecha}\n` +
+        `📍 Finca: ${leadData.finca}\n\n` +
+        `Podés ver y abrir nuestro anteproyecto completo en tu Cockpit aquí:\n` +
+        `${result.urlFallback}\n\n` +
+        `¡Muchas gracias!`;
+
+      document.getElementById("wa-preview").textContent = waText;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    };
+
+    window.copyWhatsAppMsg = function() {
+      const text = document.getElementById("wa-preview").textContent;
+      navigator.clipboard.writeText(text);
+      alert("¡Mensaje copiado al portapapeles!");
+    };
+
+    window.loadSampleLead = function() {
+      document.getElementById("lead-name").value = "Marta & Jordi";
+      document.getElementById("lead-phone").value = "+34 677 88 99 00";
+      document.getElementById("lead-venue").value = "Mas Solers";
+      document.getElementById("lead-date").value = "2027-09-18";
+      document.getElementById("check-ceremony").checked = true;
+      document.getElementById("ceremony-band").value = "gospel-on";
+      document.getElementById("ceremony-format").value = "TRIO";
+      document.getElementById("check-appetizer").checked = true;
+      document.getElementById("appetizer-band").value = "jazz-de-copes";
+      document.getElementById("appetizer-format").value = "QUARTET";
+      document.getElementById("check-party").checked = true;
+      document.getElementById("party-band").value = "sweet-planet";
+      document.getElementById("party-format").value = "QUINTET";
+    };
+
+    // Inicializar iconos
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

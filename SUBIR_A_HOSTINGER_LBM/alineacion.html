@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Bands Music — Cuestionario de Alineación Estratégica & Comercial</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="./assets/img/LBM-logo.png" />
+  <link rel="shortcut icon" href="./favicon.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lexend:wght@800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            lexend: ['"Lexend"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-main: #090909;
+      --bg-card: #121212;
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --accent-emerald: #10b981;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .glass-card {
+      background: rgba(18, 18, 18, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .opt-card {
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(24, 24, 27, 0.5);
+      transition: all 0.2s ease;
+    }
+
+    .opt-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(39, 39, 42, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .opt-card.selected {
+      border-color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.12) !important;
+      box-shadow: 0 0 0 1px #10b981, 0 10px 20px -5px rgba(16, 185, 129, 0.2);
+    }
+
+    .custom-pill-active {
+      border-color: #38bdf8 !important;
+      background: rgba(56, 189, 248, 0.12) !important;
+      box-shadow: 0 0 0 1px #38bdf8;
+    }
+
+    /* Pie de página Oficial v2.0 Ultra-Slim */
+    .client-footer {
+      background: #18181b !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+      padding: 0.32rem 1rem;
+      margin-top: auto;
+    }
+    .footer-container {
+      max-width: 80rem;
+      margin: 0 auto;
+    }
+    .footer-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.35rem;
+    }
+    @media (min-width: 640px) {
+      .footer-main {
+        flex-direction: row;
+        min-height: 24px;
+      }
+    }
+    .client-brand .client-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: block;
+      line-height: 1.2;
+    }
+    .client-brand .client-tagline {
+      font-size: 0.6875rem;
+      color: #94a3b8;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .footer-legal-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6875rem;
+    }
+    .legal-link {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .legal-link:hover {
+      color: #ffffff;
+    }
+    .legal-sep {
+      color: #64748b;
+      font-size: 0.45rem;
+    }
+
+    .mkt-subfooter {
+      background: #060606 !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.22rem 1rem;
+    }
+    .subfooter-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.35rem;
+      font-size: 0.6875rem;
+    }
+    @media (min-width: 640px) {
+      .subfooter-container {
+        flex-direction: row;
+        min-height: 24px;
+      }
+    }
+    .subfooter-copy p {
+      color: #cbd5e1;
+      margin: 0;
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+    .subfooter-signature {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .designed-by {
+      color: #94a3b8;
+      font-size: 0.65rem;
+    }
+    .mkt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none;
+      font-family: 'Lexend', sans-serif;
+      font-weight: 800;
+      font-size: 0.7rem;
+      line-height: 1;
+    }
+    .mkt-gif {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .mkt-white { color: #ffffff; }
+    .mkt-green { color: #d8f3dc; }
+    .mkt-version {
+      font-family: monospace;
+      font-size: 8.5px;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       BARRA SUPERIOR DE MARCA
+       ======================================================================== -->
+  <header class="border-b border-gray-800/80 bg-[#090909]/95 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="./index.html" class="flex items-center gap-2 hover:opacity-80 transition" title="Volver al inicio">
+          <img src="./assets/img/LBM-logo.png" alt="Live Bands Music Logo" class="h-8 w-auto object-contain" />
+        </a>
+        <div class="hidden sm:block border-l border-gray-700 pl-3">
+          <span class="text-xs font-bold text-white tracking-wide block">LIVE BANDS MUSIC</span>
+          <span class="text-[10px] text-gray-400">Portal de Alineación Estratégica & Comercial</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" title="Desarrollado por Marketing Amable">
+          <img src="./assets/images/002.gif" alt="Marketing Amable" class="mkt-gif" width="28" height="28" />
+          <span class="mkt-white text-[11px]">MARKETING</span>
+          <span class="mkt-green text-[11px]">AMABLE</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       BARRA STICKY DE SIMULACIÓN DEL ESCAPARATE (ACCESO PERMANENTE)
+       ======================================================================== -->
+  <div id="sticky-simulation-bar" class="sticky top-14 sm:top-16 z-30 bg-gradient-to-r from-emerald-950/95 via-gray-950/95 to-slate-950/95 border-b border-emerald-500/30 backdrop-blur-md px-3 sm:px-6 py-2 shadow-lg shadow-emerald-950/40 transition-all duration-300">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <span class="flex h-2.5 w-2.5 relative shrink-0">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        <div class="flex items-center gap-2 truncate">
+          <span class="text-xs font-extrabold text-white whitespace-nowrap flex items-center gap-1.5">
+            <i data-lucide="play-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Simulación en vivo</span>
+          </span>
+          <span class="hidden md:inline text-gray-400 text-xs truncate">· Mirá cómo explora las bandas una pareja de novios en el Escaparate</span>
+        </div>
+      </div>
+      <a href="./simulador.html" target="_blank" rel="noopener noreferrer"
+         class="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-extrabold text-xs shadow-md shadow-emerald-950/50 hover:scale-[1.03] transition-all cursor-pointer">
+        <i data-lucide="external-link" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+        <span>Probar Escaparate ↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       CONTENIDO PRINCIPAL
+       ======================================================================== -->
+  <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10 flex-1">
+    
+    <!-- Hero / Explicador Conceptual (Front vs Back) -->
+    <div class="glass-card rounded-2xl p-6 sm:p-7 border border-emerald-500/20 bg-emerald-950/10 mb-8">
+      <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="compass" class="w-4 h-4"></i>
+        <span>Portal de Santiago Cholbi · Live Bands Music 2027</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
+        Santiago, definimos juntos el sistema que construimos para vos
+      </h1>
+      <div class="bg-emerald-950/60 border border-emerald-500/30 rounded-xl p-4 mb-5">
+        <p class="text-xs sm:text-sm text-emerald-200 leading-relaxed font-medium">
+          <strong>Integramos el recorrido y la matriz de música por momentos que nos enviaste.</strong> De las 14 preguntas del sistema, <strong>ya dejamos preseleccionadas 8 decisiones en verde</strong> según tus palabras exactas — revisalas y cambiá lo que no te cuadre.
+        </p>
+        <p class="text-xs text-stone-300 mt-2">
+          Solo te quedan <strong>6 decisiones técnicas pendientes</strong> (resaltadas en amarillo). Con esto, tenemos todo para arrancar.
+        </p>
+      </div>
+
+      <!-- Diagrama Comparativo Front vs Back -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="rounded-xl p-4 bg-gray-900/80 border border-gray-800 flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+            <i data-lucide="store" class="w-4 h-4"></i>
+            <span>1. EL ESCAPARATE (FRONT)</span>
+          </div>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            <strong>Lo que ve el cliente / la pareja:</strong> Emoción, fotografías de los músicos, estilos musicales y selección de momentos. <em>Cero tecnicismos, cero fórmulas de descuento.</em>
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-gray-900/80 border border-gray-800 flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-cyan-400 font-bold text-xs">
+            <i data-lucide="calculator" class="w-4 h-4"></i>
+            <span>2. TU MOSTRADOR (BACK v16/v17)</span>
+          </div>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            <strong>Tu panel de trabajo interno:</strong> El Cockpit ágil para ajustar desplazamientos, aplicar descuentos a mano, verificar márgenes y emitir el PDF formal. <em>Sin fotos que distraigan.</em>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pestañas de Navegación de Fases -->
+    <div class="flex items-center justify-between border-b border-gray-800 mb-4">
+      <div class="flex gap-2">
+        <button type="button" id="tab-btn-front" onclick="switchPhase('front')" class="px-4 py-2.5 font-bold text-xs sm:text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2 transition">
+          <i data-lucide="store" class="w-4 h-4"></i>
+          <span>Fase 1: El Escaparate (Cliente)</span>
+          <span id="badge-count-front" class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">7/8</span>
+        </button>
+        <button type="button" id="tab-btn-back" onclick="switchPhase('back')" class="px-4 py-2.5 font-medium text-xs sm:text-sm text-gray-400 hover:text-white border-b-2 border-transparent flex items-center gap-2 transition">
+          <i data-lucide="calculator" class="w-4 h-4"></i>
+          <span>Fase 2: Tu Mostrador (Cockpit)</span>
+          <span id="badge-count-back" class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">1/6</span>
+        </button>
+      </div>
+
+      <button type="button" onclick="scrollToSummary()" class="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-emerald-400 transition">
+        <span>Ver Resumen</span>
+        <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+
+    <!-- Barra de progreso por fase -->
+    <div class="mb-8 space-y-1.5">
+      <div id="progress-bar-front-wrap" class="flex items-center gap-3">
+        <div class="flex-1 h-1.5 rounded-full bg-gray-800 overflow-hidden">
+          <div id="progress-bar-front" class="h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500" style="width: 87.5%"></div>
+        </div>
+        <span id="progress-label-front" class="text-[10px] font-bold text-emerald-400 whitespace-nowrap w-20 text-right">Fase 1 · 7 / 8</span>
+      </div>
+      <div id="progress-bar-back-wrap" class="flex items-center gap-3">
+        <div class="flex-1 h-1.5 rounded-full bg-gray-800 overflow-hidden">
+          <div id="progress-bar-back" class="h-full rounded-full bg-gradient-to-r from-cyan-600 to-cyan-400 transition-all duration-500" style="width: 16.67%"></div>
+        </div>
+        <span id="progress-label-back" class="text-[10px] font-bold text-cyan-400 whitespace-nowrap w-20 text-right">Fase 2 · 1 / 6</span>
+      </div>
+    </div>
+
+    <!-- ========================================================================
+         SECCIÓN 1: FASE FRONT (P1 a P8)
+         ======================================================================== -->
+    <div id="section-front" class="space-y-8">
+      
+      <!-- P1 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p1">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P1 • Audiencia</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Me gustaría ir adaptándolo para los clientes para un futuro...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Quién tiene esta pantalla en sus manos?</h3>
+        <p class="text-xs text-gray-400 mb-4">Define si diseñamos para una pareja en el sofá de su casa o para vos en la oficina atendiendo llamadas.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="opts-p1">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p1', 'A', 'El cliente')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">El cliente</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Entra desde su móvil u ordenador para explorar bandas y armar su pedido ideal.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p1', 'B', 'Santiago y equipo LBM')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Santiago / Equipo LBM</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">La usamos solo nosotros como herramienta interna mientras hablamos con el cliente.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opción Custom (Texto o Audio) -->
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p1">
+          <!-- Renderizado dinámico de la caja de custom -->
+        </div>
+      </div>
+
+      <!-- P2 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p2">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P2 • Entrada</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Lo primero que pregunto es qué estilo de música buscan para cada momento: Ceremonia, Aperitivo, Fiesta pre DJ...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Por dónde arranca la cabeza del cliente?</h3>
+        <p class="text-xs text-gray-400 mb-4">¿Qué es lo primero que busca o sabe el cliente cuando entra a pedir presupuesto?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-p2">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p2', 'A', 'Por Estilo Musical')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Por Estilo Musical</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Busca primero el género (Jazz, Pop, Rumba, Clásica) y luego ve dónde ubicarlo.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p2', 'B', 'Por Momento del Evento')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Por Momento del Evento</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Busca por momento (Ceremonia, Cóctel, Fiesta) y allí elige la música.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p2', 'C', 'Doble Puerta Simultánea')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Doble Puerta</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">El cliente elige si arranca por estilo o por momento según lo que tenga claro.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p2"></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p3">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P3 • Multimedia</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Idealmente con una foto que linke a la web, entonces aparecen las formaciones con sus precios...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">Al elegir un estilo o momento, ¿qué material necesita para decidir?</h3>
+        <p class="text-xs text-gray-400 mb-4">¿Qué contenido visual y musical le entregamos en el escaparate para que se enamore de la propuesta?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="opts-p3">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p3', 'A', 'Solo nombres y formatos')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Solo nombres y formatos</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Lista sobria para carga ultra rápida sin imágenes pesadas.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p3', 'B', 'Foto real + Breve descripción')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Foto real + Descripción + Web</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Fotografía de calidad + breve descripción de su vibra + enlace a su web oficial.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p3', 'C', 'Fotos + Muestras de Audio/Video')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Fotos + Audio / Video</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Muestra de audio en vivo + ejemplos de repertorio habitual para cada momento.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p3', 'D', 'Guía LBM + Bandas sugeridas')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">D</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Guía de experiencia LBM</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Explicar primero qué ambiente crea LBM con ese estilo y luego desplegar bandas.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p3"></div>
+      </div>
+
+
+      <!-- P4 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P4 • Formaciones</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Una vez han aparecido los grupos elegidos, entonces aparecen las formaciones con sus precios...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">La formación de los músicos (Dúo, Trío, Cuarteto...): ¿Cómo se define?</h3>
+        <p class="text-xs text-gray-400 mb-4">Un mismo proyecto como Jazz de Copes tiene Solo, Dúo (JDC2), Trío o Cuarteto. ¿Quién toma esa decisión?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-p4">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p4', 'A', 'El cliente elige libremente')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">El cliente elige</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Selecciona el número de integrantes según su gusto y presupuesto.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p4', 'B', 'Primero la banda, luego formaciones')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Banda ➔ Formación</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Primero elige el proyecto y se despliegan solo los formatos reales disponibles.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p4', 'C', 'LBM recomienda según aforo')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">LBM recomienda</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">El sistema sugiere el formato ideal según la cantidad de invitados y el espacio.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p4"></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P5 • Momentos</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Estructurado por momentos: Ceremonia, Aperitivo y Fiesta pre DJ con sus grupos compatibles...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Cuándo se asigna el momento del evento (Ceremonia, Cóctel, Fiesta)?</h3>
+        <p class="text-xs text-gray-400 mb-4">Caso real: Jazz de Copes Dúo (JDC2) hace ceremonias, pero también cóctel y cena. ¿Cómo lo estructuramos?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-p5">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p5', 'A', 'Al principio de todo')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Al principio de todo</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">El cliente define sus momentos y luego llena cada momento con una banda.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p5', 'B', 'Después de elegir la banda')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Después de la banda</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Se enamora de la banda y marca en qué momentos de su evento quiere escucharla.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p5', 'C', 'Multi-momento flexible')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Multi-momento flexible</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Una misma banda versátil puede asignarse a ceremonia (dúo) y cóctel (trío).</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p5"></div>
+      </div>
+
+      <!-- P6 (Casillas múltiples) -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6 border border-emerald-500/20" id="q-card-p6">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P6 • Variables</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> 2 preseleccionadas · revisar el resto
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu práctica:</strong> «Lo primero que pregunto es la finca o población y la fecha del evento — son los datos que necesito para confirmar disponibilidad.» Marcamos esas dos. Confirmá el resto que considerés indispensable.</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Qué datos indispensables le pedimos al cliente en el Front?</h3>
+        <p class="text-xs text-gray-400 mb-4">Marcá todas las variables que querés que el cliente complete antes de enviarte su solicitud:</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="opts-p6-multi">
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Fecha del evento" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Fecha del evento</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Finca o Población" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Finca / Población</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Número aproximado de invitados" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Nº de Invitados (PAX)</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Horario del evento" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Horario aproximado</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Interior o Exterior" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Interior / Exterior</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Sonorización e Iluminación" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Sonorización / Luz</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="DJ y Fiesta posterior" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>DJ / Fiesta posterior</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Nombre y WhatsApp" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Nombre y WhatsApp</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Email del cliente" onchange="toggleMultiOption('p6', this.value)" class="rounded border-gray-700 text-emerald-500 focus:ring-0">
+            <span>Email del cliente</span>
+          </label>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p6"></div>
+      </div>
+
+      <!-- P7 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p7">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P7 • Presentación de bandas</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu práctica real
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu práctica:</strong> «Cuando el cliente elige un estilo y un momento, le muestro solo las bandas compatibles con esa combinación — no todas de golpe. Dentro de esas compatibles, puede ver el abanico completo de formaciones.»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">Cuando el cliente elige un momento y estilo, ¿qué ve en pantalla?</h3>
+        <p class="text-xs text-gray-400 mb-4">Define cómo presentamos las bandas después de que el cliente filtra por momento (Ceremonia, Aperitivo...) y estilo musical.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="opts-p7">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p7', 'A', 'Filtrado automático: solo compatibles con ese momento y estilo')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Filtrado automático (lo que hacés hoy)</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Solo aparecen las bandas compatibles con ese momento y estilo. El cliente ve el abanico completo de formaciones de cada una.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p7', 'B', 'Filtrado automático + 1 banda destacada por momento')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Filtrado + 1 destacada por momento</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Como la opción A, pero con una banda marcada como "La más elegida" para guiar a clientes indecisos.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p7', 'C', 'Todo el catálogo sin filtrar por momento')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Catálogo completo sin filtrar</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Mostrar todas las bandas disponibles sin importar el momento seleccionado. El cliente compara libremente.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p7', 'D', 'Combinación libre tipo carrito')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">D</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Combinación libre tipo carrito</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">El cliente mezcla bandas y formaciones para distintos momentos como si fuera un pedido a medida.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p7"></div>
+      </div>
+
+      <!-- P8 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-p8">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">P8 • Cierre del Front</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Veía muy agresivo sin imágenes que ya aparezcan los precios PAM! Después iremos afinando los descuentos...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Qué ve o recibe finalmente el cliente al pulsar el botón de envío?</h3>
+        <p class="text-xs text-gray-400 mb-4">Esta pregunta define exactamente dónde termina la web pública y dónde empieza tu trabajo de cotización.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-p8">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p8', 'A', 'Solicitud enviada a Santiago (Cero precios)')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Solicitud a Santiago</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Cero precios visibles. El cliente ve su lista de deseos y aviso de que lo contactarás.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p8', 'B', 'Precio orientativo (Desde X €)')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Precio orientativo "Desde..."</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Ve una cifra aproximada de partida, sujeta a confirmación técnica oficial.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('p8', 'C', 'Presupuesto cerrado automático')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Cálculo cerrado inmediato</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">El sistema emite el precio final exacto con IVA y desglose por correo sin pasar por vos.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-p8"></div>
+      </div>
+
+      <!-- Botón de avance a Fase 2 -->
+      <div class="flex justify-end pt-4">
+        <button type="button" onclick="switchPhase('back')" class="py-3 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-900/40">
+          <span>Continuar a Fase 2: Tu Mostrador (Cockpit)</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================
+         SECCIÓN 2: FASE BACK (B1 a B6)
+         ======================================================================== -->
+    <div id="section-back" class="hidden space-y-8">
+      
+      <!-- B1 (Casillas múltiples) -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6 border border-amber-500/30" id="q-card-b1">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">B1 • Variables del Cockpit</span>
+          <span class="text-[11px] font-semibold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ⚡ Pendiente de tu confirmación
+          </span>
+        </div>
+        <div class="text-[11px] text-amber-200/90 bg-amber-950/40 border border-amber-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-amber-400">⚡</span>
+          <span><strong>Tu turno:</strong> Marcá todo lo que considerás indispensable tener a mano en tu panel de control diario:</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Qué módulos adicionales querés activar en el Cockpit (v16/v17)?</h3>
+        <p class="text-xs text-gray-400 mb-4">Marcá todo lo que querés tener disponible en tu panel de presupuestación diaria:</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="opts-b1-multi">
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Descuentos porcentuales o en euros" onchange="toggleMultiOption('b1', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Descuentos a medida (% / €)</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Ajuste manual de kilometraje" onchange="toggleMultiOption('b1', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Kilometraje manual / bonificado</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Partidas sueltas libres (horas extra, etc)" onchange="toggleMultiOption('b1', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Partidas sueltas (horas extra)</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Nuevas formaciones de bandas" onchange="toggleMultiOption('b1', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Nuevas formaciones musicales</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Desglose técnico de sonido e iluminación" onchange="toggleMultiOption('b1', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Fichas técnicas de sonido/luz</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Condiciones comerciales y formas de pago" onchange="toggleMultiOption('b1', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Condiciones de pago (seña 15%)</span>
+          </label>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-b1"></div>
+      </div>
+
+      <!-- B2 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6 border border-amber-500/30" id="q-card-b2">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">B2 • Control Manual</span>
+          <span class="text-[11px] font-semibold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ⚡ Pendiente de tu confirmación
+          </span>
+        </div>
+        <div class="text-[11px] text-amber-200/90 bg-amber-950/40 border border-amber-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-amber-400">⚡</span>
+          <span><strong>Tu turno:</strong> Definí qué nivel de sobreescritura manual querés sobre las cifras antes de emitir:</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Qué querés poder modificar manualmente antes de generar el presupuesto?</h3>
+        <p class="text-xs text-gray-400 mb-4">¿Hasta qué nivel de detalle querés poder sobreescribir las cifras que propone el sistema?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-b2">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b2', 'A', 'Solo el importe total y descuento general')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Solo total y descuento</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Mantener los precios fijos de bandas y solo tocar el descuento global final.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b2', 'B', 'Precio individual por cada partida')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Precios por partida</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Poder editar el precio de cada banda o servicio técnico por separado.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b2', 'C', 'Control 100% libre (precios, textos y notas)')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Control 100% libre</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Cambiar tarifas, aplicar descuentos mixtos y redactar observaciones libres.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-b2"></div>
+      </div>
+
+      <!-- B3 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6" id="q-card-b3">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">B3 • Descuentos</span>
+          <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Preseleccionada según tu último mensaje
+          </span>
+        </div>
+        <div class="text-[11px] text-emerald-300/90 bg-emerald-950/40 border border-emerald-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-emerald-400">💬</span>
+          <span><strong>Basado en tu indicación:</strong> «Después iremos afinando los descuentos según las variaciones de duración de actuaciones y la cantidad de servicios contratados...»</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Cómo aplicás habitualmente tus descuentos comerciales?</h3>
+        <p class="text-xs text-gray-400 mb-4">¿Cómo pensás la rebaja cuando un cliente contrata varios servicios o es un planner habitual?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-b3">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b3', 'A', 'Descuento global sobre el total general')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Descuento global</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Una rebaja final sobre la suma total del presupuesto.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b3', 'B', 'Por sinergia entre momentos contratados')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Por sinergia y volumen</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Bonificación al contratar varios servicios o ajustar la duración de pases.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b3', 'C', 'Bonificación de extras (traslados, microfonía)')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Bonificación de extras</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Regalar el desplazamiento o una hora de técnico en lugar de tocar el caché.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-b3"></div>
+      </div>
+
+      <!-- B4 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6 border border-amber-500/30" id="q-card-b4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">B4 • Registro</span>
+          <span class="text-[11px] font-semibold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ⚡ Pendiente de tu confirmación
+          </span>
+        </div>
+        <div class="text-[11px] text-amber-200/90 bg-amber-950/40 border border-amber-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-amber-400">⚡</span>
+          <span><strong>Tu turno:</strong> Elegí cómo querés gestionar las revisiones de presupuestos anteriores:</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Qué control de historial y versiones necesitás conservar?</h3>
+        <p class="text-xs text-gray-400 mb-4">Cuando un cliente te pide rebaja 2 semanas después: ¿cómo querés revisarlo?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-b4">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b4', 'A', 'Solo generar y descargar el PDF del momento')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Solo el PDF actual</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">No necesito guardar historial, solo emitir y enviar el documento.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b4', 'B', 'Guardar presupuesto y duplicar versiones (v1, v2)')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Duplicar versiones</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Poder guardar el presupuesto y sacar una "Versión 2" con descuento sin pisar la 1.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b4', 'C', 'Trazabilidad completa: Base ➔ Descuento ➔ Final')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Trazabilidad completa</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Ver exactamente cuánto era de tarifa oficial, cuánto se descontó y el margen resultante.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-b4"></div>
+      </div>
+
+      <!-- B5 (Casillas múltiples) -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6 border border-amber-500/30" id="q-card-b5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">B5 • Salida</span>
+          <span class="text-[11px] font-semibold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ⚡ Pendiente de tu confirmación
+          </span>
+        </div>
+        <div class="text-[11px] text-amber-200/90 bg-amber-950/40 border border-amber-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-amber-400">⚡</span>
+          <span><strong>Tu turno:</strong> Marcá todos los canales y formatos que solés utilizar para entregar propuestas:</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Cómo entregás habitualmente la propuesta terminada al cliente?</h3>
+        <p class="text-xs text-gray-400 mb-4">Marcá los formatos que utilizás con mayor frecuencia:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="opts-b5-multi">
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Descarga de PDF oficial imprimible" onchange="toggleMultiOption('b5', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Descarga directa de PDF oficial</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Mensaje formateado listo para WhatsApp" onchange="toggleMultiOption('b5', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Mensaje redactado para WhatsApp</span>
+          </label>
+          <label class="opt-card rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-200 cursor-pointer">
+            <input type="checkbox" value="Envío por correo con desglose adjunto" onchange="toggleMultiOption('b5', this.value)" class="rounded border-gray-700 text-cyan-500 focus:ring-0">
+            <span>Correo formal con desglose adjunto</span>
+          </label>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-b5"></div>
+      </div>
+
+      <!-- B6 -->
+      <div class="glass-card rounded-2xl p-5 sm:p-6 border border-amber-500/30" id="q-card-b6">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">B6 • Conexión Front ➔ Back</span>
+          <span class="text-[11px] font-semibold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ⚡ Pendiente de tu confirmación
+          </span>
+        </div>
+        <div class="text-[11px] text-amber-200/90 bg-amber-950/40 border border-amber-500/20 rounded-lg px-3 py-1.5 mb-3 flex items-start gap-2">
+          <span class="text-amber-400">⚡</span>
+          <span><strong>Tu turno:</strong> Elegí la forma más práctica de recibir la solicitud del cliente en tu teléfono:</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white mb-2">¿Cómo querés recibir el pedido del cliente en tu teléfono?</h3>
+        <p class="text-xs text-gray-400 mb-4">Cuando el cliente termina en el Front, ¿de qué forma te resulta más cómodo recibir su solicitud?</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="opts-b6">
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b6', 'A', 'Enlace inteligente que precarga mi Cockpit v17')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">A</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Enlace inteligente (Recomendado)</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Te llega un WhatsApp con un link: al tocarlo, se abre tu Cockpit con todo ya marcado.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b6', 'B', 'Formulario estructurado por email')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">B</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Formulario por email</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Un correo tradicional para revisarlo cuando te sientes en el ordenador.</span>
+            </div>
+          </div>
+
+          <div class="opt-card rounded-xl p-3.5 flex items-start gap-3" onclick="selectSingleOption('b6', 'C', 'Texto simple por WhatsApp')">
+            <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold indicator">C</span>
+            <div>
+              <strong class="text-xs font-bold text-white block">Texto simple en WhatsApp</strong>
+              <span class="text-[11px] text-gray-400 leading-tight block mt-0.5">Solo un mensaje con los nombres de bandas y datos del contacto.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-800" id="custom-container-b6"></div>
+      </div>
+
+      <!-- Botón de avance al Resumen -->
+      <div class="flex justify-between items-center pt-4">
+        <button type="button" onclick="switchPhase('front')" class="text-xs font-bold text-gray-400 hover:text-white flex items-center gap-1.5 transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Volver a Fase 1: El Escaparate</span>
+        </button>
+
+        <button type="button" onclick="scrollToSummary()" class="py-3 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-900/40">
+          <span>Revisar Resumen y Confirmar</span>
+          <i data-lucide="check" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================
+         SECCIÓN 3: RESUMEN EJECUTIVO & BOTÓN DE ENVÍO
+         ======================================================================== -->
+    <div id="section-summary" class="mt-12 pt-8 border-t border-gray-800">
+      <div class="glass-card rounded-2xl p-6 sm:p-7 border border-emerald-500/30 bg-[#0d0d0d]">
+        <div class="flex items-center gap-2.5 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+          <i data-lucide="file-check-2" class="w-4 h-4"></i>
+          <span>Resumen de Decisiones Comerciales</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-white mb-2">
+          Confirmación y Envío a Marketing Amable
+        </h2>
+        <p class="text-xs text-gray-300 leading-relaxed mb-6">
+          Revisá el resumen de tus respuestas antes de enviarlo. Si grabaste alguna nota de voz, se adjuntará automáticamente para que podamos escucharla.
+        </p>
+
+        <!-- Contenedor del Resumen Formateado en Tiempo Real -->
+        <div id="summary-preview-box" class="rounded-xl bg-gray-950 p-4 border border-gray-800 font-mono text-[11px] text-gray-300 leading-relaxed whitespace-pre-wrap mb-6 max-h-72 overflow-y-auto">
+Esperando respuestas... Ve completando las preguntas arriba.
+        </div>
+
+        <!-- Botón de Envío Oficial por WhatsApp -->
+        <div class="space-y-3">
+          <button type="button" id="btn-submit-answers" onclick="sendViaWhatsApp()" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition shadow-xl shadow-emerald-950/60 cursor-pointer">
+            <i data-lucide="send" class="w-5 h-5"></i>
+            <span>Confirmar Decisiones y Enviar por WhatsApp</span>
+          </button>
+          
+          <div class="flex items-center justify-between text-[11px] text-gray-400 px-2">
+            <span>Enlace directo a WhatsApp de Juan Pablo (Marketing Amable)</span>
+            <span class="text-emerald-400 flex items-center gap-1">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              Respuestas seguras
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Botón sticky "Ver configuración" — visible en móvil cuando hay ≥3 respuestas -->
+  <div id="sticky-summary-btn" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 hidden" style="display:none">
+    <button type="button" onclick="scrollToSummary()"
+      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600/95 hover:bg-emerald-500 text-white text-xs font-bold shadow-xl shadow-emerald-950/60 transition backdrop-blur-md border border-emerald-400/30 sm:hidden">
+      <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
+      <span>Ver mi configuración</span>
+      <span id="sticky-count" class="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold">0/14</span>
+    </button>
+  </div>
+
+  <!-- ========================================================================
+       PIE DE PÁGINA OFICIAL MARKETING AMABLE v2.0 (DOBLE NIVEL ULTRA-SLIM)
+       ======================================================================== -->
+  <div id="footer-section" class="w-full mt-auto">
+    <!-- Nivel 1: Footer del Cliente -->
+    <footer class="client-footer">
+      <div class="footer-container">
+        <div class="footer-main">
+          <div class="client-brand">
+            <span class="client-name">Live Bands Music</span>
+            <p class="client-tagline">Música en Vivo, Sonorización e Iluminación Profesional &bull; Peralada (Girona)</p>
+          </div>
+          <nav class="footer-legal-nav" aria-label="Enlaces legales">
+            <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Aviso Legal</a>
+            <span class="legal-sep">◆</span>
+            <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Política de Privacidad</a>
+            <span class="legal-sep">◆</span>
+            <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Código Ético</a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Nivel 2: Subfooter Oficial Marketing Amable v2.0 -->
+    <div class="mkt-subfooter">
+      <div class="subfooter-container">
+        <div class="subfooter-copy">
+          <p>© <span id="currentYear">2026</span> Live Bands Music. Todos los derechos reservados.</p>
+        </div>
+        <div class="subfooter-signature">
+          <span class="designed-by">Diseñado con pasión por</span>
+          <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" aria-label="Sitio web oficial de Marketing Amable">
+            <img src="./assets/images/002.gif" alt="Marketing Amable isotype" class="mkt-gif" width="28" height="28" />
+            <span class="mkt-white">MARKETING</span>
+            <span class="mkt-green">AMABLE</span>
+          </a>
+          <span class="mkt-version">v.21</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       LÓGICA INTERACTIVA: SELECCIÓN, AUDIO RECORDER Y ENVÍO
+       ======================================================================== -->
+  <script>
+    // Estado consolidado de respuestas
+    const surveyState = {
+      p1: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      p2: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      p3: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      p4: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      p5: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      p6: { choices: [], text: "", audioUrl: "", audioBlob: null },
+      p7: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      p8: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      b1: { choices: [], text: "", audioUrl: "", audioBlob: null },
+      b2: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      b3: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      b4: { choice: "", text: "", audioUrl: "", audioBlob: null },
+      b5: { choices: [], text: "", audioUrl: "", audioBlob: null },
+      b6: { choice: "", text: "", audioUrl: "", audioBlob: null },
+    };
+
+    // Grabación de audio activa
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordingTimer = null;
+    let recordingSeconds = 0;
+    let currentRecordingQuestion = null;
+
+    // Inicializar bloques personalizados (Texto y Audio) para cada pregunta
+    const allQuestions = ['p1','p2','p3','p4','p5','p6','p7','p8','b1','b2','b3','b4','b5','b6'];
+
+    function initCustomContainers() {
+      allQuestions.forEach(qId => {
+        const container = document.getElementById(`custom-container-${qId}`);
+        if (!container) return;
+
+        container.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <button type="button" onclick="toggleCustomOption('${qId}')" class="text-xs font-semibold text-gray-400 hover:text-cyan-300 flex items-center gap-1.5 transition" id="btn-custom-toggle-${qId}">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              <span>✎ Otra respuesta o aclaración propia (texto o audio)</span>
+            </button>
+            <span id="custom-status-${qId}" class="text-[10px] text-gray-500 font-mono"></span>
+          </div>
+
+          <div id="custom-panel-${qId}" class="hidden mt-3 p-3.5 rounded-xl bg-gray-950 border border-gray-800 space-y-3">
+            <div class="flex items-center gap-2 border-b border-gray-800 pb-2">
+              <button type="button" id="tab-txt-${qId}" onclick="switchCustomMode('${qId}', 'text')" class="text-xs font-bold px-2.5 py-1 rounded bg-gray-800 text-white flex items-center gap-1">
+                <i data-lucide="keyboard" class="w-3 h-3"></i>
+                <span>Escribir texto</span>
+              </button>
+              <button type="button" id="tab-aud-${qId}" onclick="switchCustomMode('${qId}', 'audio')" class="text-xs font-medium px-2.5 py-1 rounded text-gray-400 hover:text-white flex items-center gap-1">
+                <i data-lucide="mic" class="w-3 h-3"></i>
+                <span>Grabar nota de voz</span>
+              </button>
+            </div>
+
+            <!-- Panel Texto -->
+            <div id="panel-txt-${qId}">
+              <textarea id="input-txt-${qId}" oninput="handleTextInput('${qId}', this.value)" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500" placeholder="Escribí acá tu idea o cómo lo resolvés hoy..."></textarea>
+            </div>
+
+            <!-- Panel Audio -->
+            <div id="panel-aud-${qId}" class="hidden space-y-2">
+              <div class="flex items-center gap-2">
+                <button type="button" id="btn-record-${qId}" onclick="startRecording('${qId}')" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-1.5 transition">
+                  <i data-lucide="mic" class="w-3.5 h-3.5"></i>
+                  <span>Grabar nota de voz</span>
+                </button>
+                <button type="button" id="btn-stop-${qId}" onclick="stopRecording('${qId}')" class="hidden px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-red-400 border border-red-500/50 text-xs font-bold flex items-center gap-1.5 transition animate-pulse">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  <span id="timer-${qId}">00:00</span>
+                  <span>⏹ Detener</span>
+                </button>
+              </div>
+
+              <!-- Reproductor y estado del audio -->
+              <div id="audio-preview-${qId}" class="hidden space-y-1.5 pt-2">
+                <audio id="player-${qId}" controls class="w-full h-8"></audio>
+                <div class="flex items-center justify-between text-[10px] text-gray-400">
+                  <span class="text-emerald-400 flex items-center gap-1">
+                    <i data-lucide="check-circle-2" class="w-3 h-3"></i> Audio listo para adjuntar
+                  </span>
+                  <button type="button" onclick="resetAudio('${qId}')" class="text-red-400 hover:underline">Borrar y regrabar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function toggleCustomOption(qId) {
+      const panel = document.getElementById(`custom-panel-${qId}`);
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function switchCustomMode(qId, mode) {
+      const pTxt = document.getElementById(`panel-txt-${qId}`);
+      const pAud = document.getElementById(`panel-aud-${qId}`);
+      const tTxt = document.getElementById(`tab-txt-${qId}`);
+      const tAud = document.getElementById(`tab-aud-${qId}`);
+
+      if (mode === 'text') {
+        pTxt.classList.remove('hidden');
+        pAud.classList.add('hidden');
+        tTxt.className = "text-xs font-bold px-2.5 py-1 rounded bg-gray-800 text-white flex items-center gap-1";
+        tAud.className = "text-xs font-medium px-2.5 py-1 rounded text-gray-400 hover:text-white flex items-center gap-1";
+      } else {
+        pTxt.classList.add('hidden');
+        pAud.classList.remove('hidden');
+        tTxt.className = "text-xs font-medium px-2.5 py-1 rounded text-gray-400 hover:text-white flex items-center gap-1";
+        tAud.className = "text-xs font-bold px-2.5 py-1 rounded bg-gray-800 text-white flex items-center gap-1";
+      }
+    }
+
+    function handleTextInput(qId, val) {
+      surveyState[qId].text = val.trim();
+      updateCustomStatusBadge(qId);
+      updateSummaryPreview();
+    }
+
+    function updateCustomStatusBadge(qId) {
+      const badge = document.getElementById(`custom-status-${qId}`);
+      if (!badge) return;
+      let parts = [];
+      if (surveyState[qId].text) parts.push("Texto escrito");
+      if (surveyState[qId].audioBlob) parts.push("Audio grabado");
+      badge.textContent = parts.length > 0 ? `(${parts.join(' + ')})` : "";
+    }
+
+    // Grabación de Audio con MediaRecorder API nativa
+    async function startRecording(qId) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Tu navegador no soporta grabación de audio directa. Podés escribir tu respuesta en el campo de texto.");
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        currentRecordingQuestion = qId;
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          surveyState[qId].audioBlob = blob;
+          const audioUrl = URL.createObjectURL(blob);
+          const player = document.getElementById(`player-${qId}`);
+          player.src = audioUrl;
+          document.getElementById(`audio-preview-${qId}`).classList.remove('hidden');
+          updateCustomStatusBadge(qId);
+          updateSummaryPreview();
+        };
+
+        mediaRecorder.start();
+
+        document.getElementById(`btn-record-${qId}`).classList.add('hidden');
+        document.getElementById(`btn-stop-${qId}`).classList.remove('hidden');
+
+        recordingSeconds = 0;
+        clearInterval(recordingTimer);
+        recordingTimer = setInterval(() => {
+          recordingSeconds++;
+          const mins = String(Math.floor(recordingSeconds / 60)).padStart(2, '0');
+          const secs = String(recordingSeconds % 60).padStart(2, '0');
+          const timerEl = document.getElementById(`timer-${qId}`);
+          if (timerEl) timerEl.textContent = `${mins}:${secs}`;
+        }, 1000);
+
+      } catch (err) {
+        console.error("Error al acceder al micrófono:", err);
+        alert("No se pudo acceder al micrófono. Por favor habilita los permisos de audio en tu navegador.");
+      }
+    }
+
+    function stopRecording(qId) {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+      }
+      clearInterval(recordingTimer);
+      document.getElementById(`btn-record-${qId}`).classList.remove('hidden');
+      document.getElementById(`btn-stop-${qId}`).classList.add('hidden');
+    }
+
+    function resetAudio(qId) {
+      surveyState[qId].audioBlob = null;
+      surveyState[qId].audioUrl = "";
+      const player = document.getElementById(`player-${qId}`);
+      player.src = "";
+      document.getElementById(`audio-preview-${qId}`).classList.add('hidden');
+      updateCustomStatusBadge(qId);
+      updateSummaryPreview();
+    }
+
+    // Selección de opciones simples (Single Choice)
+    function selectSingleOption(qId, key, label) {
+      surveyState[qId].choice = `${key}. ${label}`;
+
+      const container = document.getElementById(`opts-${qId}`);
+      if (container) {
+        const cards = container.querySelectorAll('.opt-card');
+        cards.forEach(card => {
+          card.classList.remove('selected');
+          const ind = card.querySelector('.indicator')?.textContent?.trim();
+          if (ind === key) {
+            card.classList.add('selected');
+          }
+        });
+      }
+
+      updateCounters();
+      updateSummaryPreview();
+    }
+
+    // Selección de opciones múltiples (Multi Choice)
+    function toggleMultiOption(qId, val) {
+      const arr = surveyState[qId].choices;
+      const idx = arr.indexOf(val);
+      if (idx > -1) {
+        arr.splice(idx, 1);
+      } else {
+        arr.push(val);
+      }
+      updateCounters();
+      updateSummaryPreview();
+    }
+
+    // Cambio de fases (Tabs)
+    function switchPhase(phase) {
+      const secFront = document.getElementById('section-front');
+      const secBack = document.getElementById('section-back');
+      const tabFront = document.getElementById('tab-btn-front');
+      const tabBack = document.getElementById('tab-btn-back');
+
+      if (phase === 'front') {
+        secFront.classList.remove('hidden');
+        secBack.classList.add('hidden');
+        tabFront.className = "px-4 py-2.5 font-bold text-xs sm:text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2 transition";
+        tabBack.className = "px-4 py-2.5 font-medium text-xs sm:text-sm text-gray-400 hover:text-white border-b-2 border-transparent flex items-center gap-2 transition";
+      } else {
+        secFront.classList.add('hidden');
+        secBack.classList.remove('hidden');
+        tabFront.className = "px-4 py-2.5 font-medium text-xs sm:text-sm text-gray-400 hover:text-white border-b-2 border-transparent flex items-center gap-2 transition";
+        tabBack.className = "px-4 py-2.5 font-bold text-xs sm:text-sm border-b-2 border-cyan-500 text-cyan-400 flex items-center gap-2 transition";
+      }
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function scrollToSummary() {
+      document.getElementById('section-summary').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updateCounters() {
+      let countFront = 0;
+      ['p1','p2','p3','p4','p5','p7','p8'].forEach(id => {
+        if (surveyState[id].choice || surveyState[id].text || surveyState[id].audioBlob) countFront++;
+      });
+      if (surveyState.p6.choices.length > 0 || surveyState.p6.text || surveyState.p6.audioBlob) countFront++;
+      document.getElementById('badge-count-front').textContent = `${countFront}/8`;
+
+      // Barras de progreso Fase 1
+      const pctFront = Math.round((countFront / 8) * 100);
+      const barFront = document.getElementById('progress-bar-front');
+      const labelFront = document.getElementById('progress-label-front');
+      if (barFront) barFront.style.width = `${pctFront}%`;
+      if (labelFront) labelFront.textContent = `Fase 1 · ${countFront} / 8`;
+
+      let countBack = 0;
+      ['b2','b3','b4','b6'].forEach(id => {
+        if (surveyState[id].choice || surveyState[id].text || surveyState[id].audioBlob) countBack++;
+      });
+      if (surveyState.b1.choices.length > 0 || surveyState.b1.text || surveyState.b1.audioBlob) countBack++;
+      if (surveyState.b5.choices.length > 0 || surveyState.b5.text || surveyState.b5.audioBlob) countBack++;
+      document.getElementById('badge-count-back').textContent = `${countBack}/6`;
+
+      // Barras de progreso Fase 2
+      const pctBack = Math.round((countBack / 6) * 100);
+      const barBack = document.getElementById('progress-bar-back');
+      const labelBack = document.getElementById('progress-label-back');
+      if (barBack) barBack.style.width = `${pctBack}%`;
+      if (labelBack) labelBack.textContent = `Fase 2 · ${countBack} / 6`;
+
+      // Sticky button — mostrar desde la 3ª respuesta en adelante (solo móvil)
+      const totalAnswered = countFront + countBack;
+      const stickyBtn = document.getElementById('sticky-summary-btn');
+      const stickyCount = document.getElementById('sticky-count');
+      if (stickyBtn) {
+        stickyBtn.style.display = totalAnswered >= 3 ? 'block' : 'none';
+      }
+      if (stickyCount) stickyCount.textContent = `${totalAnswered}/14`;
+    }
+
+    // Generador de texto del resumen
+    function buildSummaryText() {
+      let text = `📋 *RESPUESTAS DE SANTIAGO — ALINEACIÓN COMERCIAL LBM*\n\n`;
+      
+      text += `*1. EL ESCAPARATE (FRONT — Lo que ve el cliente):*\n`;
+      text += formatAnswer('P1 (Quién usa la web)', surveyState.p1);
+      text += formatAnswer('P2 (Punto de arranque)', surveyState.p2);
+      text += formatAnswer('P3 (Material visual)', surveyState.p3);
+      text += formatAnswer('P4 (Formación músicos)', surveyState.p4);
+      text += formatAnswer('P5 (Asignación momentos)', surveyState.p5);
+      text += formatMultiAnswer('P6 (Variables solicitadas)', surveyState.p6);
+      text += formatAnswer('P7 (Manejo alternativas)', surveyState.p7);
+      text += formatAnswer('P8 (Cierre del Front)', surveyState.p8);
+
+      text += `\n*2. TU MOSTRADOR (BACK — Tu Cockpit v16/v17):*\n`;
+      text += formatMultiAnswer('B1 (Variables necesarias)', surveyState.b1);
+      text += formatAnswer('B2 (Control manual)', surveyState.b2);
+      text += formatAnswer('B3 (Criterio descuentos)', surveyState.b3);
+      text += formatAnswer('B4 (Historial y versiones)', surveyState.b4);
+      text += formatMultiAnswer('B5 (Formatos de entrega)', surveyState.b5);
+      text += formatAnswer('B6 (Conexión Front-Back)', surveyState.b6);
+
+      text += `\n_Generado desde el Portal de Alineación de Marketing Amable_`;
+      return text;
+    }
+
+    function formatAnswer(label, item, isPreset) {
+      let mark = (isPreset && item.choice) ? ' [Confirmada s/mensaje]' : '';
+      let out = `• ${label}: ${item.choice || 'Sin marcar'}${mark}\n`;
+      if (item.text) out += `  ↳ _Aclaración escrita:_ "${item.text}"\n`;
+      if (item.audioUrl) {
+        out += `  ↳ _Nota de voz:_ ${item.audioUrl}\n`;
+      } else if (item.audioBlob) {
+        out += `  ↳ _Nota de voz grabada (pendiente de subir)_\n`;
+      }
+      return out;
+    }
+
+    function formatMultiAnswer(label, item) {
+      let list = item.choices.length > 0 ? item.choices.join(', ') : 'Ninguna marcada';
+      let out = `• ${label}: ${list}\n`;
+      if (item.text) out += `  ↳ _Aclaración escrita:_ "${item.text}"\n`;
+      if (item.audioUrl) {
+        out += `  ↳ _Nota de voz:_ ${item.audioUrl}\n`;
+      } else if (item.audioBlob) {
+        out += `  ↳ _Nota de voz grabada (pendiente de subir)_\n`;
+      }
+      return out;
+    }
+
+    function updateSummaryPreview() {
+      const previewBox = document.getElementById('summary-preview-box');
+      if (previewBox) {
+        previewBox.textContent = buildSummaryText();
+      }
+    }
+
+    // Aplicar pre-llenado de las decisiones ya indicadas por Santiago
+    function applyPresets() {
+      selectSingleOption('p1', 'A', 'El cliente');
+      selectSingleOption('p2', 'B', 'Por Momento del Evento');
+      selectSingleOption('p3', 'B', 'Foto real + Descripción + Web');
+      selectSingleOption('p4', 'B', 'Primero la banda, luego formaciones');
+      selectSingleOption('p5', 'A', 'Al principio de todo');
+      selectSingleOption('p7', 'A', 'Filtrado automático: solo compatibles con ese momento y estilo');
+      selectSingleOption('p8', 'B', 'Precio orientativo (Desde X €)');
+      selectSingleOption('b3', 'B', 'Por sinergia entre momentos contratados');
+
+      // Pre-marcar P6: Fecha del evento + Finca / Población (confirmadas por Santiago)
+      const p6Presets = ['Fecha del evento', 'Finca o Población'];
+      p6Presets.forEach(val => {
+        if (!surveyState.p6.choices.includes(val)) {
+          surveyState.p6.choices.push(val);
+        }
+        // Activar el checkbox visualmente en el DOM
+        const container = document.getElementById('opts-p6-multi');
+        if (container) {
+          const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+          checkboxes.forEach(cb => {
+            if (cb.value === val) {
+              cb.checked = true;
+              cb.closest('label')?.classList.add('selected');
+            }
+          });
+        }
+      });
+      updateCounters();
+      updateSummaryPreview();
+    }
+
+    // Subir audios al servidor Hostinger si existen
+    async function uploadAllAudios() {
+      const uploadPromises = [];
+      const pendingKeys = allQuestions.filter(k => surveyState[k].audioBlob && !surveyState[k].audioUrl);
+
+      for (const qId of pendingKeys) {
+        const formData = new FormData();
+        formData.append('audio', surveyState[qId].audioBlob, `${qId}_audio.webm`);
+        formData.append('preguntaId', qId);
+
+        const p = fetch('./guardar-audio.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.url) {
+            surveyState[qId].audioUrl = data.url;
+          }
+        })
+        .catch(err => {
+          console.warn(`No se pudo subir el audio de ${qId} al servidor (modo local/estático).`, err);
+        });
+
+        uploadPromises.push(p);
+      }
+
+      if (uploadPromises.length > 0) {
+        await Promise.all(uploadPromises);
+      }
+    }
+
+    // Enviar consolidado a WhatsApp
+    async function sendViaWhatsApp() {
+      const btn = document.getElementById('btn-submit-answers');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span class="animate-pulse">Procesando audios y preparando WhatsApp...</span>`;
+      btn.disabled = true;
+
+      try {
+        await uploadAllAudios();
+      } catch (e) {
+        console.error("Error al subir audios:", e);
+      }
+
+      const finalMessage = buildSummaryText();
+      const phoneJuanPablo = "34627370334"; // Número oficial de contacto
+      const encodedMsg = encodeURIComponent(finalMessage);
+      const waUrl = `https://api.whatsapp.com/send?phone=${phoneJuanPablo}&text=${encodedMsg}`;
+
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+
+      window.open(waUrl, '_blank');
+    }
+
+    // Inicialización al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      initCustomContainers();
+      applyPresets();
+      updateSummaryPreview();
+      document.getElementById('currentYear').textContent = new Date().getFullYear().toString();
+      if (window.lucide) window.lucide.createIcons();
+
+      // Ocultar barra sticky de simulación al llegar al Resumen final para concentrar la atención en el envío
+      const summarySection = document.getElementById('section-summary');
+      const simulationBar = document.getElementById('sticky-simulation-bar');
+      if (summarySection && simulationBar && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              simulationBar.style.opacity = '0';
+              simulationBar.style.pointerEvents = 'none';
+            } else {
+              simulationBar.style.opacity = '1';
+              simulationBar.style.pointerEvents = 'auto';
+            }
+          });
+        }, { threshold: 0.15 });
+        observer.observe(summarySection);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Bands Music — Portal de Demostración & Evaluación de Versiones</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="./assets/img/LBM-logo.png" />
+  <link rel="shortcut icon" href="./favicon.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lexend:wght@800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            lexend: ['"Lexend"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Luxury Dark Palette */
+    :root {
+      --bg-main: #090909;
+      --bg-card: #121212;
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --accent-emerald: #10b981;
+      --accent-forest: #1b4332;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .glass-panel {
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .glass-card {
+      background: rgba(22, 22, 22, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Iframe a pantalla completa para mantener el branding superior */
+    #viewer-wrapper {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: #090909;
+      flex-direction: column;
+    }
+
+    #viewer-wrapper.active {
+      display: flex;
+    }
+
+    #app-frame {
+      width: 100%;
+      flex: 1;
+      border: none;
+      background: #090909;
+    }
+
+    /* Footer Oficial Marketing Amable v2.0 (Ultra-Slim & Tono Diferenciado) */
+    .client-footer {
+      background: #18181b !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+      padding: 0.45rem 1rem;
+      margin-top: auto;
+    }
+    .footer-container {
+      max-width: 80rem;
+      margin: 0 auto;
+    }
+    .footer-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.35rem;
+    }
+    @media (min-width: 640px) {
+      .footer-main {
+        flex-direction: row;
+        min-height: 26px;
+      }
+    }
+    .client-brand .client-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: block;
+      line-height: 1.2;
+    }
+    .client-brand .client-tagline {
+      font-size: 0.6875rem;
+      color: #94a3b8;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .footer-legal-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6875rem;
+    }
+    .legal-link {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .legal-link:hover {
+      color: #ffffff;
+    }
+    .legal-sep {
+      color: #64748b;
+      font-size: 0.45rem;
+    }
+
+    .mkt-subfooter {
+      background: #060606 !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.3rem 1rem;
+    }
+    .subfooter-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.35rem;
+      font-size: 0.6875rem;
+    }
+    @media (min-width: 640px) {
+      .subfooter-container {
+        flex-direction: row;
+        min-height: 24px;
+      }
+    }
+    .subfooter-copy p {
+      color: #cbd5e1;
+      margin: 0;
+      font-size: 0.6875rem;
+      line-height: 1.2;
+    }
+    .subfooter-signature {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .designed-by {
+      color: #94a3b8;
+      font-size: 0.65rem;
+    }
+    .mkt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none;
+      font-family: 'Lexend', sans-serif;
+      font-weight: 800;
+      font-size: 0.7rem;
+      line-height: 1;
+    }
+    .mkt-gif {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .mkt-white {
+      color: #ffffff;
+    }
+    .mkt-green {
+      color: #d8f3dc;
+    }
+    .mkt-version {
+      font-family: monospace;
+      font-size: 8.5px;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. PANTALLA PRINCIPAL DE BIENVENIDA Y SELECCIÓN DE VERSIONES
+       ======================================================================== -->
+  <div id="welcome-screen" class="flex-1 flex flex-col justify-between">
+    
+    <!-- Barra Superior de Marca Oficial (Marketing Amable & Live Bands Music) -->
+    <header class="border-b border-gray-800/80 bg-[#090909]/95 backdrop-blur-md sticky top-0 z-30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="./assets/img/LBM-logo.png" alt="Live Bands Music Logo" class="h-9 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(255,255,255,0.25)]" />
+          <div class="hidden sm:block border-l border-gray-700 pl-3">
+            <span class="text-xs font-bold text-white tracking-wide block">WORKSTATION 2027</span>
+            <span class="text-[10px] text-gray-400">Portal de Acceso Comercial & Demos</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Píldora de Marca Marketing Amable -->
+          <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" title="Desarrollado por Marketing Amable">
+            <img src="./assets/images/002.gif" alt="Marketing Amable" class="mkt-gif" width="28" height="28" />
+            <span class="mkt-white">MARKETING</span>
+            <span class="mkt-green">AMABLE</span>
+          </a>
+          <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Demo Activa
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido Principal: Hero y Tarjetas de Versión -->
+    <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-14 my-auto">
+      
+      <!-- Bloque Hero Central con Logo LBM -->
+      <div class="text-center space-y-4 mb-10 sm:mb-12">
+        <div class="flex justify-center mb-2">
+          <div class="relative p-4 rounded-2xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 shadow-2xl inline-block">
+            <img src="./assets/img/LBM-logo.png" alt="Live Bands Music" class="h-16 sm:h-20 w-auto object-contain filter drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)]" />
+          </div>
+        </div>
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/10 border border-slate-300/20 text-slate-200 text-xs font-semibold">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Entorno de Demostración Oficial • Acceso Directo sin Contraseña</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+          Simulador de Presupuestos para Eventos
+        </h1>
+        <p class="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto leading-relaxed">
+          Selecciona la versión del configurador que deseas evaluar para revisar la experiencia de cotización, el repertorio musical y las tarifas oficiales.
+        </p>
+
+        <!-- Selector Rápido de Operador -->
+        <div class="pt-2 flex items-center justify-center gap-2 text-xs">
+          <span class="text-gray-400 font-medium">Operador activo:</span>
+          <div class="inline-flex rounded-xl p-0.5 bg-gray-900 border border-gray-800 text-xs">
+            <button type="button" id="btn-op-santiago" onclick="selectOperator('Santiago Cholbi')" class="px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 bg-slate-200 text-black shadow-sm cursor-pointer">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Santiago Cholbi (LBM)</span>
+            </button>
+            <button type="button" id="btn-op-jp" onclick="selectOperator('Juan Pablo')" class="px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 text-gray-400 hover:text-white cursor-pointer">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-cyan-400"></i>
+              <span>Juan Pablo (MKT)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ACCESOS DESTACADOS: PORTAL DE ALINEACIÓN & EL ESCAPARATE CRO -->
+        <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Tarjeta 1: El Escaparate de Novios (Fase 3 - v.25) -->
+          <a href="./escaparate.html" target="_blank" class="block rounded-2xl border border-amber-500/60 bg-gradient-to-r from-amber-950/40 via-stone-900/80 to-stone-950 hover:border-amber-400 transition-all group shadow-xl shadow-amber-950/30 overflow-hidden text-left">
+            <div class="p-4 flex items-start gap-3">
+              <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 group-hover:scale-105 transition shrink-0">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-0.5">
+                  <span class="text-sm font-extrabold text-white group-hover:text-amber-200 transition">El Escaparate de Novios</span>
+                  <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    Nuevo • v.25
+                  </span>
+                </div>
+                <p class="text-xs text-stone-300 leading-snug">Experiencia pública guiada de 3 minutos para parejas y planners con conexión a WhatsApp.</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Tarjeta 2: Portal de Alineación Santiago -->
+          <a href="./alineacion.html" class="block rounded-2xl border border-emerald-500/50 bg-gradient-to-r from-emerald-950/50 via-gray-900/70 to-cyan-950/50 hover:border-emerald-400/70 transition-all group shadow-xl shadow-emerald-950/30 overflow-hidden text-left">
+            <div class="p-4 flex items-start gap-3">
+              <div class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 group-hover:scale-105 transition shrink-0">
+                <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-0.5">
+                  <span class="text-sm font-extrabold text-white group-hover:text-emerald-200 transition">Portal de Alineación Santiago</span>
+                  <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    v.21
+                  </span>
+                </div>
+                <p class="text-xs text-gray-300 leading-snug">8 decisiones preseleccionadas y 6 preguntas pendientes de confirmación.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Cuadrícula de Selección de Versiones (2 Columnas) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+
+        <!-- TARJETA 1: NUEVA VERSIÓN v.18 (DESTACADA / RECOMENDADA) -->
+        <div class="glass-card rounded-2xl p-6 sm:p-7 border-2 border-emerald-500/70 bg-gradient-to-b from-emerald-950/20 via-gray-900/60 to-gray-950 flex flex-col justify-between relative overflow-hidden group shadow-2xl shadow-emerald-950/40">
+          
+          <!-- Cinta de recomendación superior -->
+          <div class="absolute top-0 right-0">
+            <div class="bg-gradient-to-l from-emerald-500 to-emerald-600 text-black text-[10px] font-extrabold uppercase tracking-wider px-4 py-1 rounded-bl-xl shadow-md flex items-center gap-1">
+              <i data-lucide="sparkles" class="w-3 h-3"></i>
+              <span>Recomendada • v.18</span>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-3 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                <i data-lucide="compass" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Nueva Versión Oficial</span>
+                <h2 class="text-xl font-extrabold text-white">Cockpit & Catálogo Visual</h2>
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-300 leading-relaxed">
+              La nueva arquitectura comercial diseñada para Santiago Cholbi: acceso ágil según la llamada del cliente, fotografías de los músicos y soporte completo para ceremonias.
+            </p>
+
+            <!-- Lista de Características Principales -->
+            <ul class="space-y-2.5 text-xs text-gray-300 pt-2 border-t border-gray-800/80">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Cockpit de 4 puertas de entrada:</strong> inicio por Banda/Estilo, Finca/Fecha, Momentos o Planner B2B.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Catálogo visual con fotos:</strong> 7 bandas con fotografía real, estilos y enlaces oficiales.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Jazz de Copes en Ceremonia:</strong> Dúo JDC2 habilitado (795 €) con hasta 6 canciones a la carta.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Cero autoactivación:</strong> el usuario decide con precisión qué momentos incluir.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Acciones de Entrada -->
+          <div class="pt-6 mt-6 border-t border-gray-800/80 space-y-2.5">
+            <button type="button" onclick="launchInViewer('v17')" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-900/40 cursor-pointer">
+              <span>Abrir Cockpit v.18</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+            <div class="flex items-center justify-between text-[11px] text-gray-400 px-1">
+              <span>Despliegue en Marketing Amable</span>
+              <a href="./simulador.html" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+                <span>Abrir en pestaña nueva</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 2: VERSIÓN ANTERIOR (CLÁSICA v.16) -->
+        <div class="glass-card rounded-2xl p-6 sm:p-7 border border-gray-800 bg-gray-900/50 flex flex-col justify-between group shadow-xl">
+          
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-3 rounded-xl bg-gray-800 text-gray-400 border border-gray-700">
+                <i data-lucide="archive" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Versión Previa de Referencia</span>
+                <h2 class="text-xl font-extrabold text-white">Simulador Clásico (v.16)</h2>
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-400 leading-relaxed">
+              El flujo tradicional secuencial por pasos. Disponible para comparar contrastes de experiencia de usuario, calibración de tarifas consolidadas y control histórico.
+            </p>
+
+            <!-- Lista de Características Principales -->
+            <ul class="space-y-2.5 text-xs text-gray-400 pt-2 border-t border-gray-800/80">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-gray-500 shrink-0 mt-0.5"></i>
+                <span><strong>Flujo lineal tradicional:</strong> avance paso a paso (1. Evento, 2. Música, 3. Técnica, 4. Resumen).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-gray-500 shrink-0 mt-0.5"></i>
+                <span><strong>Presentación textual de bandas:</strong> formato sin fotografías para carga ultra rápida.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-gray-500 shrink-0 mt-0.5"></i>
+                <span><strong>Motor de sinergias oficial:</strong> base matemática idéntica de cálculo y descuentos.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-gray-500 shrink-0 mt-0.5"></i>
+                <span><strong>Referencia comparativa:</strong> ideal para validar la evolución del producto comercial.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Acciones de Entrada -->
+          <div class="pt-6 mt-6 border-t border-gray-800/80 space-y-2.5">
+            <button type="button" onclick="launchInViewer('v16')" class="w-full py-3.5 px-4 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 font-bold text-sm flex items-center justify-center gap-2 transition cursor-pointer">
+              <span>Abrir Versión Clásica (v.16)</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+            <div class="flex items-center justify-between text-[11px] text-gray-400 px-1">
+              <span>Entorno clásico local</span>
+              <a href="./v16/index.html" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+                <span>Abrir en pestaña nueva</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Pie de Página Oficial Marketing Amable v2.0 (Doble Nivel) -->
+    <div id="footer-section" class="w-full mt-auto">
+      <!-- Nivel 1: Footer del Cliente -->
+      <footer class="client-footer">
+        <div class="footer-container">
+          <div class="footer-main">
+            <div class="client-brand">
+              <span class="client-name">Live Bands Music</span>
+              <p class="client-tagline">Música en Vivo, Sonorización e Iluminación Profesional &bull; Peralada (Girona)</p>
+            </div>
+            <nav class="footer-legal-nav" aria-label="Enlaces legales">
+              <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Aviso Legal</a>
+              <span class="legal-sep">◆</span>
+              <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Política de Privacidad</a>
+              <span class="legal-sep">◆</span>
+              <a href="https://www.livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Código Ético</a>
+            </nav>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Nivel 2: Subfooter Oficial Marketing Amable v2.0 -->
+      <div class="mkt-subfooter">
+        <div class="subfooter-container">
+          <div class="subfooter-copy">
+            <p>© <span id="currentYear">2026</span> Live Bands Music. Todos los derechos reservados.</p>
+          </div>
+          <div class="subfooter-signature">
+            <span class="designed-by">Diseñado con pasión por</span>
+            <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" aria-label="Sitio web oficial de Marketing Amable">
+              <img src="./assets/images/002.gif" alt="Marketing Amable isotype" class="mkt-gif" width="28" height="28" />
+              <span class="mkt-white">MARKETING</span>
+              <span class="mkt-green">AMABLE</span>
+            </a>
+            <span class="mkt-version">v.25</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================================================================
+       2. VISOR INTEGRADO A PANTALLA COMPLETA (BRANDING MARKETING AMABLE ACTIVO)
+       ======================================================================== -->
+  <div id="viewer-wrapper">
+    
+    <!-- Barra Superior Persistente (Branding Oficial & Selector Rápido) -->
+    <header class="h-12 bg-[#090909] border-b border-gray-800 px-3 sm:px-5 flex items-center justify-between gap-2 shrink-0 z-50">
+      
+      <!-- Logo LBM y Marca -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <img src="./assets/img/LBM-logo.png" alt="LBM Logo" class="h-6 w-auto object-contain" />
+        <span class="hidden sm:inline text-xs font-bold text-white whitespace-nowrap">Live Bands Music</span>
+        <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase tracking-wider">Demo</span>
+      </div>
+
+      <!-- Selector de Versión en Vivo (Switch Pills) -->
+      <div class="inline-flex rounded-lg p-0.5 bg-gray-950 border border-gray-800 text-xs shrink-0">
+        <button type="button" id="pill-viewer-v17" onclick="switchViewerVersion('v17')" class="px-2.5 py-1 rounded-md font-bold text-xs transition flex items-center gap-1.5 bg-emerald-600 text-white shadow-sm cursor-pointer">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+          <span>v.18 (Cockpit)</span>
+        </button>
+        <button type="button" id="pill-viewer-v16" onclick="switchViewerVersion('v16')" class="px-2.5 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+          <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+          <span>v.16 (Clásica)</span>
+        </button>
+      </div>
+
+      <!-- Acciones de Derecha: Operador, Píldora MKT Amable y Salir -->
+      <div class="flex items-center gap-2 shrink-0">
+        <span id="viewer-operator-label" class="hidden md:inline text-[11px] text-gray-400 font-medium">
+          Operador: <strong class="text-white font-bold">Santiago Cholbi</strong>
+        </span>
+
+        <!-- Píldora Oficial Marketing Amable en la Barra Superior -->
+        <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill hidden sm:inline-flex" title="Marketing Amable">
+          <img src="./assets/images/002.gif" alt="Marketing Amable" class="mkt-gif" width="22" height="22" style="width: 22px; height: 22px;" />
+          <span class="mkt-white text-[11px]">MARKETING</span>
+          <span class="mkt-green text-[11px]">AMABLE</span>
+        </a>
+
+        <!-- Botón Salir al Hub -->
+        <button type="button" onclick="closeViewer()" class="px-2.5 py-1 rounded-lg bg-gray-900 hover:bg-gray-800 text-gray-300 hover:text-white text-xs font-semibold border border-gray-700 flex items-center gap-1 transition cursor-pointer" title="Volver a la selección de demos">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Menú Demos</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Iframe que aloja la aplicación sin mostrar Vercel en la URL -->
+    <iframe id="app-frame" src="" title="Live Bands Music Simulador"></iframe>
+  </div>
+
+  <script>
+    // Configuración de URLs para las dos versiones
+    const URLS = {
+      // Versión actual v.18 (relativa en este mismo host para máxima velocidad y sin CORS)
+      v17: "./simulador.html",
+      // Versión anterior v.16 (alojada localmente en servidor Marketing Amable)
+      v16: "./v16/index.html"
+    };
+
+    let selectedOperator = "Santiago Cholbi";
+    let currentActiveVersion = "v17";
+
+    function selectOperator(opName) {
+      selectedOperator = opName;
+      const btnSan = document.getElementById("btn-op-santiago");
+      const btnJp = document.getElementById("btn-op-jp");
+      
+      if (opName === "Santiago Cholbi") {
+        btnSan.className = "px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 bg-slate-200 text-black shadow-sm cursor-pointer";
+        btnJp.className = "px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 text-gray-400 hover:text-white cursor-pointer";
+      } else {
+        btnSan.className = "px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 text-gray-400 hover:text-white cursor-pointer";
+        btnJp.className = "px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 bg-slate-200 text-black shadow-sm cursor-pointer";
+      }
+
+      const opLabel = document.getElementById("viewer-operator-label");
+      if (opLabel) {
+        opLabel.innerHTML = `Operador: <strong class="text-white font-bold">${opName}</strong>`;
+      }
+    }
+
+    function launchInViewer(versionKey) {
+      currentActiveVersion = versionKey;
+      const wrapper = document.getElementById("viewer-wrapper");
+      const frame = document.getElementById("app-frame");
+
+      const baseUrl = URLS[versionKey];
+      const targetUrl = `${baseUrl}?operator=${encodeURIComponent(selectedOperator)}`;
+      
+      frame.src = targetUrl;
+      wrapper.classList.add("active");
+      document.body.style.overflow = "hidden";
+
+      updateViewerPills(versionKey);
+    }
+
+    function switchViewerVersion(versionKey) {
+      if (currentActiveVersion === versionKey) return;
+      currentActiveVersion = versionKey;
+      const frame = document.getElementById("app-frame");
+      const baseUrl = URLS[versionKey];
+      frame.src = `${baseUrl}?operator=${encodeURIComponent(selectedOperator)}`;
+      updateViewerPills(versionKey);
+    }
+
+    function updateViewerPills(versionKey) {
+      const pill17 = document.getElementById("pill-viewer-v17");
+      const pill16 = document.getElementById("pill-viewer-v16");
+
+      if (versionKey === "v17") {
+        pill17.className = "px-2.5 py-1 rounded-md font-bold text-xs transition flex items-center gap-1.5 bg-emerald-600 text-white shadow-sm cursor-pointer";
+        pill16.className = "px-2.5 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer";
+      } else {
+        pill17.className = "px-2.5 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer";
+        pill16.className = "px-2.5 py-1 rounded-md font-bold text-xs transition flex items-center gap-1.5 bg-gray-800 text-white shadow-sm cursor-pointer";
+      }
+    }
+
+    function closeViewer() {
+      const wrapper = document.getElementById("viewer-wrapper");
+      const frame = document.getElementById("app-frame");
+      frame.src = "";
+      wrapper.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+
+    // Atajo de teclado Escape para salir del visor
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeViewer();
+      }
+    });
+
+    // Inicializar iconos de Lucide
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+    document.getElementById("currentYear").textContent = new Date().getFullYear().toString();
+  </script>
+</body>
+</html>
