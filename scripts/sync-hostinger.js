@@ -46,7 +46,8 @@ const itemsToSync = [
   { src: 'escaparate.html', destSubpath: 'escaparate.html' },
   { src: 'assets/js/escaparate.js', destSubpath: 'assets/js/escaparate.js' },
   { src: 'demo.html', destSubpath: 'demo.html' },
-  { src: 'portal.html', destSubpath: 'portal.html' }
+  { src: 'portal.html', destSubpath: 'portal.html' },
+  { src: 'como-funciona.html', destSubpath: 'como-funciona.html' }
 ];
 
 targets.forEach(targetDir => {

@@ -175,7 +175,7 @@ function displayLeadHydrationBanner(lead) {
   banner.id = "lead-bridge-banner";
   banner.className = "glass-card mb-6 p-4 rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-r from-emerald-950/60 via-gray-900/90 to-cyan-950/60 flex items-start justify-between gap-4 shadow-2xl relative animate-fadeIn";
   
-  const coupleName = lead.contacto?.nombre || "Pareja de novios";
+  const coupleName = lead.pareja || lead.contacto?.nombre || "Pareja de novios";
   const venue = lead.finca || lead.location || "Finca por confirmar";
   const date = lead.fecha || lead.date || "Fecha por confirmar";
   const refCode = lead.ref || "LBM-LEAD";

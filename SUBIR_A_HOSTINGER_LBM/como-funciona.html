@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-stone-950 text-stone-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cómo Funciona el Circuito • Guía Rápida para Santiago | Live Bands Music</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lexend:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0D0D0D;
+    }
+    .font-brand {
+      font-family: 'Lexend', sans-serif;
+    }
+    .font-serif-title {
+      font-family: 'Cinzel', serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    /* FOOTER OFICIAL MARKETING AMABLE v2.0 */
+    .client-footer {
+      background: #121212;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.5rem 1rem;
+    }
+    .client-footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .client-footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+    .client-name {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #FFFFFF;
+    }
+    .client-tagline {
+      font-size: 0.75rem;
+      color: #CBD5E1;
+      margin-top: 0.2rem;
+    }
+    .client-legal-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+    }
+    .legal-link {
+      color: #E2E8F0;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .legal-link:hover {
+      color: #D8F3DC;
+    }
+    .legal-sep {
+      color: #475569;
+      font-size: 0.6rem;
+    }
+    .mkt-subfooter {
+      background: #090909;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.45rem 1rem;
+      min-height: 44px;
+    }
+    .mkt-subfooter-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+    @media (min-width: 768px) {
+      .mkt-subfooter-container {
+        flex-direction: row;
+      }
+    }
+    .mkt-copy {
+      font-size: 0.72rem;
+      color: #CBD5E1;
+      margin: 0;
+    }
+    .mkt-signature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .designed-by {
+      font-size: 0.72rem;
+      color: #CBD5E1;
+    }
+    .mkt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 3px 10px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .mkt-pill:hover {
+      opacity: 0.9;
+    }
+    .mkt-gif {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .mkt-white {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: #FFFFFF;
+    }
+    .mkt-green {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: #D8F3DC;
+    }
+    .mkt-version {
+      font-family: monospace;
+      font-size: 9px;
+      color: #CBD5E1;
+      padding-left: 2px;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+
+  <!-- ========================================================================
+       CABECERA DE MARCA
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 border-b border-stone-800/80 bg-stone-950/90 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
+      <a href="./portal.html" class="flex items-center space-x-3 hover:opacity-90 transition">
+        <img src="./assets/img/lbm-logo-official.png" alt="Live Bands Music" class="h-9 sm:h-11 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]" />
+        <div>
+          <span class="text-sm sm:text-base font-extrabold text-white tracking-wide block">Live Bands Music</span>
+          <span class="text-[10px] sm:text-xs text-amber-300 font-medium block">Peralada &bull; Girona &bull; Costa Brava</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="./portal.html" class="px-3.5 py-1.5 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 text-xs font-bold transition flex items-center gap-1.5">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Volver al Centro de Control</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO PRINCIPAL
+       ======================================================================== -->
+  <section class="border-b border-stone-800/60 bg-gradient-to-b from-stone-950 via-stone-900/40 to-stone-950 py-8 sm:py-12 px-4 sm:px-6">
+    <div class="max-w-3xl mx-auto text-center space-y-3">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+        <span>Guía Visual Interactiva • 1 Minuto de Lectura</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-white font-serif-title leading-tight">
+        Cómo funciona tu nuevo circuito comercial
+      </h1>
+
+      <p class="text-xs sm:text-sm text-stone-300 max-w-xl mx-auto leading-relaxed">
+        Santiago: no tenés que cargar nada a mano ni copiar datos de un correo. Mirá paso a paso cómo se conecta la elección de los novios con tu mostrador de trabajo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SIMULADOR EN 3 PASOS
+       ======================================================================== -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-8">
+
+    <!-- BARRA SELECTORA DE PASOS (INTERACTIVA) -->
+    <div class="grid grid-cols-3 gap-2 sm:gap-3 p-1.5 rounded-2xl bg-stone-900/90 border border-stone-800">
+      <button type="button" id="tab-btn-1" onclick="goToStep(1)"
+        class="py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-amber-500 text-stone-950 shadow-md">
+        <span class="w-5 h-5 rounded-full bg-stone-950/20 text-stone-950 flex items-center justify-center text-xs font-black">1</span>
+        <span>Los novios eligen</span>
+      </button>
+
+      <button type="button" id="tab-btn-2" onclick="goToStep(2)"
+        class="py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-400 hover:text-white">
+        <span class="w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black">2</span>
+        <span>A vos te llega el aviso</span>
+      </button>
+
+      <button type="button" id="tab-btn-3" onclick="goToStep(3)"
+        class="py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-400 hover:text-white">
+        <span class="w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black">3</span>
+        <span>1 clic y listo</span>
+      </button>
+    </div>
+
+    <!-- ======================================================================
+         PASO 1: LA PAREJA ELIGE EN EL ESCAPARATE
+         ====================================================================== -->
+    <div id="step-panel-1" class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-500/40 space-y-6">
+      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">Paso 1 de 3</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white font-serif-title">La pareja arma su selección en tu Escaparate</h2>
+        </div>
+        <div class="p-3 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 hidden sm:block">
+          <i data-lucide="mouse-pointer-click" class="w-6 h-6"></i>
+        </div>
+      </div>
+
+      <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+        Los novios o la wedding planner entran a tu Escaparate online y eligen en 3 minutos lo que necesitan para su boda. Todo está guiado y con fotos reales de tus bandas.
+      </p>
+
+      <!-- Maqueta interactiva simplificada del Escaparate -->
+      <div class="bg-stone-900/90 rounded-2xl p-5 border border-stone-800 space-y-4">
+        <div class="flex items-center justify-between text-xs pb-3 border-b border-stone-800/80">
+          <span class="font-bold text-white flex items-center gap-2">
+            <i data-lucide="heart" class="w-4 h-4 text-emerald-400"></i>
+            Ejemplo real: Laura &amp; Marc
+          </span>
+          <span class="text-stone-400">Castell d'Empordà &bull; Verano 2027 &bull; 130 invitados</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-3 rounded-xl bg-stone-950/70 border border-stone-800 space-y-1">
+            <span class="text-amber-400 font-bold block uppercase tracking-wider text-[10px]">Ceremonia</span>
+            <p class="text-white font-semibold">Vienna Brava (Dúo de cuerdas)</p>
+            <span class="text-stone-400 text-[11px]">795 € base &bull; 6 canciones a la carta</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-stone-950/70 border border-stone-800 space-y-1">
+            <span class="text-amber-400 font-bold block uppercase tracking-wider text-[10px]">Aperitivo / Cóctel</span>
+            <p class="text-white font-semibold">Jazz de Copes (Trío JDC3)</p>
+            <span class="text-stone-400 text-[11px]">1.145 € base</span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-stone-800 flex items-center justify-between text-xs">
+          <span class="text-stone-400">Total estimado con IVA (21%) y reserva del 15% calculada</span>
+          <span class="text-amber-300 font-extrabold font-mono text-sm">2.347 €</span>
+        </div>
+      </div>
+
+      <!-- Acción simulada -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-stone-400 text-center sm:text-left">
+          Al terminar, la pareja pulsa el botón para enviarte su propuesta:
+        </div>
+        <button type="button" onclick="goToStep(2)"
+          class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-stone-950 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-950/40 animate-pulse">
+          <span>Simular que los novios pulsan Enviar</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         PASO 2: A SANTIAGO LE LLEGA EL AVISO CON EL ENLACE
+         ====================================================================== -->
+    <div id="step-panel-2" class="hidden glass-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/40 space-y-6">
+      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">Paso 2 de 3</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white font-serif-title">A vos te entra el aviso con el enlace mágico</h2>
+        </div>
+        <div class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hidden sm:block">
+          <i data-lucide="message-square" class="w-6 h-6"></i>
+        </div>
+      </div>
+
+      <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+        El cliente no tiene que explicarte todo desde cero por teléfono. A tu WhatsApp o a tu correo te entra un mensaje claro con el resumen y un enlace directo a tu herramienta:
+      </p>
+
+      <!-- Selector de vista WhatsApp vs Email -->
+      <div class="flex items-center gap-2 text-xs">
+        <span class="text-stone-400">Ver cómo te llega por:</span>
+        <button type="button" id="btn-view-wa" onclick="toggleMsgChannel('wa')" class="px-3 py-1 rounded-lg bg-emerald-500 text-stone-950 font-bold transition">WhatsApp</button>
+        <button type="button" id="btn-view-mail" onclick="toggleMsgChannel('mail')" class="px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition">Email</button>
+      </div>
+
+      <!-- Pantalla simulada de WhatsApp -->
+      <div id="msg-box-wa" class="bg-stone-900 rounded-2xl p-5 border border-emerald-500/30 font-sans space-y-3">
+        <div class="flex items-center gap-2 pb-2 border-b border-stone-800 text-xs text-emerald-400 font-bold">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Mensaje de WhatsApp recibido de Laura &amp; Marc</span>
+        </div>
+
+        <div class="text-xs text-stone-200 leading-relaxed space-y-2 bg-stone-950/70 p-4 rounded-xl border border-stone-800">
+          <p>Hola Santiago, completamos nuestra propuesta musical para nuestra boda:</p>
+          <p class="text-stone-300">
+            👰🤵 <strong>Pareja:</strong> Laura &amp; Marc<br>
+            📅 <strong>Fecha:</strong> Verano 2027 (Junio - Septiembre)<br>
+            📍 <strong>Finca:</strong> Castell d'Empordà &bull; 130 invitados<br>
+            🎶 <strong>Música:</strong> Ceremonia (Vienna Brava Dúo) + Aperitivo (Jazz de Copes Trío)
+          </p>
+          <div class="pt-2 border-t border-stone-800">
+            <span class="text-stone-400 block mb-1.5">Podés abrir y revisar nuestro anteproyecto en tu Cockpit aquí:</span>
+            <!-- Botón interactivo que avanza al paso 3 -->
+            <button type="button" onclick="goToStep(3)"
+              class="w-full py-3 px-4 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border-2 border-emerald-500 text-emerald-300 font-extrabold text-xs flex items-center justify-center gap-2 transition animate-pulse">
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+              <span>👉 Clic aquí para abrir el anteproyecto en tu Cockpit (Ref: LBM-7X49)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pantalla simulada de Email (oculta por defecto) -->
+      <div id="msg-box-mail" class="hidden bg-stone-900 rounded-2xl p-5 border border-sky-500/30 font-sans space-y-3">
+        <div class="flex items-center gap-2 pb-2 border-b border-stone-800 text-xs text-sky-400 font-bold">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          <span>Correo recibido en info@livebandsmusic.com de Laura &amp; Marc</span>
+        </div>
+
+        <div class="text-xs text-stone-200 leading-relaxed space-y-2 bg-stone-950/70 p-4 rounded-xl border border-stone-800">
+          <p><strong>Asunto:</strong> Anteproyecto musical LBM — Laura &amp; Marc — LBM-7X49</p>
+          <p class="text-stone-300">
+            Hola Santiago, completamos nuestra propuesta musical desde el Escaparate de LBM.<br>
+            Finca: Castell d'Empordà &bull; Música: Vienna Brava (Ceremonia) y Jazz de Copes (Aperitivo).
+          </p>
+          <div class="pt-2 border-t border-stone-800">
+            <button type="button" onclick="goToStep(3)"
+              class="w-full py-3 px-4 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border-2 border-sky-400 text-sky-200 font-extrabold text-xs flex items-center justify-center gap-2 transition animate-pulse">
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+              <span>👉 Abrir anteproyecto de Laura &amp; Marc en tu Cockpit</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-between items-center">
+        <button type="button" onclick="goToStep(1)" class="text-xs text-stone-400 hover:text-white flex items-center gap-1 transition">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Volver al paso 1</span>
+        </button>
+        <button type="button" onclick="goToStep(3)" class="text-xs text-emerald-400 hover:underline font-bold flex items-center gap-1">
+          <span>Ver qué pasa al hacer clic &rarr;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         PASO 3: UN SOLO CLIC Y EL COCKPIT AMANECE CARGADO
+         ====================================================================== -->
+    <div id="step-panel-3" class="hidden glass-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/60 space-y-6">
+      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">Paso 3 de 3</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white font-serif-title">Hacés un solo clic y tu mostrador lo tiene todo armado</h2>
+        </div>
+        <div class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hidden sm:block">
+          <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+        </div>
+      </div>
+
+      <p class="text-xs sm:text-sm text-stone-300 leading-relaxed">
+        Al tocar el enlace, se te abre tu mostrador (<code class="text-amber-300 font-mono">simulador.html</code>) con todos los datos precargados automáticamente. <strong>No tenés que copiar ni pegar nada.</strong>
+      </p>
+
+      <!-- Simulación de la pantalla del Cockpit recién abierta -->
+      <div class="bg-stone-900/90 rounded-2xl p-5 border border-emerald-500/40 space-y-4">
+        <!-- Banner verde oficial del lead bridge -->
+        <div class="p-3.5 rounded-xl bg-emerald-950/60 border-2 border-emerald-500/70 text-xs text-emerald-200 flex items-start gap-3">
+          <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+          <div>
+            <span class="font-extrabold text-white block">⚡ Anteproyecto Precargado: Laura &amp; Marc (Ref: LBM-7X49)</span>
+            <span class="text-[11px] text-emerald-300">Finca: Castell d'Empordà &bull; Verano 2027 &bull; Momentos preseleccionados cargados automáticamente.</span>
+          </div>
+        </div>
+
+        <!-- Lo que Santiago encuentra listo -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
+            <span class="text-stone-400 text-[10px] uppercase font-bold block">Ceremonia</span>
+            <span class="text-white font-bold block">Vienna Brava (Dúo)</span>
+            <span class="text-emerald-400 font-mono text-[11px]">795 € cargado</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
+            <span class="text-stone-400 text-[10px] uppercase font-bold block">Aperitivo</span>
+            <span class="text-white font-bold block">Jazz de Copes (Trío)</span>
+            <span class="text-emerald-400 font-mono text-[11px]">1.145 € cargado</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
+            <span class="text-stone-400 text-[10px] uppercase font-bold block">Desplazamiento</span>
+            <span class="text-white font-bold block">Girona (Costa Brava)</span>
+            <span class="text-emerald-400 font-mono text-[11px]">0 € incluido</span>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 text-xs text-stone-300 space-y-1">
+          <span class="font-bold text-white block">¿Qué te queda por hacer a vos?</span>
+          <p class="text-[11px] text-stone-300">
+            1. Ver si la finca necesita refuerzo acústico &bull; 2. Ajustar márgenes o aplicar un descuento por sinergia si querés &bull; 3. Descargar la hoja de presupuesto o copiar el borrador de email listo para enviar.
+          </p>
+        </div>
+      </div>
+
+      <!-- BOTÓN DE PRUEBA REAL -->
+      <div class="pt-4 border-t border-stone-800 space-y-3">
+        <a href="./simulador.html?ref=LBM-7X49&d=eyJyZWYiOiJMQk0tN1g0OSIsInBhcmVqYSI6IkxhdXJhICYgTWFyYyIsImVtYWlsIjoibGF1cmEubWFyYy4yMDI3QGdtYWlsLmNvbSIsImRhdGVfbW9kZSI6ImZsZXhpYmxlIiwidGVtcG9yYWRhIjoiVmVyYW5vIDIwMjcgKEp1bmlvIC0gU2VwdGllbWJyZSkiLCJmZWNoYSI6IlZlcmFubyAyMDI3IChKdW5pbyAtIFNlcHRpZW1icmUpIiwiaG9yYXJpbyI6IlRhcmRlIC8gTm9jaGUiLCJmaW5jYSI6IkNhc3RlbGwgZCdFbXBvcmTDoCIsInBheF9yYW5nbyI6IjEwMF8xNjAiLCJwYXhfbGFiZWwiOiIxMDAg4oCTIDE2MCBpbnZpdGFkb3MiLCJwYXhfd2FybmluZyI6ZmFsc2UsIm5vdGFzIjoiQ2VyZW1vbmlhIGVuIGphcmTDrW4gZXh0ZXJpb3IgYmFqbyBvbGl2b3MgeSBhcGVyaXRpdm8ganVudG8gYSBsYSBwaXNjaW5hLiIsIm1vbWVudG9zIjp7ImNlcmVtb25pYSI6eyJiYW5kYV9pZCI6InZpZW5uYS1icmF2YSIsImJhbmRhX25vbWJyZSI6IlZpZW5uYSBCcmF2YSIsImZvcm1hdG9faWQiOiJEVU8iLCJmb3JtYXRvX25vbWJyZSI6IkTDum8iLCJwcmVjaW9fYmFzZV9ldXIiOjc5NX0sImFwZXJpdGl2byI6eyJiYW5kYV9pZCI6ImphenotZGUtY29wZXMiLCJiYW5kYV9ub21icmUiOiJKYXp6IGRlIENvcGVzIiwiZm9ybWF0b19pZCI6IlRSSU8iLCJmb3JtYXRvX25vbWJyZSI6IlRyw61vIiwicHJlY2lvX2Jhc2VfZXVyIjoxMTQ1fSwiZmllc3RhX3ByZV9kaiI6bnVsbH0sImV4dHJhcyI6eyJkaW5uZXJTcGVlY2giOnRydWUsImRqUGFydHkiOmZhbHNlfSwicmdwZF9jb25zZW50Ijp0cnVlfQ"
+           target="_blank"
+           class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-stone-950 font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition shadow-xl shadow-emerald-950/60">
+          <i data-lucide="play-circle" class="w-5 h-5"></i>
+          <span>👉 Probalo vos mismo ahora: Abrir este caso real en tu Mostrador</span>
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+        </a>
+        <p class="text-[11px] text-stone-400 text-center">
+          Se abrirá tu Cockpit en una pestaña nueva con la boda de Laura &amp; Marc ya cargada para que veas la magia con tus propios ojos.
+        </p>
+      </div>
+    </div>
+
+    <!-- ACCESOS RÁPIDOS INFERIORES -->
+    <div class="pt-6 border-t border-stone-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
+      <a href="./portal.html" class="text-stone-400 hover:text-white flex items-center gap-1.5 transition font-semibold">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+        <span>Centro de Control (Todos los accesos)</span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="./escaparate.html" target="_blank" class="text-amber-300 hover:underline flex items-center gap-1 font-semibold">
+          <span>Abrir Escaparate de Novios</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </a>
+        <span class="text-stone-700">&bull;</span>
+        <a href="./simulador.html" target="_blank" class="text-emerald-300 hover:underline flex items-center gap-1 font-semibold">
+          <span>Abrir Mostrador Vacío</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       FOOTER OFICIAL MARKETING AMABLE v2.0
+       ======================================================================== -->
+  <footer class="client-footer">
+    <div class="client-footer-container">
+      <div class="client-brand-info">
+        <span class="client-name">Live Bands Music</span>
+        <p class="client-tagline">Música en Vivo Exclusiva para Bodas • Peralada &bull; Girona &bull; Costa Brava</p>
+      </div>
+      <nav class="client-legal-nav" aria-label="Enlaces legales">
+        <a href="https://livebandsmusic.com" target="_blank" rel="noopener noreferrer" class="legal-link">Web Oficial</a>
+        <span class="legal-sep">◆</span>
+        <a href="./portal.html" class="legal-link">Centro de Control</a>
+        <span class="legal-sep">◆</span>
+        <a href="https://api.whatsapp.com/send?phone=34627370334" target="_blank" rel="noopener noreferrer" class="legal-link">WhatsApp</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="mkt-subfooter">
+    <div class="mkt-subfooter-container">
+      <p class="mkt-copy">© <span id="currentYear">2026</span> Live Bands Music. Todos los derechos reservados.</p>
+      <div class="mkt-signature">
+        <span class="designed-by">Diseñado con pasión por</span>
+        <a href="https://www.marketingamable.com/" target="_blank" rel="noopener noreferrer" class="mkt-pill" aria-label="Sitio web oficial de Marketing Amable">
+          <img src="./assets/images/002.gif" alt="Marketing Amable" class="mkt-gif" width="28" height="28" />
+          <span class="mkt-white">MARKETING</span>
+          <span class="mkt-green">AMABLE</span>
+        </a>
+        <span class="mkt-version">v.26</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Inicialización de iconos
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      const y = document.getElementById('currentYear');
+      if (y) y.textContent = new Date().getFullYear().toString();
+    });
+
+    // Control de navegación entre pasos
+    function goToStep(stepNum) {
+      [1, 2, 3].forEach(n => {
+        const panel = document.getElementById(`step-panel-${n}`);
+        const btn = document.getElementById(`tab-btn-${n}`);
+        if (!panel || !btn) return;
+
+        if (n === stepNum) {
+          panel.classList.remove('hidden');
+          btn.className = "py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-amber-500 text-stone-950 shadow-md";
+          const badge = btn.querySelector('span:first-child');
+          if (badge) badge.className = "w-5 h-5 rounded-full bg-stone-950/20 text-stone-950 flex items-center justify-center text-xs font-black";
+        } else {
+          panel.classList.add('hidden');
+          btn.className = "py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-400 hover:text-white";
+          const badge = btn.querySelector('span:first-child');
+          if (badge) badge.className = "w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black";
+        }
+      });
+
+      if (window.lucide) window.lucide.createIcons();
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+    }
+
+    // Toggle WhatsApp vs Email en el Paso 2
+    function toggleMsgChannel(channel) {
+      const waBox = document.getElementById('msg-box-wa');
+      const mailBox = document.getElementById('msg-box-mail');
+      const waBtn = document.getElementById('btn-view-wa');
+      const mailBtn = document.getElementById('btn-view-mail');
+
+      if (channel === 'wa') {
+        waBox.classList.remove('hidden');
+        mailBox.classList.add('hidden');
+        waBtn.className = "px-3 py-1 rounded-lg bg-emerald-500 text-stone-950 font-bold transition";
+        mailBtn.className = "px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition";
+      } else {
+        waBox.classList.add('hidden');
+        mailBox.classList.remove('hidden');
+        waBtn.className = "px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition";
+        mailBtn.className = "px-3 py-1 rounded-lg bg-sky-500 text-stone-950 font-bold transition";
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
