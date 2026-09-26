@@ -6,7 +6,7 @@
   <title>Cómo Funciona el Circuito • Guía Rápida para Santiago | Live Bands Music</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lexend:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -203,23 +203,23 @@
        ======================================================================== -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-8">
 
-    <!-- BARRA SELECTORA DE PASOS (INTERACTIVA) -->
-    <div class="grid grid-cols-3 gap-2 sm:gap-3 p-1.5 rounded-2xl bg-stone-900/90 border border-stone-800">
-      <button type="button" id="tab-btn-1" onclick="goToStep(1)"
+    <!-- BARRA SELECTORA DE PASOS (ACCESIBLE CON ARIA) -->
+    <div role="tablist" aria-label="Pasos del circuito comercial" class="grid grid-cols-3 gap-2 sm:gap-3 p-1.5 rounded-2xl bg-stone-900/90 border border-stone-800">
+      <button type="button" id="tab-btn-1" role="tab" aria-selected="true" aria-controls="step-panel-1" tabindex="0" onclick="goToStep(1)"
         class="py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-amber-500 text-stone-950 shadow-md">
-        <span class="w-5 h-5 rounded-full bg-stone-950/20 text-stone-950 flex items-center justify-center text-xs font-black">1</span>
+        <span class="step-badge w-5 h-5 rounded-full bg-stone-950/20 text-stone-950 flex items-center justify-center text-xs font-black">1</span>
         <span>Los novios eligen</span>
       </button>
 
-      <button type="button" id="tab-btn-2" onclick="goToStep(2)"
+      <button type="button" id="tab-btn-2" role="tab" aria-selected="false" aria-controls="step-panel-2" tabindex="-1" onclick="goToStep(2)"
         class="py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-400 hover:text-white">
-        <span class="w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black">2</span>
+        <span class="step-badge w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black">2</span>
         <span>A vos te llega el aviso</span>
       </button>
 
-      <button type="button" id="tab-btn-3" onclick="goToStep(3)"
+      <button type="button" id="tab-btn-3" role="tab" aria-selected="false" aria-controls="step-panel-3" tabindex="-1" onclick="goToStep(3)"
         class="py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-400 hover:text-white">
-        <span class="w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black">3</span>
+        <span class="step-badge w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black">3</span>
         <span>1 clic y listo</span>
       </button>
     </div>
@@ -227,7 +227,7 @@
     <!-- ======================================================================
          PASO 1: LA PAREJA ELIGE EN EL ESCAPARATE
          ====================================================================== -->
-    <div id="step-panel-1" class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-500/40 space-y-6">
+    <div id="step-panel-1" role="tabpanel" aria-labelledby="tab-btn-1" tabindex="0" class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-500/40 space-y-6">
       <div class="flex items-center justify-between border-b border-stone-800 pb-4">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">Paso 1 de 3</span>
@@ -288,7 +288,7 @@
     <!-- ======================================================================
          PASO 2: A SANTIAGO LE LLEGA EL AVISO CON EL ENLACE
          ====================================================================== -->
-    <div id="step-panel-2" class="hidden glass-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/40 space-y-6">
+    <div id="step-panel-2" role="tabpanel" aria-labelledby="tab-btn-2" tabindex="0" class="hidden glass-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/40 space-y-6">
       <div class="flex items-center justify-between border-b border-stone-800 pb-4">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">Paso 2 de 3</span>
@@ -374,7 +374,7 @@
     <!-- ======================================================================
          PASO 3: UN SOLO CLIC Y EL COCKPIT AMANECE CARGADO
          ====================================================================== -->
-    <div id="step-panel-3" class="hidden glass-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/60 space-y-6">
+    <div id="step-panel-3" role="tabpanel" aria-labelledby="tab-btn-3" tabindex="0" class="hidden glass-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/60 space-y-6">
       <div class="flex items-center justify-between border-b border-stone-800 pb-4">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">Paso 3 de 3</span>
@@ -429,9 +429,9 @@
         </div>
       </div>
 
-      <!-- BOTÓN DE PRUEBA REAL -->
+      <!-- BOTÓN DE PRUEBA REAL (INICIALIZADO DINÁMICAMENTE POR JS) -->
       <div class="pt-4 border-t border-stone-800 space-y-3">
-        <a href="./simulador.html?ref=LBM-7X49&d=eyJyZWYiOiJMQk0tN1g0OSIsInBhcmVqYSI6IkxhdXJhICYgTWFyYyIsImVtYWlsIjoibGF1cmEubWFyYy4yMDI3QGdtYWlsLmNvbSIsImRhdGVfbW9kZSI6ImZsZXhpYmxlIiwidGVtcG9yYWRhIjoiVmVyYW5vIDIwMjcgKEp1bmlvIC0gU2VwdGllbWJyZSkiLCJmZWNoYSI6IlZlcmFubyAyMDI3IChKdW5pbyAtIFNlcHRpZW1icmUpIiwiaG9yYXJpbyI6IlRhcmRlIC8gTm9jaGUiLCJmaW5jYSI6IkNhc3RlbGwgZCdFbXBvcmTDoCIsInBheF9yYW5nbyI6IjEwMF8xNjAiLCJwYXhfbGFiZWwiOiIxMDAg4oCTIDE2MCBpbnZpdGFkb3MiLCJwYXhfd2FybmluZyI6ZmFsc2UsIm5vdGFzIjoiQ2VyZW1vbmlhIGVuIGphcmTDrW4gZXh0ZXJpb3IgYmFqbyBvbGl2b3MgeSBhcGVyaXRpdm8ganVudG8gYSBsYSBwaXNjaW5hLiIsIm1vbWVudG9zIjp7ImNlcmVtb25pYSI6eyJiYW5kYV9pZCI6InZpZW5uYS1icmF2YSIsImJhbmRhX25vbWJyZSI6IlZpZW5uYSBCcmF2YSIsImZvcm1hdG9faWQiOiJEVU8iLCJmb3JtYXRvX25vbWJyZSI6IkTDum8iLCJwcmVjaW9fYmFzZV9ldXIiOjc5NX0sImFwZXJpdGl2byI6eyJiYW5kYV9pZCI6ImphenotZGUtY29wZXMiLCJiYW5kYV9ub21icmUiOiJKYXp6IGRlIENvcGVzIiwiZm9ybWF0b19pZCI6IlRSSU8iLCJmb3JtYXRvX25vbWJyZSI6IlRyw61vIiwicHJlY2lvX2Jhc2VfZXVyIjoxMTQ1fSwiZmllc3RhX3ByZV9kaiI6bnVsbH0sImV4dHJhcyI6eyJkaW5uZXJTcGVlY2giOnRydWUsImRqUGFydHkiOmZhbHNlfSwicmdwZF9jb25zZW50Ijp0cnVlfQ"
+        <a id="btn-real-demo" href="./simulador.html"
            target="_blank"
            class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-stone-950 font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 transition shadow-xl shadow-emerald-950/60">
           <i data-lucide="play-circle" class="w-5 h-5"></i>
@@ -495,36 +495,122 @@
           <span class="mkt-white">MARKETING</span>
           <span class="mkt-green">AMABLE</span>
         </a>
-        <span class="mkt-version">v.26</span>
+        <span class="mkt-version">v.27</span>
       </div>
     </div>
   </div>
 
   <script>
-    // Inicialización de iconos
+    // ========================================================================
+    // CASO DE EJEMPLO REAL (OBJETO LEGIBLE Y FÁCIL DE MANTENER)
+    // ========================================================================
+    const DEMO_LEAD = {
+      ref: 'LBM-7X49',
+      pareja: 'Laura & Marc',
+      email: 'laura.marc.2027@gmail.com',
+      date_mode: 'flexible',
+      temporada: 'Verano 2027 (Junio - Septiembre)',
+      fecha: 'Verano 2027 (Junio - Septiembre)',
+      horario: 'Tarde / Noche',
+      finca: "Castell d'Empordà",
+      pax_rango: '100_160',
+      pax_label: '100 – 160 invitados',
+      pax_warning: false,
+      notas: 'Ceremonia en jardín exterior bajo olivos y aperitivo junto a la piscina.',
+      momentos: {
+        ceremonia: {
+          banda_id: 'vienna-brava',
+          banda_nombre: 'Vienna Brava',
+          formato_id: 'DUO',
+          formato_nombre: 'Dúo',
+          precio_base_eur: 795
+        },
+        aperitivo: {
+          banda_id: 'jazz-de-copes',
+          banda_nombre: 'Jazz de Copes',
+          formato_id: 'TRIO',
+          formato_nombre: 'Trío',
+          precio_base_eur: 1145
+        },
+        fiesta_pre_dj: null
+      },
+      extras: {
+        dinnerSpeech: true,
+        djParty: false
+      },
+      rgpd_consent: true
+    };
+
+    /**
+     * Genera la URL codificada en Base64 URL-safe para precargar el Cockpit
+     */
+    function buildCockpitDemoUrl(lead) {
+      try {
+        const jsonStr = JSON.stringify(lead);
+        const base64 = btoa(encodeURIComponent(jsonStr).replace(/%([0-9A-F]{2})/g, (_, p1) => {
+          return String.fromCharCode('0x' + p1);
+        }));
+        const urlSafe = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        return `./simulador.html?ref=${encodeURIComponent(lead.ref)}&d=${urlSafe}`;
+      } catch (e) {
+        console.warn('Error al codificar URL de demo:', e);
+        return `./simulador.html?ref=${encodeURIComponent(lead.ref)}`;
+      }
+    }
+
+    // Inicialización del DOM
     document.addEventListener('DOMContentLoaded', () => {
+      // 1. Iconos de Lucide
       if (window.lucide) window.lucide.createIcons();
+
+      // 2. Año dinámico
       const y = document.getElementById('currentYear');
       if (y) y.textContent = new Date().getFullYear().toString();
+
+      // 3. Inyección dinámica del enlace de demo
+      const demoBtn = document.getElementById('btn-real-demo');
+      if (demoBtn) {
+        demoBtn.href = buildCockpitDemoUrl(DEMO_LEAD);
+      }
     });
 
-    // Control de navegación entre pasos
+    // ========================================================================
+    // CONTROL ACCESIBLE DE TABS (ARIA + CLASSLIST MODULAR)
+    // ========================================================================
+    const TAB_ACTIVE_CLASSES = ['bg-amber-500', 'text-stone-950', 'font-extrabold', 'shadow-md'];
+    const TAB_INACTIVE_CLASSES = ['text-stone-400', 'hover:text-white', 'font-medium'];
+    const BADGE_ACTIVE_CLASSES = ['bg-stone-950/20', 'text-stone-950'];
+    const BADGE_INACTIVE_CLASSES = ['bg-stone-800', 'text-stone-300'];
+
     function goToStep(stepNum) {
       [1, 2, 3].forEach(n => {
         const panel = document.getElementById(`step-panel-${n}`);
         const btn = document.getElementById(`tab-btn-${n}`);
         if (!panel || !btn) return;
 
-        if (n === stepNum) {
-          panel.classList.remove('hidden');
-          btn.className = "py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex flex-col sm:flex-row items-center justify-center gap-1.5 bg-amber-500 text-stone-950 shadow-md";
-          const badge = btn.querySelector('span:first-child');
-          if (badge) badge.className = "w-5 h-5 rounded-full bg-stone-950/20 text-stone-950 flex items-center justify-center text-xs font-black";
+        const isCurrent = (n === stepNum);
+        
+        // Alternar visibilidad de panel y atributos de accesibilidad
+        panel.classList.toggle('hidden', !isCurrent);
+        btn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+        btn.setAttribute('tabindex', isCurrent ? '0' : '-1');
+
+        // Manejo modular de clases sin pisar cadenas enteras
+        const badge = btn.querySelector('.step-badge');
+        if (isCurrent) {
+          btn.classList.remove(...TAB_INACTIVE_CLASSES);
+          btn.classList.add(...TAB_ACTIVE_CLASSES);
+          if (badge) {
+            badge.classList.remove(...BADGE_INACTIVE_CLASSES);
+            badge.classList.add(...BADGE_ACTIVE_CLASSES);
+          }
         } else {
-          panel.classList.add('hidden');
-          btn.className = "py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition flex flex-col sm:flex-row items-center justify-center gap-1.5 text-stone-400 hover:text-white";
-          const badge = btn.querySelector('span:first-child');
-          if (badge) badge.className = "w-5 h-5 rounded-full bg-stone-800 text-stone-300 flex items-center justify-center text-xs font-black";
+          btn.classList.remove(...TAB_ACTIVE_CLASSES);
+          btn.classList.add(...TAB_INACTIVE_CLASSES);
+          if (badge) {
+            badge.classList.remove(...BADGE_ACTIVE_CLASSES);
+            badge.classList.add(...BADGE_INACTIVE_CLASSES);
+          }
         }
       });
 
@@ -532,24 +618,26 @@
       window.scrollTo({ top: 180, behavior: 'smooth' });
     }
 
-    // Toggle WhatsApp vs Email en el Paso 2
+    // ========================================================================
+    // TOGGLE WHATSAPP VS EMAIL EN EL PASO 2
+    // ========================================================================
     function toggleMsgChannel(channel) {
       const waBox = document.getElementById('msg-box-wa');
       const mailBox = document.getElementById('msg-box-mail');
       const waBtn = document.getElementById('btn-view-wa');
       const mailBtn = document.getElementById('btn-view-mail');
 
-      if (channel === 'wa') {
-        waBox.classList.remove('hidden');
-        mailBox.classList.add('hidden');
-        waBtn.className = "px-3 py-1 rounded-lg bg-emerald-500 text-stone-950 font-bold transition";
-        mailBtn.className = "px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition";
-      } else {
-        waBox.classList.add('hidden');
-        mailBox.classList.remove('hidden');
-        waBtn.className = "px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition";
-        mailBtn.className = "px-3 py-1 rounded-lg bg-sky-500 text-stone-950 font-bold transition";
-      }
+      const isWa = (channel === 'wa');
+      waBox.classList.toggle('hidden', !isWa);
+      mailBox.classList.toggle('hidden', isWa);
+
+      waBtn.className = isWa
+        ? "px-3 py-1 rounded-lg bg-emerald-500 text-stone-950 font-bold transition"
+        : "px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition";
+
+      mailBtn.className = isWa
+        ? "px-3 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-300 font-semibold border border-stone-800 transition"
+        : "px-3 py-1 rounded-lg bg-sky-500 text-stone-950 font-bold transition";
 
       if (window.lucide) window.lucide.createIcons();
     }
