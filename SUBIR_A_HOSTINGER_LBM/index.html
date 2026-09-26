@@ -265,10 +265,51 @@
     </div>
   </section>
 
-  <!-- ========================================================================
-       CONTENIDO PRINCIPAL: LAS 3 ACCIONES CLAVE (OPCIÓN A)
-       ======================================================================== -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-12 flex-1 w-full">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10 flex-1 w-full">
+
+    <!-- BANNER DE BIENVENIDA Y MISIÓN DE PRUEBA -->
+    <div class="glass-card rounded-2xl p-6 sm:p-7 border-2 border-amber-500/40 bg-gradient-to-r from-amber-950/30 via-stone-900/90 to-stone-950 shadow-2xl space-y-4">
+      <div class="flex items-center gap-2.5 text-amber-300">
+        <span class="text-xl">🧪</span>
+        <h2 class="text-base sm:text-lg font-extrabold text-white tracking-wide">
+          Probemos el circuito
+        </h2>
+      </div>
+
+      <p class="text-xs sm:text-sm text-stone-200 leading-relaxed font-medium">
+        Antes de poner el sistema en marcha, queremos que lo pruebes como si fueras un cliente real:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1 text-xs">
+        <div class="p-3.5 rounded-xl bg-stone-950/70 border border-stone-800/90 space-y-1">
+          <span class="text-amber-400 font-bold block text-[11px] uppercase tracking-wider">1. Entrá al Escaparate</span>
+          <p class="text-stone-300 text-[11px] leading-relaxed">
+            Armá una propuesta para una boda, eligiendo lugar, cantidad de invitados y necesidades.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-stone-950/70 border border-stone-800/90 space-y-1">
+          <span class="text-amber-400 font-bold block text-[11px] uppercase tracking-wider">2. Enviá la solicitud</span>
+          <p class="text-stone-300 text-[11px] leading-relaxed">
+            Completá el proceso y enviate la propuesta por WhatsApp o correo.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-stone-950/70 border border-stone-800/90 space-y-1">
+          <span class="text-amber-400 font-bold block text-[11px] uppercase tracking-wider">3. Abrí el enlace recibido</span>
+          <p class="text-stone-300 text-[11px] leading-relaxed">
+            Entrá a Tu Mostrador de Trabajo y comprobá cómo recibís la información.
+          </p>
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-stone-300 space-y-1">
+        <span class="font-bold text-amber-300 block">¿Qué buscamos?</span>
+        <p class="text-[11px] text-stone-300 leading-relaxed">
+          Que todo llegue claro, completo y en el orden que necesitás para trabajar. Si encontrás algo que no te resulta cómodo, algo que falta o algo que podría simplificarse, anotalo. Esta prueba es justamente para detectar esos detalles antes de publicarlo.
+        </p>
+      </div>
+    </div>
 
     <!-- LAS 3 TARJETAS PRINCIPALES POR INTENCIÓN -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
@@ -425,55 +466,6 @@
 
     </div>
 
-    <!-- ----------------------------------------------------------------------
-         FRANJA SECUNDARIA: HERRAMIENTAS AUXILIARES Y CALIBRACIÓN TÉCNICA
-         ---------------------------------------------------------------------- -->
-    <section class="pt-4 border-t border-stone-800/80 space-y-4">
-      <div class="flex items-center justify-between">
-        <span class="text-xs font-bold uppercase tracking-wider text-stone-400 flex items-center gap-2">
-          <i data-lucide="wrench" class="w-3.5 h-3.5 text-stone-500"></i>
-          <span>Herramientas auxiliares y de calibración comercial</span>
-        </span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        
-        <!-- Auxiliar 1: Portal de Alineación -->
-        <a href="./alineacion.html" class="glass-card rounded-xl p-4 border border-stone-800 hover:border-amber-500/40 transition group flex items-start gap-3">
-          <div class="p-2 rounded-lg bg-stone-900 group-hover:bg-amber-500/20 text-stone-400 group-hover:text-amber-300 transition shrink-0 mt-0.5">
-            <i data-lucide="check-square" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-xs font-bold text-white group-hover:text-amber-200 transition">Portal de Alineación</h3>
-            <p class="text-[11px] text-stone-400 mt-0.5">Respuestas y definiciones estratégicas de las reglas de tu negocio.</p>
-          </div>
-        </a>
-
-        <!-- Auxiliar 2: Laboratorio de Conexión -->
-        <a href="./test-lead-bridge.html" class="glass-card rounded-xl p-4 border border-stone-800 hover:border-emerald-500/40 transition group flex items-start gap-3">
-          <div class="p-2 rounded-lg bg-stone-900 group-hover:bg-emerald-500/20 text-stone-400 group-hover:text-emerald-300 transition shrink-0 mt-0.5">
-            <i data-lucide="network" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-xs font-bold text-white group-hover:text-emerald-200 transition">Laboratorio del Puente</h3>
-            <p class="text-[11px] text-stone-400 mt-0.5">Generador y validador técnico de tokens LBM y enlaces de prueba.</p>
-          </div>
-        </a>
-
-        <!-- Auxiliar 3: Comparativa Histórica -->
-        <a href="./demo.html" class="glass-card rounded-xl p-4 border border-stone-800 hover:border-sky-500/40 transition group flex items-start gap-3">
-          <div class="p-2 rounded-lg bg-stone-900 group-hover:bg-sky-500/20 text-stone-400 group-hover:text-sky-300 transition shrink-0 mt-0.5">
-            <i data-lucide="history" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-xs font-bold text-white group-hover:text-sky-200 transition">Comparativa de Versiones</h3>
-            <p class="text-[11px] text-stone-400 mt-0.5">Visualización del salto evolutivo respecto al sistema anterior.</p>
-          </div>
-        </a>
-
-      </div>
-    </section>
-
   </main>
 
   <!-- ========================================================================
@@ -511,7 +503,7 @@
           <span class="mkt-white">MARKETING</span>
           <span class="mkt-green">AMABLE</span>
         </a>
-        <span class="mkt-version">v.28</span>
+        <span class="mkt-version">v.29</span>
       </div>
     </div>
   </div>
